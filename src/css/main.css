@@ -1,7 +1,7 @@
 :root {
+    /* couleurs */
     --color-black: #000000;
     --color-white: #FFFFFF;
-
     --color-background: #6F766B;
     --color-secondary-1: #3d3d3d;
     --color-secondary-2: #bebebe;
@@ -11,6 +11,9 @@
     --color-powder-petal: #FBE6DA;
     --color-blood-red: #8F000A;
     --color-error: #e60e1c;
+
+    /* dimensions */
+    --dimensions-max-width: 1280px;
 }
 
 * {
@@ -23,10 +26,6 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding: 17px;
-
-    max-width: 1280px;
-    margin: 0 auto;
     width: 100%;
 }
 
@@ -40,9 +39,10 @@ body {
 
 main {
     flex: 1;
-    padding-top: 25px;
-    padding-bottom: 25px;
     width: 100%;
+    max-width: var(--dimensions-max-width);
+    margin: 0 auto;
+    padding: 25px;
 }
 
 /* pour enlever les underscores sous les liens cliquables */

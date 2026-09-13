@@ -1,32 +1,38 @@
 .header-container {
-    display: flex;
-    flex-direction: column;
     width: 100%;
+    background-color: var(--color-secondary-1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.title-container {
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
+.header-content {
+    max-width: var(--dimensions-max-width);
+    width: 100%;
+    margin: 0 auto;
 }
 
-.title-container h1 {
+.brand-title h1 {
     color: var(--color-white);
     font-size: 2.5rem;
     letter-spacing: 3px;
-    text-transform: uppercase;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.brand-title {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.brand-title:hover h1 {
+    color: var(--color-secondary-3, var(--color-secondary-3));
 }
 
 .navbar {
     display: flex;
     flex-wrap: wrap;
-    padding: 17px;
+    padding: 15px;
     gap: 25px;
-    border-radius: 4px;
-    align-items: center;
-    background-color: var(--color-secondary-1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    align-items: baseline;
 }
 
 .navbar a:hover {
@@ -53,4 +59,10 @@
 
 .navlink-right {
     margin-left: auto; 
+}
+
+.username {
+    background-color: rgb(27, 27, 27);
+    padding: 5px;
+    border-radius: 3px;
 }
