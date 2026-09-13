@@ -7,8 +7,8 @@ import '../../css/header.css'
 function Header(){
     return (
         <header>
-            <h1>Eclipse</h1>
-            <nav>
+            <Link to="/"><h1>Eclipse</h1></Link>
+            <nav className='header-nav'>
                 <Link to="/">Accueil</Link>
                 <Link to="/connection">Connexion</Link> {/* devra etre visible seulement pour les utilisateurs non-connectes */}
                 <Link to="/game">Jouer</Link> {/* devra etre visible seulement pour les utilisateurs connectes */}

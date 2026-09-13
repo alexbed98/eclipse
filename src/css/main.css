@@ -1,0 +1,30 @@
+:root {
+    /* couleurs de la palette */
+    --color-black: #000000;
+    --color-dim-grey: #6F766B;
+    --color-gold: #F7D126;
+    --color-blood-red: #8F000A;
+    --color-powder-petal: #FBE6DA;
+
+    /* autres couleurs */
+    --color-white: #FFFFFF;
+}
+
+* {
+    background-color: var(--color-dim-grey);
+    color: var(--color-white);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    padding: 15px;
+}
+
+main {
+    padding: 25px;
+}
+
+/* pour enlever les underscores sous les liens cliquables */
+a {
+    text-decoration: none;
+}
