@@ -1,35 +1,56 @@
 :root {
-    /* couleurs de la palette */
     --color-black: #000000;
-    --color-dim-grey: #6F766B;
-    --color-gold: #F7D126;
-    --color-blood-red: #8F000A;
-    --color-powder-petal: #FBE6DA;
-
-    /* autres couleurs */
     --color-white: #FFFFFF;
-    --color-red: #ff0011;
+
+    --color-background: #6F766B;
+    --color-secondary-1: #3d3d3d;
+    --color-secondary-2: #bebebe;
+
+    --color-gold: #F7D126;
+    --color-powder-petal: #FBE6DA;
+    
+    --color-blood-red: #8F000A;
+    --color-error: #bb0814;
 }
 
 * {
-    background-color: var(--color-dim-grey);
-    color: var(--color-white);
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 15px;
+
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 body {
-    padding: 15px;
+    background-color: var(--color-background);
+    color: var(--color-white);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 100%;
+    min-height: 100vh;
 }
 
 main {
-    padding: 25px;
+    flex: 1;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    width: 100%;
 }
 
 /* pour enlever les underscores sous les liens cliquables */
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 .errorMessage {
-    color: var(--color-red)
+    color: var(--color-error)
 }

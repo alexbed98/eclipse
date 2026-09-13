@@ -1,5 +1,41 @@
-.header-nav {
+.header-container {
     display: flex;
-    gap: 25px;
+    flex-direction: column;
+    width: 100%;
+}
+
+.title-container {
+    margin-bottom: 25px;
+    display: flex;
     align-items: center;
+}
+
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 12px;
+    gap: 25px;
+    border-radius: 4px;
+    align-items: center;
+    background-color: var(--color-secondary-1);
+}
+
+.navbar a:hover {
+    color: var(--color-gold);
+}
+
+.navbar a.active {
+    color: var(--color-gold);
+}
+
+.button-logout {
+    background-color: #bebebe;
+    border: none;
+    border-radius: 2px;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.button-logout:hover {
+     background-color: #8a8a8a;
 }

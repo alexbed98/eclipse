@@ -14,7 +14,7 @@ import Admin from './pages/Admin'
 
 function App() {
   return (
-    <>
+    <div className='app-container'>
       <Header/>
 
       <main>
@@ -36,7 +36,7 @@ function App() {
       </main>
 
       <Footer/>
-    </>
+    </div>
   )
 }
 

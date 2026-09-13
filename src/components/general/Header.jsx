@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 import '../../css/header.css'
@@ -15,32 +15,35 @@ function Header() {
     }
 
     return (
-        <header>
-            <Link to="/"><h1>Eclipse</h1></Link>
-            <nav className='header-nav'>
+        <header className='header-container'>
+            <div className="title-container">
+                <Link to="/"><h1>Eclipse</h1></Link>
+            </div>
+
+            <nav className='navbar'>
                 {/* onglets TOUJOURS visibles */}
-                <Link to="/">Accueil</Link>
-                <Link to="/shop">Magasin</Link>
-                <Link to="/market">Marché</Link>
+                <NavLink to="/">Accueil</NavLink>
+                <NavLink to="/shop">Magasin</NavLink>
+                <NavLink to="/market">Marché</NavLink>
 
                 {/* onglets visibles si user est NON connecte */}
                 {!player && (
-                    <Link to="/login">Connexion</Link>
+                    <NavLink to="/login">Connexion</NavLink>
                 )}
 
                 {/* onglets visibles si joueur EST connecte */}
                 {player && (
                     <>
-                        <Link to="/game">Jouer</Link>
-                        <Link to="/inventory">Inventaire</Link>
-                        <Link to="/profile">Profil</Link>
+                        <NavLink to="/game">Jouer</NavLink>
+                        <NavLink to="/inventory">Inventaire</NavLink>
+                        <NavLink to="/profile">Profil</NavLink>
 
                         {/* onglets visibles si user est ADMIN */}
                         {Boolean(player.est_admin) && (
-                            <Link to="/admin">Administrateur</Link>
+                            <NavLink to="/admin">Administrateur</NavLink>
                         )}
 
-                        <button onClick={handleLogout}>Déconnexion</button>
+                        <button className='button-logout' onClick={handleLogout}>Déconnexion</button>
                     </>
                 )}
             </nav>

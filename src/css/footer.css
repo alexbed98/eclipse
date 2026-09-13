@@ -1,0 +1,6 @@
+footer {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    background-color: var(--color-secondary-1);
+}
