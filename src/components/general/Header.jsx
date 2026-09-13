@@ -28,7 +28,7 @@ function Header() {
 
                 {/* onglets visibles si user est NON connecte */}
                 {!player && (
-                    <NavLink to="/login">Connexion</NavLink>
+                    <NavLink to="/login" className='navlink-right'>Connexion</NavLink>
                 )}
 
                 {/* onglets visibles si joueur EST connecte */}
@@ -43,7 +43,7 @@ function Header() {
                             <NavLink to="/admin">Administrateur</NavLink>
                         )}
 
-                        <button className='button-logout' onClick={handleLogout}>Déconnexion</button>
+                        <button className='button-logout navlink-right' onClick={handleLogout}>Déconnexion</button>
                     </>
                 )}
             </nav>

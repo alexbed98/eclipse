@@ -35,7 +35,7 @@ function Login() {
 
             setPlayer(data.joueur);
 
-            navigate('/profile');
+            navigate('/');
         })
         .catch((err) => {
             console.error(err);

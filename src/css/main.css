@@ -5,12 +5,12 @@
     --color-background: #6F766B;
     --color-secondary-1: #3d3d3d;
     --color-secondary-2: #bebebe;
-
+    --color-secondary-3: #ddc351;
+    --color-logout: #83272d;
     --color-gold: #F7D126;
     --color-powder-petal: #FBE6DA;
-    
     --color-blood-red: #8F000A;
-    --color-error: #bb0814;
+    --color-error: #e60e1c;
 }
 
 * {
@@ -23,7 +23,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding: 15px;
+    padding: 17px;
 
     max-width: 1280px;
     margin: 0 auto;
@@ -54,3 +54,4 @@ a {
 .errorMessage {
     color: var(--color-error)
 }
+
