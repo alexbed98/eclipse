@@ -7,7 +7,7 @@ function Player({player}){
     }
 
     return (
-        <div>joueur: {player.alias}</div>
+        <div>joueur connecté: {player.alias}</div>
     );
 }
  

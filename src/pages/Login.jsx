@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const { setPlayer } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setErrorMessage('');
 
         fetch('http://localhost:5000/api/login', {
             method: 'POST',
@@ -25,9 +31,11 @@ function Login() {
             return res.json();
         })
         .then((data) => {
-            console.log("Succes! Voici la reponse du serveur: ", data);
-
             localStorage.setItem("token", data.token)
+
+            setPlayer(data.joueur);
+
+            navigate('/profile');
         })
         .catch((err) => {
             console.error(err);
