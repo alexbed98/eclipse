@@ -1,4 +1,5 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
+import { ProtectedRoute, AdminRoute } from './components/general/ProtectedRoute';
 
 import Header from "./components/general/Header"
 import Footer from "./components/general/Footer"
@@ -18,14 +19,19 @@ function App() {
 
       <main>
         <Routes>
+          {/* routes publiques */}
           <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/game" element={<Game/>}/>
-          <Route path="/inventory" element={<Inventory/>}/>
           <Route path="/shop" element={<Shop/>}/>
           <Route path="/market" element={<Market/>}/>
-          <Route path="/profile" element={<Profile/>}/>
-          <Route path="/admin" element={<Admin/>}/>
+          <Route path="/login" element={<Login/>}/>
+
+          {/* routes protegees (joueur connecte seulement) */}
+          <Route path="/game" element={<ProtectedRoute><Game/></ProtectedRoute>}/>
+          <Route path="/inventory" element={<ProtectedRoute><Inventory/></ProtectedRoute>}/>
+          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+
+          {/* routes protegees (admin seulement) */}
+          <Route path="/admin" element={<AdminRoute><Admin/></AdminRoute>}/>
         </Routes>
       </main>
 
