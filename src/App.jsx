@@ -3,7 +3,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import Header from "./components/general/Header"
 import Footer from "./components/general/Footer"
 import Home from './pages/Home'
-import Connection from './pages/Connection'
+import Login from './pages/Login'
 import Game from './pages/Game'
 import Inventory from './pages/Inventory'
 import Shop from './pages/Shop'
@@ -19,7 +19,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/connection" element={<Connection/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/game" element={<Game/>}/>
           <Route path="/inventory" element={<Inventory/>}/>
           <Route path="/shop" element={<Shop/>}/>

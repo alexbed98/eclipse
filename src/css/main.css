@@ -8,6 +8,7 @@
 
     /* autres couleurs */
     --color-white: #FFFFFF;
+    --color-red: #ff0011;
 }
 
 * {
@@ -27,4 +28,8 @@ main {
 /* pour enlever les underscores sous les liens cliquables */
 a {
     text-decoration: none;
+}
+
+.errorMessage {
+    color: var(--color-red)
 }

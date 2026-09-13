@@ -10,7 +10,7 @@ function Header(){
             <Link to="/"><h1>Eclipse</h1></Link>
             <nav className='header-nav'>
                 <Link to="/">Accueil</Link>
-                <Link to="/connection">Connexion</Link> {/* devra etre visible seulement pour les utilisateurs non-connectes */}
+                <Link to="/login">Connexion</Link> {/* devra etre visible seulement pour les utilisateurs non-connectes */}
                 <Link to="/game">Jouer</Link> {/* devra etre visible seulement pour les utilisateurs connectes */}
                 <Link to="/inventory">Inventaire</Link> {/* devra etre visible seulement pour les utilisateurs connectes */}
                 <Link to="/shop">Magasin</Link> 
