@@ -32,7 +32,7 @@
     flex-wrap: wrap;
     padding: 15px;
     gap: 25px;
-    align-items: baseline;
+    align-items: center;
 }
 
 .navbar a:hover {
@@ -62,7 +62,24 @@
 }
 
 .username {
-    background-color: rgb(27, 27, 27);
+    background-color: var(--color-secondary-5);
     padding: 5px;
     border-radius: 3px;
+}
+
+.button-logout-icon {
+    background-color: var(--color-logout, #8b2626);
+    color: var(--color-white);
+    border: none;
+    border-radius: 6px;
+    padding: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.button-logout-icon:hover {
+    background-color: #571616;
 }
