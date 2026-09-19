@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { ProtectedRoute, AdminRoute } from './components/general/ProtectedRoute';
+import { ProtectedRoute, AdminRoute, GuestRoute } from './components/general/ProtectedRoute';
 
 import Header from "./components/general/Header"
 import Footer from "./components/general/Footer"
@@ -11,6 +11,7 @@ import Shop from './pages/Shop'
 import Market from './pages/Market'
 import Profile from './pages/Profile'
 import Admin from './pages/Admin'
+import Register from './pages/Register'
 
 function App() {
   return (
@@ -23,7 +24,10 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/shop" element={<Shop/>}/>
           <Route path="/market" element={<Market/>}/>
-          <Route path="/login" element={<Login/>}/>
+
+          {/* routes seulement accessible aux guests (utilisateurs non-connectes) */}
+          <Route path="/login" element={<GuestRoute><Login/></GuestRoute>}/>
+          <Route path="/register" element={<GuestRoute><Register/></GuestRoute>}/>
 
           {/* routes protegees (joueur connecte seulement) */}
           <Route path="/game" element={<ProtectedRoute><Game/></ProtectedRoute>}/>

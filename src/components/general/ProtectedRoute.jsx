@@ -22,3 +22,13 @@ export function AdminRoute({ children }) {
 
     return children;
 }
+
+// redirige les utilisateurs deja connecter vers l'accueil
+// s'il se retrouve par erreur sur la page login ou register
+export function GuestRoute({ children }) {
+    const { player } = useAuth();
+
+    if (player) return <Navigate to="/" replace />;
+
+    return children;
+}

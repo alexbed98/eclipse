@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import '../css/auth.css'
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -24,50 +25,69 @@ function Login() {
                 mot_de_passe: password
             })
         })
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error('Identifiants invalides');
-            }
-            return res.json();
-        })
-        .then((data) => {
-            localStorage.setItem("token", data.token)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Identifiants invalides');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                localStorage.setItem("token", data.token)
 
-            setPlayer(data.joueur);
+                setPlayer(data.joueur);
 
-            navigate('/');
-        })
-        .catch((err) => {
-            console.error(err);
-            setErrorMessage("courriel ou mot de passe incorrect")
-        })
+                navigate('/');
+            })
+            .catch((err) => {
+                console.error(err);
+                setErrorMessage("courriel ou mot de passe incorrect")
+            })
     };
 
     return (
-        <div>
-            <p>Entrez vos informations de connexion</p>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Courriel: </label>
-                    <input 
-                        type="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Mot de passe: </label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
+        <div className="auth-container">
+            <div className="auth-card">
+                <h2>Connexion</h2>
+                <p className="auth-subtitle">Entrez vos identifiants pour accéder à votre compte</p>
 
-                {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+                <form onSubmit={handleSubmit} className="auth-form">
 
-                <button type="submit">Se connecter</button>
-            </form>
+                    <div className="form-section">
+                        <label htmlFor="email">Courriel: </label>
+                        <input
+                            id="email"
+                            type="email"
+                            value={email}
+                            placeholder="exemple@domaine.com"
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-section">
+                        <label htmlFor="password">Mot de passe: </label>
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {errorMessage && <div className="auth-error">{errorMessage}</div>}
+
+                    <button type="submit" className="form-button">
+                        Se connecter
+                    </button>
+
+                </form>
+
+                <div className="auth-footer">
+                    <Link to="/register" className="auth-link">Je n'ai pas de compte</Link>
+                </div>
+            </div>
         </div>
     );
 }
