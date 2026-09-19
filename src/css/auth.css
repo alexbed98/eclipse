@@ -17,6 +17,10 @@
     color: var(--color-white);
 }
 
+.auth-card-wide {
+    max-width: 600px;
+}
+
 .auth-card h2 {
     margin-bottom: 10px;
     font-size: 1.8rem;
@@ -53,6 +57,8 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
     padding: 12px 14px;
+    width: 100%;
+    box-sizing: border-box;
     font-size: 1rem;
     color: var(--color-white);
     outline: none;
@@ -115,4 +121,15 @@
 
 .auth-link:hover {
     text-decoration: underline;
+}
+
+.register-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.register-form .auth-error,
+.register-form .form-button {
+    grid-column: span 2;
 }
