@@ -1,15 +1,24 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import Form from '../components/general/Form';
 import '../css/auth.css'
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
+
+    const loginFields = [
+        { id: 'email', name: 'email', label: 'Courriel :', type: 'email', placeholder: 'exemple@domain.com'},
+        { id: 'password', name: 'password', label: 'Mot de passe :', type: 'password', placeholder: '••••••••' }
+    ];
 
     const { setPlayer } = useAuth();
     const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,8 +30,8 @@ function Login() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                adresse_courriel: email,
-                mot_de_passe: password
+                adresse_courriel: formData.email,
+                mot_de_passe: formData.password
             })
         })
             .then((res) => {
@@ -50,39 +59,14 @@ function Login() {
                 <h2>Connexion</h2>
                 <p className="auth-subtitle">Entrez vos identifiants pour accéder à votre compte</p>
 
-                <form onSubmit={handleSubmit} className="auth-form">
-
-                    <div className="form-section">
-                        <label htmlFor="email">Courriel: </label>
-                        <input
-                            id="email"
-                            type="email"
-                            value={email}
-                            placeholder="exemple@domaine.com"
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-section">
-                        <label htmlFor="password">Mot de passe: </label>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    {errorMessage && <div className="auth-error">{errorMessage}</div>}
-
-                    <button type="submit" className="form-button">
-                        Se connecter
-                    </button>
-
-                </form>
+                <Form
+                    fields={loginFields}
+                    values={formData}
+                    onChange={handleChange}
+                    onSubmit={handleSubmit}
+                    buttonText="Se connecter"
+                    errorMessage={errorMessage}
+                />
 
                 <div className="auth-footer">
                     <Link to="/register" className="auth-link">Je n'ai pas de compte</Link>

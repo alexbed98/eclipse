@@ -12,7 +12,9 @@
     --color-gold: #F7D126;
     --color-powder-petal: #FBE6DA;
     --color-blood-red: #8F000A;
+
     --color-error: #e60e1c;
+    --color-success: #26802a;
 
     /* dimensions */
     --dimensions-max-width: 1280px;

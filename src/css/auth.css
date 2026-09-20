@@ -70,6 +70,11 @@
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
+.form-section input:disabled {
+    border-color: transparent;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 .auth-error {
     background-color: rgba(139, 38, 38, 0.2);
     border: 1px solid var(--color-logout, #8b2626);
@@ -132,4 +137,10 @@
 .register-form .auth-error,
 .register-form .form-button {
     grid-column: span 2;
+}
+
+.success-message {
+    text-align: center;
+    padding-top: 14px;
+    color: var(--color-success);
 }

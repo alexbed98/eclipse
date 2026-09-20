@@ -1,26 +1,33 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from '../context/AuthContext';
+import Form from '../components/general/Form'
 import '../css/auth.css'
 
 function Register() {
-    const [email, setEmail] = useState('');
-    const [alias, setAlias] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordValidate, setPasswordValidate] = useState('');
+    const [formData, setFormData] = useState({ email: '', alias: '', lastname: '', firstname: '', password: '', passwordValidate: '' })
     const [errorMessage, setErrorMessage] = useState('');
 
-    const { setPlayer } = useAuth();
+    const registerFields = [
+        { id: 'email', name: 'email', label: 'Courriel :', type: 'email', placeholder: 'exemple@domain.com'  },
+        { id: 'alias', name: 'alias', label: 'Alias :', placeholder: 'John_Smith123'  },
+        { id: 'firstname', name: 'firstname', label: 'Prénom :', placeholder: 'John' },
+        { id: 'lastname', name: 'lastname', label: 'Nom :',  placeholder: 'Smith'  },
+        { id: 'password', name: 'password', label: 'Mot de passe :', type: 'password', placeholder: '••••••••' },
+        { id: 'passwordValidate', name: 'passwordValidate', label: 'Confirmation :', type: 'password', placeholder: '••••••••' }
+    ];
+
     const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrorMessage('');
 
         // Valider que les 2 mots de passe soient identiques
-        if (password != passwordValidate) {
+        if (formData.password != formData.passwordValidate) {
             setErrorMessage("Les mots de passe doivent être identiques");
             return;
         }
@@ -31,11 +38,11 @@ function Register() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                alias: alias,
-                nom: lastname,
-                prenom: firstname,
-                adresse_courriel: email,
-                mot_de_passe: password
+                alias: formData.alias,
+                nom: formData.lastname,
+                prenom: formData.firstname,
+                adresse_courriel: formData.email,
+                mot_de_passe: formData.password
             })
         })
             .then((res) => {
@@ -59,87 +66,15 @@ function Register() {
                 <h2>Création de compte</h2>
                 <p className="auth-subtitle">Entrez vos informations personnelles</p>
 
-                <form onSubmit={handleSubmit} className="register-form">
-
-                    <div className="form-section">
-                        <label htmlFor="email">Courriel: </label>
-                        <input
-                            id="email"
-                            type="email"
-                            value={email}
-                            placeholder="exemple@domaine.com"
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-section">
-                        <label htmlFor="alias">Alias: </label>
-                        <input
-                            id="alias"
-                            type="text"
-                            value={alias}
-                            placeholder="alias_123"
-                            onChange={(e) => setAlias(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-section">
-                        <label htmlFor="firstname">Prénom: </label>
-                        <input
-                            id="firstname"
-                            type="text"
-                            value={firstname}
-                            placeholder="John"
-                            onChange={(e) => setFirstname(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-section">
-                        <label htmlFor="lastname">nom: </label>
-                        <input
-                            id="lastname"
-                            type="text"
-                            value={lastname}
-                            placeholder="Smith"
-                            onChange={(e) => setLastname(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-section">
-                        <label htmlFor="password">Mot de passe: </label>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-section">
-                        <label htmlFor="passwordValidate">Confirmation du mot de passe: </label>
-                        <input
-                            id="passwordValidate"
-                            type="password"
-                            placeholder="••••••••"
-                            value={passwordValidate}
-                            onChange={(e) => setPasswordValidate(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    {errorMessage && <div className="auth-error">{errorMessage}</div>}
-
-                    <button type="submit" className="form-button">
-                        S'inscrire
-                    </button>
-
-                </form>
+                <Form
+                    fields={registerFields}
+                    values={formData}
+                    onChange={handleChange}
+                    onSubmit={handleSubmit}
+                    buttonText="S'inscrire"
+                    errorMessage={errorMessage}
+                    isGrid={true}
+                />
 
                 <div className="auth-footer">
                         <Link to="/login" className="auth-link">J'ai déjà un compte</Link>
