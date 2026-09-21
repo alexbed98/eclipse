@@ -50,6 +50,21 @@ function Profile() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleCancel = () => {
+        setIsEditing(false);
+        setErrorMessage('');
+        if (player) {
+            setFormData({
+                email: player.adresse_courriel || '',
+                alias: player.alias || '',
+                firstname: player.prenom || '',
+                lastname: player.nom || '',
+                password: '',
+                passwordValidate: ''
+            });
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrorMessage('');
@@ -105,17 +120,22 @@ function Profile() {
                 <p className="auth-subtitle"></p>
 
                 <Form
-                    fields={profileFields}
+                    // envoit seulement les champs password a form si on est en train d'editer le profil
+                    fields={isEditing ? profileFields : profileFields.filter(field => field.type !== 'password')}
                     values={formData}
                     onChange={handleChange}
                     onSubmit={handleSubmit}
                     buttonText={isEditing ? "Confirmer les modifications" : "Modifier le profil"}
                     isGrid={true}
                     disabled={!isEditing}
+                    isEditing={isEditing}
+                    onCancel={handleCancel}
                     errorMessage={errorMessage}
                 />
 
                 {succesMessage && <div className='success-message'>{succesMessage}</div>}
+
+                
 
             </div>
         </div>

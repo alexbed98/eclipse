@@ -12,7 +12,7 @@
     border-radius: 12px;
     padding: 35px;
     width: 100%;
-    max-width: 460px;
+    max-width: 520px;
     box-shadow: 0 8px 24px var(--color-secondary-5);
     color: var(--color-white);
 }
@@ -143,4 +143,37 @@
     text-align: center;
     padding-top: 14px;
     color: var(--color-success);
+}
+
+.form-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lock-icon {
+    font-size: 0.75rem;
+    color: var(--color-secondary-6);
+}
+
+.lock-icon .unlocked {
+    color: var(--color-secondary-7); 
+}
+
+.form-actions {
+    grid-column: span 2;
+    display: flex;
+    gap: 12px;
+}
+
+.form-actions .form-button {
+    flex: 1;
+}
+
+.button-edit {
+    background-color: var(--color-green-confirm);
+}
+
+.button-cancel {
+    background-color: var(--color-red-cancel);
 }
