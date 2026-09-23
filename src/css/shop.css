@@ -1,0 +1,29 @@
+#shop-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.shop-booster{
+    height: 30em;
+    width: 16em;
+}
+
+#shop-container-buy{
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#shop-currency{
+    display: flex;
+    flex-direction: row;
+}
+
+#shop-buy-button{
+    margin-top: 1em;
+    height: 4em;
+    width: 10em;
+}
