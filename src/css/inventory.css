@@ -1,0 +1,23 @@
+#inventory-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 250px;
+    margin: 1em;
+    border: 1px solid black;
+}
+
+.non-obtenu{
+    color: gray;
+    opacity: 0.5;
+}
+
+.card img {
+    width: 100%;
+    aspect-ratio: 5 / 7;
+    /*object-fit: cover;*/ /* À ajouter/retirer dépendemment du ratio de nos vrai image qu'on va ajouter
+                         - Les images en placeholder ont déjà un bon ratio, donc la propriété ne change pas grand chose en ce moment*/
+}

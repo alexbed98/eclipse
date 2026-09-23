@@ -52,6 +52,7 @@ function Header() {
                             >
                                 <FiLogOut size={18} />
                             </button>
+                            <div>Monnaie: 500$</div>
                         </>
                     )}
                 </nav>
