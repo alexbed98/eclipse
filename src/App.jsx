@@ -11,6 +11,7 @@ import Shop from './pages/Shop'
 import Market from './pages/Market'
 import Profile from './pages/Profile'
 import Admin from './pages/Admin'
+import Details from './pages/Details';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           {/* routes protegees (joueur connecte seulement) */}
           <Route path="/game" element={<ProtectedRoute><Game/></ProtectedRoute>}/>
           <Route path="/inventory" element={<ProtectedRoute><Inventory/></ProtectedRoute>}/>
+          <Route path="/inventory/details/:id" element={<ProtectedRoute><Details/></ProtectedRoute>}/>
           <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
 
           {/* routes protegees (admin seulement) */}
