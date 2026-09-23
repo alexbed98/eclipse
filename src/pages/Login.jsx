@@ -1,14 +1,24 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import Form from '../components/general/Form';
+import '../css/auth.css'
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
+
+    const loginFields = [
+        { id: 'email', name: 'email', label: 'Courriel :', type: 'email', placeholder: 'exemple@domain.com'},
+        { id: 'password', name: 'password', label: 'Mot de passe :', type: 'password', placeholder: '••••••••' }
+    ];
 
     const { setPlayer } = useAuth();
     const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,54 +30,48 @@ function Login() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                adresse_courriel: email,
-                mot_de_passe: password
+                adresse_courriel: formData.email,
+                mot_de_passe: formData.password
             })
         })
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error('Identifiants invalides');
-            }
-            return res.json();
-        })
-        .then((data) => {
-            localStorage.setItem("token", data.token)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Identifiants invalides');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                localStorage.setItem("token", data.token)
 
-            setPlayer(data.joueur);
+                setPlayer(data.joueur);
 
-            navigate('/');
-        })
-        .catch((err) => {
-            console.error(err);
-            setErrorMessage("courriel ou mot de passe incorrect")
-        })
+                navigate('/');
+            })
+            .catch((err) => {
+                console.error(err);
+                setErrorMessage("courriel ou mot de passe incorrect")
+            })
     };
 
     return (
-        <div>
-            <p>Entrez vos informations de connexion</p>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Courriel: </label>
-                    <input 
-                        type="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Mot de passe: </label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
+        <div className="auth-container">
+            <div className="auth-card">
+                <h2>Connexion</h2>
+                <p className="auth-subtitle">Entrez vos identifiants pour accéder à votre compte</p>
 
-                {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+                <Form
+                    fields={loginFields}
+                    values={formData}
+                    onChange={handleChange}
+                    onSubmit={handleSubmit}
+                    buttonText="Se connecter"
+                    errorMessage={errorMessage}
+                />
 
-                <button type="submit">Se connecter</button>
-            </form>
+                <div className="auth-footer">
+                    <Link to="/register" className="auth-link">Je n'ai pas de compte</Link>
+                </div>
+            </div>
         </div>
     );
 }

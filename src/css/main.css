@@ -8,11 +8,17 @@
     --color-secondary-3: #ddc351;
     --color-secondary-4: #1a1a1a;
     --color-secondary-5: #2c2c2c;
+    --color-secondary-6: #575252;
+    --color-secondary-7: #969696;
     --color-logout: #83272d;
     --color-gold: #F7D126;
     --color-powder-petal: #FBE6DA;
     --color-blood-red: #8F000A;
+    --color-green-confirm: #3c5a3e;
+    --color-red-cancel: #85292f;
+
     --color-error: #e60e1c;
+    --color-success: #26802a;
 
     /* dimensions */
     --dimensions-max-width: 1280px;
