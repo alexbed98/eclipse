@@ -1,0 +1,78 @@
+.specs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.title {
+    font-size: 2.7em;
+    font-weight: bolder;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #202020;
+    color: var(--color-white);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 1.3em;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.10s ease;
+}
+
+.stat:hover {
+    transform: translateX(2px);
+}
+
+.stat-label {
+    color: #a0a0b0;
+}
+
+.stat-value {
+    color: #ffffff;
+}
+
+.button-sell {
+    max-width: 120px;
+    background-color: #4b4b4b;
+    color: var(--color-white);
+    border: 2px solid #272727;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.button-sell:hover {
+    background-color: #777777;
+}
+
+/* rarete 1 (commune): vert */
+.text-rarity-1 {
+    color: #259b29;
+}
+
+/* rarete 2 (rare): bleu */
+.text-rarity-2 {
+    color: #2e62d4;
+}
+
+/* rarete 3 (epique): mauve */
+.text-rarity-3 {
+    color: #7f46bb;
+}
+
+/* rarete 4 (legendaire): rouge */
+.text-rarity-4 {
+    color: #e73026;
+}
+
+/* rarete 5 (mythique): jaune */
+.text-rarity-5 {
+    color: #d6b80a;
+}

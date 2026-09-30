@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Card from '../components/general/Card';
+import Specs from '../components/general/Specs';
 
 import '../css/details.css';
 import '../css/cards.css';
@@ -13,7 +14,8 @@ function Details() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/inventory/details/${id}`)
+    fetch(`http://localhost:5000/api/inventory/details/${id}`, {
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des détails');
@@ -43,12 +45,7 @@ function Details() {
       </div>
 
       <div className='details-right'>
-        <h2>{card.nom}</h2>
-        <p><strong>Attaque :</strong> {card.attaque}</p>
-        <p><strong>Défense :</strong> {card.defense}</p>
-        <p><strong>Série :</strong> {card.id_serie}</p>
-        <p><strong>Rareté :</strong> {card.id_rarete}</p>
-        <p><strong>Quantité :</strong> {card.quantite}</p>
+        <Specs card={card}/>
       </div>
     </div>
   );

@@ -44,7 +44,8 @@ function Header() {
                                 <NavLink to="/admin">ADMIN</NavLink>
                             )}
 
-                            <div className='navlink-right username'>{player.alias}</div>
+                            <div className='navlink-right username'>Monnaie: {player.nbPiece} $</div>
+                            <div>{player.alias}</div>
                             <button
                                 className='button-logout-icon'
                                 onClick={handleLogout}
@@ -52,7 +53,7 @@ function Header() {
                             >
                                 <FiLogOut size={18} />
                             </button>
-                            <div>Monnaie: 500$</div>
+                            
                         </>
                     )}
                 </nav>
