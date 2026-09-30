@@ -1,0 +1,18 @@
+.details-container {
+    display: flex;
+    gap: 50px;
+    padding: 20px;
+}
+
+.details-left {
+    flex: 1;
+}
+
+.details-left {
+    max-width: 100%;
+    height: auto;
+}
+
+.details-right {
+    flex: 1;
+}

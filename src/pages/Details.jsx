@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
+import Card from '../components/general/Card';
+
+import '../css/details.css';
+import '../css/cards.css';
+
 function Details() {
   const { id } = useParams();
   const [card, setCard] = useState(null);
@@ -11,7 +16,7 @@ function Details() {
     fetch(`http://localhost:5000/api/inventory/details/${id}`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des détails");
+          throw new Error('Erreur lors de la récupération des détails');
         }
         return response.json();
       })
@@ -32,13 +37,19 @@ function Details() {
   if (!card) return <p>Aucune carte trouvée.</p>;
 
   return (
-    <div className="details-container">
-      <h2>{card.nom}</h2>
-      <p><strong>Attaque :</strong> {card.attaque}</p>
-      <p><strong>Défense :</strong> {card.defense}</p>
-      <p><strong>Série :</strong> {card.id_serie}</p>
-      <p><strong>Rareté :</strong> {card.id_rarete}</p>
-      <p><strong>Quantité :</strong> {card.quantite}</p>
+    <div className='details-container'>
+      <div className='details-left'>
+        <Card card={card}/>
+      </div>
+
+      <div className='details-right'>
+        <h2>{card.nom}</h2>
+        <p><strong>Attaque :</strong> {card.attaque}</p>
+        <p><strong>Défense :</strong> {card.defense}</p>
+        <p><strong>Série :</strong> {card.id_serie}</p>
+        <p><strong>Rareté :</strong> {card.id_rarete}</p>
+        <p><strong>Quantité :</strong> {card.quantite}</p>
+      </div>
     </div>
   );
 }
