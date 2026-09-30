@@ -1,4 +1,5 @@
-import { getRarity, getSerie } from '../../utils/helpers'
+import { getRarity, getSerie } from '../../utils/helpers';
+import { Sword, Shield } from 'lucide-react';
 
 import '../../css/specs.css'
 
@@ -16,11 +17,13 @@ function Specs({ card }) {
                 <div className='stat'>
                     <span className='stat-label'>Attaque : </span>
                     <span className='stat-value'>{card.attaque}</span>
+                    <Sword size={20} className='stat-icon icon-sword'/>
                 </div>
 
                 <div className='stat'>
                     <span className='stat-label'>Défense :</span>
                     <span className='stat-value'>{card.defense}</span>
+                    <Shield size={20} className='stat-icon icon-shield'/>
                 </div>
 
                 <div className='stat'>
