@@ -3,6 +3,16 @@ import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
+
+function cardWindow(){
+
+    const [window, setWindow] = useState(true);
+
+    
+
+
+}
+
 function Shop() {   
 
     const {player, loading: authLoading} = useAuth();
@@ -10,7 +20,7 @@ function Shop() {
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null);
     const [prix, setPrix] = useState(null)
-    
+
     const handleClick = (param) => {
         setPrix(param.prix)
     }
@@ -47,26 +57,22 @@ function Shop() {
             <div id="shop-container">
                 {booster.length === 0 ? (<p> Erreur lors du chargement du magasin</p>):(
                     booster.map((element, index) => (
-                        <button key={element.id || index} onClick={() => handleClick(element)}>
-                            <div  className='shop-booster'>
-                                <p>{element.nom}</p>
-                            </div>
-                        </button>
+                            <img 
+                                src={`/boosters/${element.id}.png`} className='shop-booster' 
+                                key={element.id || index} onClick={() => handleClick(element)}>  
+                            </img>
                     ))
                 )}
             </div>
+            
             <div id='shop-container-buy'>
                 <div id='shop-currency'>
                     <p>{prix}</p> 
                     {prix !== null ? (<p>$</p>): (<p>Veuillez choisir un paquet!</p>)}
                 </div>
-                <button id='shop-buy-button'>Acheter</button>
-            </div>
-
+                <button id='shop-buy-button' onClick={cardWindow}>Acheter</button>
+            </div>  
         </div>
     )}
-
-
-
 
 export default Shop
