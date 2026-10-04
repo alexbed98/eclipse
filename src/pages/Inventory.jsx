@@ -1,12 +1,15 @@
 import '../css/inventory.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { getSerie, filterCards, sortCards, sortByOwned } from '../utils/helpers';
 
 function Inventory() {
   const { player, loading: authLoading } = useAuth();
   const [cards, setCards] = useState([]);
   const [sortBy, setSortBy] = useState('rarity-asc');
+  const [filters, setFilters] = useState(['anges', 'dragons', 'zombies', 'goblins']);
+  const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -42,33 +45,33 @@ function Inventory() {
     `
   }
 
-  // fonction pour changer le filtre
+  // pour changer le trie (rarete, nom)
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
   }
 
-  function getSortedCards() {
-    const cardsSorted = [...cards].sort((a, b) => {
-      switch (sortBy) {
-        case "rarity-asc":
-          return a.id_rarete - b.id_rarete;
-        case "rarity-desc":
-          return b.id_rarete - a.id_rarete;
-        case "name-asc":
-          return a.nom.localeCompare(b.nom);
-        case "name-desc":
-          return b.nom.localeCompare(a.nom);
-        default:
-          return 0;
-      }
-    });
-
-    const cardsOwned = cardsSorted.filter((c) => c.quantite > 0);
-    const cardsNotOwned = cardsSorted.filter((c) => c.quantite === 0);
-
-    return [...cardsOwned, ...cardsNotOwned];
+  // pour changer les filtres (series)
+  const handleFilterChange = (e) => {
+    if (!filters.includes(e.target.value)) {
+      setFilters([...filters, e.target.value]);
+    }
+    else {
+      setFilters(filters.filter(f => f !== e.target.value));
+    }
   }
 
+  // pour changer le texte de recherche (nom de la carte)
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  }
+
+  // on utiliser les fonctions de triage et de filtrage de helper.js
+  const sortedCards = useMemo(() => {
+    const filtered = filterCards(cards, filters, search);
+    const sorted = sortCards(filtered, sortBy);
+
+    return sortByOwned(sorted);
+  }, [cards, filters, sortBy, search]);
 
   useEffect(() => {
     if (authLoading) return;
@@ -101,8 +104,6 @@ function Inventory() {
   if (!player) return <p>Veuillez vous connecter pour voir votre inventaire.</p>;
   if (error) return <p>Erreur : {error}</p>;
 
-  const sortedCards = getSortedCards();
-
   return (
     <div>
       <div className='sort-container'>
@@ -127,6 +128,33 @@ function Inventory() {
             checked={sortBy === 'name-desc'} onChange={handleSortChange} />
           <label htmlFor='name-desc'>Nom (Z&#8594;A)</label>
         </div>
+      </div>
+      <div className='filter-container'>
+        <h3>Filter:</h3>
+        <div className='filter-input'>
+          <input type='checkbox' id='anges' name='filter' value='anges'
+            checked={filters.includes('anges')} onChange={handleFilterChange} />
+          <label htmlFor='anges'>Anges</label>
+        </div>
+        <div className='filter-input'>
+          <input type='checkbox' id='dragons' name='filter' value='dragons'
+            checked={filters.includes('dragons')} onChange={handleFilterChange} />
+          <label htmlFor='dragons'>Dragons</label>
+        </div>
+        <div className='filter-input'>
+          <input type='checkbox' id='zombies' name='filter' value='zombies'
+            checked={filters.includes('zombies')} onChange={handleFilterChange} />
+          <label htmlFor='zombies'>Zombies</label>
+        </div>
+        <div className='filter-input'>
+          <input type='checkbox' id='goblins' name='filter' value='goblins'
+            checked={filters.includes('goblins')} onChange={handleFilterChange} />
+          <label htmlFor='goblins'>Goblins</label>
+        </div>
+      </div>
+      <div className='search-container'>
+          <label htmlFor="gsearch"><h3>Rechercher: </h3></label>
+          <input type="search" id="gsearch" name="gsearch" onChange={handleSearchChange} />
       </div>
       <div id="inventory-container">
         {sortedCards.length === 0 ? (

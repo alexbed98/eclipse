@@ -23,7 +23,7 @@
     border: 3px solid black;
 }
 
-.sort-container {
+.sort-container, .filter-container, .search-container {
     padding: 4px;
     display: flex;
     flex-direction: row;
@@ -31,3 +31,6 @@
     align-items: center;
 }
 
+.search-container input {
+    padding: 3px;
+}

@@ -24,8 +24,47 @@ export const getSerie = (id_serie) => {
         case 3:
             return 'Zombies';
         case 4:
-            return 'Goblin';
+            return 'Goblins';
         default:
             return 'Inconnue';
     }
+}
+
+// filtre les cartes par filtre de serie et par texte de recherche
+export function filterCards(cards, filters, search = '') {
+    const cleanSearch = search.trim().toLowerCase();
+
+    return cards.filter((card) => {
+        const serie = getSerie(card.id_serie);
+        const matchSerie = filters.includes(serie?.toLowerCase());
+        const matchSearch = cleanSearch === '' || card.nom?.toLowerCase().includes(cleanSearch);
+
+        return matchSerie && matchSearch;
+    });
+}
+
+// tri les cartes selon le tri choisi
+export function sortCards(cards, sortBy) {
+    return [...cards].sort((a, b) => {
+        switch (sortBy) {
+            case "rarity-asc":
+                return a.id_rarete - b.id_rarete;
+            case "rarity-desc":
+                return b.id_rarete - a.id_rarete;
+            case "name-asc":
+                return a.nom.localeCompare(b.nom);
+            case "name-desc":
+                return b.nom.localeCompare(a.nom);
+            default:
+                return 0;
+        }
+    })
+}
+
+// tri les cartes en mettant les cartes possedees en premier
+export function sortByOwned(cards) {
+    const owned = cards.filter((c) => c.quantite > 0);
+    const notOwned = cards.filter((c) => c.quantite === 0);
+
+    return [...owned, ...notOwned];
 }
