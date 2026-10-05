@@ -52,10 +52,12 @@ export function sortCards(cards, sortBy) {
 }
 
 // tri les cartes en mettant les cartes possedees en premier
-export function sortByOwned(cards) {
+export function sortByOwned(cards, ownershipFilter) {
     const owned = cards.filter((c) => c.quantite > 0);
     const notOwned = cards.filter((c) => c.quantite === 0);
 
-    return [...owned, ...notOwned];
+    if (ownershipFilter == 'owned') return owned
+    else if (ownershipFilter == 'not-owned') return notOwned
+    else return cards;
 }
 

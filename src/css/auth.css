@@ -1,5 +1,7 @@
 .auth-container {
     display: flex;
+    flex-direction: column;
+    gap: 20px;
     justify-content: center; 
     align-items: center;     
     padding: 40px;
@@ -176,4 +178,41 @@
 
 .button-cancel {
     background-color: var(--color-red-cancel);
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 10px;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+.profile-button {
+    display: inline-block;
+    padding: 15px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    background-color: var(--color-secondary-1);
+    color: white;
+    font-size: 1.2em;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+.profile-button:hover {
+    background-color: var(--color-secondary-3);
+    transform: translateY(-2px);
+    color: black;
+}
+
+button:hover {
+    transform: translateY(-2px);
 }

@@ -44,7 +44,7 @@ function Header() {
                                 <NavLink to="/admin">ADMIN</NavLink>
                             )}
 
-                            <div className='navlink-right username'>Monnaie: {player.nbPiece} $</div>
+                            <div className='navlink-right username'>Monnaie: {player?.nbPiece ?? 0} $</div>
                             <div>{player.alias}</div>
                             <button
                                 className='button-logout-icon'

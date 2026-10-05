@@ -1,8 +1,8 @@
 
 
-function Checkbox({ id, name, value, checked, onChange, label }) {
+function Checkbox({ className, id, name, value, checked, onChange, label }) {
     return (
-        <div className='filter-input'>
+        <div className={className}>
             <input
                 type='checkbox'
                 id={id}

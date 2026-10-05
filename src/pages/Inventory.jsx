@@ -2,7 +2,7 @@ import '../css/inventory.css';
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-import { getSerie, filterCards, sortCards, sortByOwned } from '../utils/helpers';
+import { filterCards, sortCards, sortByOwned } from '../utils/helpers';
 import Checkbox from '../components/inputs/Checkbox';
 import Radio from '../components/inputs/Radio';
 
@@ -12,6 +12,7 @@ function Inventory() {
   const [sortBy, setSortBy] = useState('rarity-asc');
   const [seriesFilters, setSeriesFilters] = useState(['anges', 'dragons', 'zombies', 'goblins']);
   const [raritiesFilters, setRaritiesFilters] = useState([1, 2, 3, 4, 5]);
+  const [ownershipFilter, setOwnershipFilter] = useState('owned')
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -80,13 +81,18 @@ function Inventory() {
     setSearch(e.target.value);
   }
 
+  // pour changer le filtre d'ownership
+  const handleOwnerShipChange = (e) => {
+    setOwnershipFilter(e.target.value);
+  }
+
   // on utiliser les fonctions de triage et de filtrage de helper.js
   const sortedCards = useMemo(() => {
     const filtered = filterCards(cards, seriesFilters, raritiesFilters, search);
     const sorted = sortCards(filtered, sortBy);
 
-    return sortByOwned(sorted);
-  }, [cards, seriesFilters, raritiesFilters, sortBy, search]);
+    return sortByOwned(sorted, ownershipFilter);
+  }, [cards, seriesFilters, raritiesFilters, ownershipFilter, sortBy, search]);
 
   useEffect(() => {
     if (authLoading) return;
@@ -95,6 +101,8 @@ function Inventory() {
       setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     fetch(`http://localhost:5000/api/collection/${player.id}`)
       .then((response) => {
@@ -134,91 +142,128 @@ function Inventory() {
     { id: 5, label: 'Mythiques' }
   ];
 
+  const ownershipList = [
+    { id: 'owned', label: 'Obtenues' },
+    { id: 'not-owned', label: 'Manquantes' },
+    { id: 'all', label: 'Toutes' }
+  ];
+
   const sortByList = [
-    { id: 'rarity-asc', label: 'Rareté ↑' },
-    { id: 'rarity-desc', label: 'Rareté ↓' },
-    { id: 'name-asc', label: 'Nom (A→Z)' },
-    { id: 'name-desc', label: 'Nom (Z→A)' },
+    { id: 'rarity-asc', label: 'Rareté (Commun à Mythique)' },
+    { id: 'rarity-desc', label: 'Rareté (Mythique à Commun)' },
+    { id: 'name-asc', label: 'Nom (A à Z)' },
+    { id: 'name-desc', label: 'Nom (Z à A)' },
   ]
 
   return (
-    <div>
-
-      <div className='filter-container'>
-        <h3>Filter par:</h3>
-
-        {/* construit dynamiquement tous les options de filtre par serie */}
-        <div className='filters'>
-          <h4>Series</h4>
-          {seriesList.map((serie) => (
-            <Checkbox
-              key={serie.id}
-              id={`serie-${serie.id}`}
-              name='serie-filter'
-              value={serie.id}
-              label={serie.label}
-              checked={seriesFilters.includes(serie.id)}
-              onChange={handleSeriesChange}
-            />
-          ))}
-        </div>
-
-        {/* construit dynamiquement tous les options de filtre par rarete */}
-        <div className='filters'>
-          <h4>Raretés</h4>
-          {rarityList.map((rarity) => (
-            <Checkbox
-              key={rarity.id}
-              id={`rarity-${rarity.id}`}
-              name='rarity-filter'
-              value={rarity.id}
-              label={rarity.label}
-              checked={raritiesFilters.includes(rarity.id)}
-              onChange={handleRaritiesChange}
-            />
-          ))}
-        </div>
-
-      </div>
-
-      <div className='sort-container'>
-        <h3>Trier par: </h3>
-
-        {/* construit dynamiquement tous les options de tri */}
-        {sortByList.map((sort) => (
-          <Radio
-            key={sort.id}
-            className={'sort-input'}
-            id={sort.id}
-            name={'sort'}
-            value={sort.id}
-            checked={sortBy === sort.id}
-            onChange={handleSortChange}
-            label={sort.label}
+  <div className='inventory-container'>
+    <header className="inventory-header">
+      
+      {/* recherche & tri */}
+      <div className="toolbar-top">
+        <div className="search-box">
+          <span className="search-icon">🔍</span>
+          <input
+            type="search"
+            id="search"
+            name="search"
+            placeholder="Rechercher une carte..."
+            value={search}
+            onChange={handleSearchChange}
           />
-        ))}
-
-        <div className='search-container'>
-          <label htmlFor="search"><h3>Rechercher: </h3></label>
-          <input type="search" id="search" name="search" value={search} onChange={handleSearchChange} />
         </div>
 
+        <div className="sort-box">
+          <label htmlFor="sort-select">Trier par :</label>
+          <select id="sort-select" value={sortBy} onChange={handleSortChange}>
+            {sortByList.map((sort) => (
+              <option key={sort.id} value={sort.id}>
+                {sort.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      {/* affiche dynamiquement tous les cartes selon le tri et les filtres */}
-      <div id="inventory-container">
-        {sortedCards.length === 0 ? (
-          <p>Aucun objet dans votre collection.</p>
-        ) : (
-          sortedCards.map((element, index) => (
-            <Link key={element.id || index} className={`card ${element.quantite < 1 ? 'non-obtenu' : ''}`} to={`details/${element.id}`} onMouseMove={handleTilt} onMouseLeave={handleMouseLeave}>
-              <img src={`/cards/${element.id}` + ".png"}></img>
-            </Link>
-          ))
-        )}
-      </div>
+      {/* Panneau de filtres */}
+      <div className="filter-panel">
+        <div className="filter-group">
+          <span className="filter-label">Séries :</span>
+          <div className="filter-options">
+            {seriesList.map((serie) => (
+              <Checkbox
+                key={serie.id}
+                id={`serie-${serie.id}`}
+                className="filter-checkbox"
+                name="serie-filter"
+                value={serie.id}
+                label={serie.label}
+                checked={seriesFilters.includes(serie.id)}
+                onChange={handleSeriesChange}
+              />
+            ))}
+          </div>
+        </div>
 
-    </div>
-  );
+        <div className="filter-group">
+          <span className="filter-label">Raretés :</span>
+          <div className="filter-options">
+            {rarityList.map((rarity) => (
+              <Checkbox
+                key={rarity.id}
+                id={`rarity-${rarity.id}`}
+                className="filter-checkbox"
+                name="rarity-filter"
+                value={rarity.id}
+                label={rarity.label}
+                checked={raritiesFilters.includes(rarity.id)}
+                onChange={handleRaritiesChange}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="filter-group">
+          <span className="filter-label">Possession :</span>
+          <div className="filter-options">
+            {ownershipList.map((ownership) => (
+              <Radio
+                key={ownership.id}
+                id={`ownership-${ownership.id}`}
+                className="filter-radio"
+                name="ownership-filter"
+                value={ownership.id}
+                label={ownership.label}
+                checked={ownershipFilter === ownership.id}
+                onChange={handleOwnerShipChange}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    {/* Grille des cartes */}
+    <main id="inventory-container">
+      {sortedCards.length === 0 ? (
+        <div className="empty-state">
+          <p>Aucun objet ne correspond à vos critères.</p>
+        </div>
+      ) : (
+        sortedCards.map((element, index) => (
+          <Link
+            key={element.id || index}
+            className={`card rarity-${element.id_rarete} ${element.quantite < 1 ? 'non-obtenu' : ''}`}
+            to={`details/${element.id}`}
+            onMouseMove={handleTilt}
+            onMouseLeave={handleMouseLeave}
+          >
+            <img src={`/cards/${element.id}.png`} alt={element.nom || 'Carte'} />
+          </Link>
+        ))
+      )}
+    </main>
+  </div>
+);
 }
 export default Inventory
