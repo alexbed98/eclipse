@@ -131,6 +131,7 @@ function Profile() {
                     isEditing={isEditing}
                     onCancel={handleCancel}
                     errorMessage={errorMessage}
+                    profile={true}
                 />
 
                 {succesMessage && <div className='success-message'>{succesMessage}</div>}

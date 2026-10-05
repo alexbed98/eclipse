@@ -3,12 +3,15 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { getSerie, filterCards, sortCards, sortByOwned } from '../utils/helpers';
+import Checkbox from '../components/inputs/Checkbox';
+import Radio from '../components/inputs/Radio';
 
 function Inventory() {
   const { player, loading: authLoading } = useAuth();
   const [cards, setCards] = useState([]);
   const [sortBy, setSortBy] = useState('rarity-asc');
-  const [filters, setFilters] = useState(['anges', 'dragons', 'zombies', 'goblins']);
+  const [seriesFilters, setSeriesFilters] = useState(['anges', 'dragons', 'zombies', 'goblins']);
+  const [raritiesFilters, setRaritiesFilters] = useState([1, 2, 3, 4, 5]);
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -50,13 +53,25 @@ function Inventory() {
     setSortBy(e.target.value);
   }
 
-  // pour changer les filtres (series)
-  const handleFilterChange = (e) => {
-    if (!filters.includes(e.target.value)) {
-      setFilters([...filters, e.target.value]);
+  // pour changer les filtres de series
+  const handleSeriesChange = (e) => {
+    if (!seriesFilters.includes(e.target.value)) {
+      setSeriesFilters([...seriesFilters, e.target.value]);
     }
     else {
-      setFilters(filters.filter(f => f !== e.target.value));
+      setSeriesFilters(seriesFilters.filter(f => f !== e.target.value));
+    }
+  }
+
+  // pour changer les filtres de rarete
+  const handleRaritiesChange = (e) => {
+    const rarete = Number(e.target.value)
+
+    if (!raritiesFilters.includes(rarete)) {
+      setRaritiesFilters([...raritiesFilters, rarete]);
+    }
+    else {
+      setRaritiesFilters(raritiesFilters.filter(f => f !== rarete));
     }
   }
 
@@ -67,11 +82,11 @@ function Inventory() {
 
   // on utiliser les fonctions de triage et de filtrage de helper.js
   const sortedCards = useMemo(() => {
-    const filtered = filterCards(cards, filters, search);
+    const filtered = filterCards(cards, seriesFilters, raritiesFilters, search);
     const sorted = sortCards(filtered, sortBy);
 
     return sortByOwned(sorted);
-  }, [cards, filters, sortBy, search]);
+  }, [cards, seriesFilters, raritiesFilters, sortBy, search]);
 
   useEffect(() => {
     if (authLoading) return;
@@ -104,58 +119,93 @@ function Inventory() {
   if (!player) return <p>Veuillez vous connecter pour voir votre inventaire.</p>;
   if (error) return <p>Erreur : {error}</p>;
 
+  const seriesList = [
+    { id: 'anges', label: 'Anges' },
+    { id: 'dragons', label: 'Dragons' },
+    { id: 'zombies', label: 'Zombies' },
+    { id: 'goblins', label: 'Goblins' }
+  ];
+
+  const rarityList = [
+    { id: 1, label: 'Communes' },
+    { id: 2, label: 'Rares' },
+    { id: 3, label: 'Épiques' },
+    { id: 4, label: 'Légendaires' },
+    { id: 5, label: 'Mythiques' }
+  ];
+
+  const sortByList = [
+    { id: 'rarity-asc', label: 'Rareté ↑' },
+    { id: 'rarity-desc', label: 'Rareté ↓' },
+    { id: 'name-asc', label: 'Nom (A→Z)' },
+    { id: 'name-desc', label: 'Nom (Z→A)' },
+  ]
+
   return (
     <div>
+
+      <div className='filter-container'>
+        <h3>Filter par:</h3>
+
+        {/* construit dynamiquement tous les options de filtre par serie */}
+        <div className='filters'>
+          <h4>Series</h4>
+          {seriesList.map((serie) => (
+            <Checkbox
+              key={serie.id}
+              id={`serie-${serie.id}`}
+              name='serie-filter'
+              value={serie.id}
+              label={serie.label}
+              checked={seriesFilters.includes(serie.id)}
+              onChange={handleSeriesChange}
+            />
+          ))}
+        </div>
+
+        {/* construit dynamiquement tous les options de filtre par rarete */}
+        <div className='filters'>
+          <h4>Raretés</h4>
+          {rarityList.map((rarity) => (
+            <Checkbox
+              key={rarity.id}
+              id={`rarity-${rarity.id}`}
+              name='rarity-filter'
+              value={rarity.id}
+              label={rarity.label}
+              checked={raritiesFilters.includes(rarity.id)}
+              onChange={handleRaritiesChange}
+            />
+          ))}
+        </div>
+
+      </div>
+
       <div className='sort-container'>
         <h3>Trier par: </h3>
-        <div className='sort-input'>
-          <input type='radio' id='rarity-asc' name='sort' value='rarity-asc'
-            checked={sortBy === 'rarity-asc'} onChange={handleSortChange} />
-          <label htmlFor='rarity-asc'>Rareté &#8593;</label>
+
+        {/* construit dynamiquement tous les options de tri */}
+        {sortByList.map((sort) => (
+          <Radio
+            key={sort.id}
+            className={'sort-input'}
+            id={sort.id}
+            name={'sort'}
+            value={sort.id}
+            checked={sortBy === sort.id}
+            onChange={handleSortChange}
+            label={sort.label}
+          />
+        ))}
+
+        <div className='search-container'>
+          <label htmlFor="search"><h3>Rechercher: </h3></label>
+          <input type="search" id="search" name="search" value={search} onChange={handleSearchChange} />
         </div>
-        <div className='sort-input'>
-          <input type='radio' id='rarity-desc' name='sort' value='rarity-desc'
-            checked={sortBy === 'rarity-desc'} onChange={handleSortChange} />
-          <label htmlFor='rarity-desc'>Rareté &#8595;</label>
-        </div>
-        <div className='sort-input'>
-          <input type='radio' id='name-asc' name='sort' value='name-asc'
-            checked={sortBy === 'name-asc'} onChange={handleSortChange} />
-          <label htmlFor='name-asc'>Nom (A&#8594;Z)</label>
-        </div>
-        <div className='sort-input'>
-          <input type='radio' id='name-desc' name='sort' value='name-desc'
-            checked={sortBy === 'name-desc'} onChange={handleSortChange} />
-          <label htmlFor='name-desc'>Nom (Z&#8594;A)</label>
-        </div>
+
       </div>
-      <div className='filter-container'>
-        <h3>Filter:</h3>
-        <div className='filter-input'>
-          <input type='checkbox' id='anges' name='filter' value='anges'
-            checked={filters.includes('anges')} onChange={handleFilterChange} />
-          <label htmlFor='anges'>Anges</label>
-        </div>
-        <div className='filter-input'>
-          <input type='checkbox' id='dragons' name='filter' value='dragons'
-            checked={filters.includes('dragons')} onChange={handleFilterChange} />
-          <label htmlFor='dragons'>Dragons</label>
-        </div>
-        <div className='filter-input'>
-          <input type='checkbox' id='zombies' name='filter' value='zombies'
-            checked={filters.includes('zombies')} onChange={handleFilterChange} />
-          <label htmlFor='zombies'>Zombies</label>
-        </div>
-        <div className='filter-input'>
-          <input type='checkbox' id='goblins' name='filter' value='goblins'
-            checked={filters.includes('goblins')} onChange={handleFilterChange} />
-          <label htmlFor='goblins'>Goblins</label>
-        </div>
-      </div>
-      <div className='search-container'>
-          <label htmlFor="gsearch"><h3>Rechercher: </h3></label>
-          <input type="search" id="gsearch" name="gsearch" onChange={handleSearchChange} />
-      </div>
+
+      {/* affiche dynamiquement tous les cartes selon le tri et les filtres */}
       <div id="inventory-container">
         {sortedCards.length === 0 ? (
           <p>Aucun objet dans votre collection.</p>
@@ -167,6 +217,7 @@ function Inventory() {
           ))
         )}
       </div>
+
     </div>
   );
 }

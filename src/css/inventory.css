@@ -7,7 +7,7 @@
 .card {
     margin: 1em;
     transition: transform 0.15s ease-out;
-        
+
 }
 
 .non-obtenu{
@@ -34,3 +34,17 @@
 .search-container input {
     padding: 3px;
 }
+
+.filters {
+    padding: 6px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    background-color: rgb(141, 141, 141);
+    border-radius: 5px;
+}
+
+
+
+

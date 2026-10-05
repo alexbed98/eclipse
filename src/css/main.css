@@ -14,8 +14,8 @@
     --color-gold: #F7D126;
     --color-powder-petal: #FBE6DA;
     --color-blood-red: #8F000A;
-    --color-green-confirm: #3c5a3e;
-    --color-red-cancel: #85292f;
+    --color-green-confirm: #2f6d33;
+    --color-red-cancel: #bd1b26;
 
     --color-error: #e60e1c;
     --color-success: #26802a;
@@ -63,4 +63,3 @@ a {
 .errorMessage {
     color: var(--color-error)
 }
-

@@ -1,45 +1,35 @@
 export const getRarity = (id_rarete) => {
     switch (id_rarete) {
-        case 1:
-            return 'Commune';
-        case 2:
-            return 'Rare';
-        case 3:
-            return 'Épique';
-        case 4:
-            return 'Légendaire';
-        case 5:
-            return 'Mythique';
-        default:
-            return 'Inconnue';
+        case 1: return  'Commune';
+        case 2: return  'Rare';
+        case 3: return  'Épique';
+        case 4: return  'Légendaire';
+        case 5: return  'Mythique';
+        default: return 'Inconnue';
     }
-}
+};
 
 export const getSerie = (id_serie) => {
     switch (id_serie) {
-        case 1:
-            return 'Anges';
-        case 2:
-            return 'Dragons';
-        case 3:
-            return 'Zombies';
-        case 4:
-            return 'Goblins';
-        default:
-            return 'Inconnue';
+        case 1: return  'Anges';
+        case 2: return  'Dragons';
+        case 3: return  'Zombies';
+        case 4: return  'Goblins';
+        default: return 'Inconnue';
     }
-}
+};
 
 // filtre les cartes par filtre de serie et par texte de recherche
-export function filterCards(cards, filters, search = '') {
+export function filterCards(cards, seriesFilters, raritiesFilters, search = '') {
     const cleanSearch = search.trim().toLowerCase();
 
     return cards.filter((card) => {
         const serie = getSerie(card.id_serie);
-        const matchSerie = filters.includes(serie?.toLowerCase());
+        const matchSerie = seriesFilters.includes(serie?.toLowerCase());
+        const matchRarity = raritiesFilters.includes(card.id_rarete);
         const matchSearch = cleanSearch === '' || card.nom?.toLowerCase().includes(cleanSearch);
 
-        return matchSerie && matchSearch;
+        return matchSerie && matchSearch && matchRarity;
     });
 }
 
@@ -68,3 +58,4 @@ export function sortByOwned(cards) {
 
     return [...owned, ...notOwned];
 }
+
