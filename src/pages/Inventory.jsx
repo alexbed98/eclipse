@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { filterCards, sortCards, sortByOwned } from '../utils/helpers';
 import Checkbox from '../components/inputs/Checkbox';
 import Radio from '../components/inputs/Radio';
+import { GoSearch } from "react-icons/go";
 
 function Inventory() {
   const { player, loading: authLoading } = useAuth();
@@ -159,10 +160,10 @@ function Inventory() {
   <div className='inventory-container'>
     <header className="inventory-header">
       
-      {/* recherche & tri */}
-      <div className="toolbar-top">
+      {/* barre de recherche & tri */}
+      <div className="sort-container">
         <div className="search-box">
-          <span className="search-icon">🔍</span>
+          <GoSearch size={20} color={'grey'} className='search-icon'/>
           <input
             type="search"
             id="search"
@@ -185,7 +186,7 @@ function Inventory() {
         </div>
       </div>
 
-      {/* Panneau de filtres */}
+      {/* filtres */}
       <div className="filter-panel">
         <div className="filter-group">
           <span className="filter-label">Séries :</span>
@@ -243,8 +244,8 @@ function Inventory() {
       </div>
     </header>
 
-    {/* Grille des cartes */}
-    <main id="inventory-container">
+    {/* Affichage des cartes */}
+    <main className="cards-container">
       {sortedCards.length === 0 ? (
         <div className="empty-state">
           <p>Aucun objet ne correspond à vos critères.</p>
