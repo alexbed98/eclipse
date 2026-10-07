@@ -1,6 +1,7 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { FiLogOut } from 'react-icons/fi'; // icone de deconnexion
+import { useState } from 'react';
 
 import '../../css/header.css'
 
@@ -9,11 +10,25 @@ import '../../css/header.css'
 function Header() {
     const { player, logout } = useAuth();
     const navigate = useNavigate();
+    const [piece, setPiece] = useState(null)
 
     const handleLogout = () => {
         logout();
         navigate('/login');
     }
+
+    if(player !== null){
+        fetch(`http://localhost:5000/api/shop/${player.id}`)
+        .then((response) => {
+            if(!response.ok)
+                throw new Error('Erreur lors du chargement des infos du joueur')
+            return response.json();
+        })
+        .then((data) => {
+            setPiece(data.nbPiece);
+        })
+    }
+
 
     return (
         <header className='header-container'>
@@ -52,7 +67,7 @@ function Header() {
                             >
                                 <FiLogOut size={18} />
                             </button>
-                            <div>Monnaie: 500$</div>
+                            <div>Pièces: {piece}</div>
                         </>
                     )}
                 </nav>

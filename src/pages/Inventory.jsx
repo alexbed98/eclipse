@@ -80,7 +80,7 @@ function Inventory() {
       ) : (
         cards.map((element, index) => (
           <Link key={element.id || index} className={`card ${element.quantite < 1 ? 'non-obtenu' : ''}`} to={`details/${element.id}`} onMouseMove={handleTilt} onMouseLeave={handleMouseLeave}>
-            <img src={`/cards/${element.id}` + ".png"}></img>
+            <img src={`/cards/${element.id}.png`}></img>
           </Link>
         ))
       )}
