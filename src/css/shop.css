@@ -1,13 +1,45 @@
-#shop-container{
+#shop-carousel{
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    margin: 3em auto;
+    gap: 1em;
+     /* À retirer si jamais - width: 37em;  */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    anchor-name: --carousel;
+}
+
+#shop-carousel::-webkit-scrollbar{
+    display: none;
+}
+
+#shop-carousel-right-button, #shop-carousel-left-button{
+    content: '→';
+    border: none;
+    background-color: gold;
+    font-family: Consolas;
+    font-size: 3rem;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    padding-bottom: .2em;
+    cursor: pointer;
+    position:fixed;
+    position-anchor: --carousel;
+    position-area: right center; 
+}
+
+#shop-carousel-left-button{
+    content: '←';
+    position-area: left center;
+     /* À retirer si jamais - translate: 40%;   */
 }
 
 .shop-booster{
+    scroll-snap-align: start;
     height: 30em;
     width: 18em;
+    margin: 1em;
 }
 
 #shop-container-buy{
@@ -20,10 +52,70 @@
 #shop-currency{
     display: flex;
     flex-direction: row;
+    font-size: 2em;
+    margin-bottom: 1em;
 }
 
-#shop-buy-button{
+.shop-button{
     margin-top: 1em;
     height: 4em;
     width: 10em;
+    border: double;
+    border-radius: 1em;
+}
+
+.shop-button:active{
+    transform: translateY(4px);
+}
+
+.shop-button:hover{
+    background-color: lightgrey;
+}
+
+.shop-highlight{
+    box-shadow: 0 0 10px #ffd700,
+                0 0 25px rgba(255, 215, 0, 1),
+                0 0 50px rgba(255, 160, 0, 0.75);
+}
+
+
+.shop-results-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.shop-results {
+    background-color: #c2c2c2;
+    padding: 2em;
+    border-radius: 1em;
+    width: 80%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+.obtained-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    margin: 2em 0;
+}
+
+.obtained-card img {
+    width: 10em;
+    height: auto;
+}
+
+.obtained-card img:hover{
+    position: relative;
+    z-index: 1000;
+    transform: scale(2);
 }

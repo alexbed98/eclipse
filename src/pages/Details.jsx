@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom';
 import Card from '../components/general/Card';
 import Specs from '../components/general/Specs';
 
+import { useParams, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import Card from '../components/general/Card';
 import '../css/details.css';
 import '../css/cards.css';
 
@@ -12,10 +15,10 @@ function Details() {
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {player, loading: authLoading} = useAuth();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/inventory/details/${id}`, {
-    })
+    fetch(`http://localhost:5000/api/inventory/details/${id}/${player.id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des détails');
