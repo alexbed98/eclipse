@@ -13,6 +13,7 @@ import Profile from './pages/Profile'
 import Admin from './pages/Admin'
 import Register from './pages/Register'
 import Details from './pages/Details';
+import Decks from './pages/Decks';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/inventory" element={<ProtectedRoute><Inventory/></ProtectedRoute>}/>
           <Route path="/inventory/details/:id" element={<ProtectedRoute><Details/></ProtectedRoute>}/>
           <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+          <Route path="/decks" element={<ProtectedRoute><Decks/></ProtectedRoute>}/>
 
           {/* routes protegees (admin seulement) */}
           <Route path="/admin" element={<AdminRoute><Admin/></AdminRoute>}/>

@@ -1,14 +1,14 @@
-import { useState, useEffect, use } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from "react-router-dom";
 import Form from '../components/general/Form';
 
 function Profile() {
     const { player, setPlayer, loading } = useAuth();
 
-    const [ isEditing, setIsEditing ] = useState(false);
-    const [ errorMessage, setErrorMessage ] = useState('');
-    const [ succesMessage, setSuccesMessage ] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [succesMessage, setSuccesMessage] = useState('');
 
     if (loading) {
         return <div>Chargement du profil en cours...</div>
@@ -32,7 +32,7 @@ function Profile() {
         { id: 'password', name: 'password', label: 'Nouveau mot de passe :', type: 'password', placeholder: 'Optionnel', required: false },
         { id: 'passwordValidate', name: 'passwordValidate', label: 'Confirmation :', type: 'password', placeholder: 'Optionnel', required: false }
     ];
-    
+
     useEffect(() => {
         if (player) {
             setFormData({
@@ -90,7 +90,7 @@ function Profile() {
                 nom: formData.lastname,
                 prenom: formData.firstname,
                 adresse_courriel: formData.email,
-                mot_de_passe: formData.password || undefined 
+                mot_de_passe: formData.password || undefined
             })
         })
             .then((res) => {
@@ -99,13 +99,13 @@ function Profile() {
             })
             .then((data) => {
                 setPlayer(data.player);
-                setIsEditing(false); 
+                setIsEditing(false);
                 setSuccesMessage('Profil modifié avec succès');
-                
+
                 setTimeout(() => {
                     setSuccesMessage('');
                 }, 5000);
-                
+
             })
             .catch((err) => {
                 console.error(err);
@@ -131,12 +131,19 @@ function Profile() {
                     isEditing={isEditing}
                     onCancel={handleCancel}
                     errorMessage={errorMessage}
+                    profile={true}
                 />
 
                 {succesMessage && <div className='success-message'>{succesMessage}</div>}
 
-                
-
+            </div>
+            <div className='buttons-container'>
+                <Link to="/inventory" className="profile-button">
+                    Collection de cartes
+                </Link>
+                <Link to="/decks" className="profile-button">
+                    Création de deck
+                </Link>
             </div>
         </div>
     );
