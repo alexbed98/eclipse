@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
 import Card from '../components/general/Card';
 import Specs from '../components/general/Specs';
-
-import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Card from '../components/general/Card';
+
 import '../css/details.css';
 import '../css/cards.css';
 
