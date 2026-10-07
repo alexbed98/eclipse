@@ -5,21 +5,18 @@
 }
 
 .card {
-    width: 250px;
     margin: 1em;
     transition: transform 0.15s ease-out;
-        
 }
 
 .non-obtenu{
     color: gray;
     opacity: 0.5;
-    
 }
 
 .card img {
     width: 100%;
-    aspect-ratio: 5 / 7;
-    border-radius: 5px;
+    max-width: 320px;
+    border-radius: 12px;
     border: 3px solid black;
 }

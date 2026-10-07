@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const [player, setPlayer] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [currency, setCurrency] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -27,10 +28,12 @@ export function AuthProvider({ children }) {
                 })
                 .then((data) => {
                     setPlayer(data);
+                    setCurrency(data.nbPiece)
                 })
                 .catch((err) => {
                     console.error("Erreur d'authentification initiale:", err);
                     setPlayer(null);
+                    setCurrency(null)
                 })
                 .finally(() => {
                     setLoading(false); 
@@ -44,10 +47,11 @@ export function AuthProvider({ children }) {
     const logout = () => {
         localStorage.removeItem("token");
         setPlayer(null);
+        setCurrency(null);
     };
 
     return (
-        <AuthContext.Provider value={{ player, setPlayer, loading, logout}}>
+        <AuthContext.Provider value={{ player, setPlayer, loading, logout, currency, setCurrency}}>
             {children}
         </AuthContext.Provider>
     );
