@@ -5,7 +5,7 @@ import { FaLock, FaLockOpen } from 'react-icons/fa';
 // disable = false -> champs input desactiver
 function Form({ fields, values, onChange, onSubmit, buttonText,
     isGrid = false, errorMessage, required = true, disabled = false,
-    isEditing = false, onCancel }) {
+    isEditing = false, profile=false, onCancel }) {
     return (
         <form onSubmit={onSubmit} className={isGrid ? "register-form" : "auth-form"}>
             {fields.map((field) => (
@@ -13,7 +13,7 @@ function Form({ fields, values, onChange, onSubmit, buttonText,
                     <label htmlFor={field.id} className='form-label'>
                         <span>{field.label}</span>
                         <span className='lock-icon'>
-                            {disabled ? <FaLock /> : <FaLockOpen className='unlocked' />}
+                            {profile && (disabled ? <FaLock /> : <FaLockOpen className='unlocked' />)}
                         </span>
                     </label>
                     <input
