@@ -1,0 +1,27 @@
+.sale-container {
+    background-color: rgb(226, 226, 226);
+    border: 2px solid rgb(236, 236, 236);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 2px;
+}
+
+.infos-container {
+    padding: 5px;
+}
+
+.infos-box {
+    display: flex;
+    gap: 4px;
+    padding: 2px;
+}
+
+.infos-label {
+    color: rgb(78, 78, 78);
+}
+

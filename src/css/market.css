@@ -1,0 +1,11 @@
+.market-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 15px;
+    justify-items: center;
+}
+
+.page-title {
+    margin-bottom: 15px;
+}

@@ -1,5 +1,5 @@
 import Card from '../general/Card'
-import '../../css/sale.css';
+import '../../css/sales.css'
 
 function Sale({ sale }) {
     const cardData = {
@@ -11,11 +11,20 @@ function Sale({ sale }) {
     return (
         <div className='sale-container'>
             <Card card={cardData}/>
-            <div className='infos'>
-                <p>{sale.card_name}</p>
-                <p>Vendeur: {sale.seller_username}</p>
-                <p>Prix: {sale.sale_price}</p>
-                <p>Quantité: {sale.sale_qty}</p>
+            <div className='infos-container'>
+                <p className='card-title'>{sale.card_name}</p>
+                <div className='infos-box'>
+                    <p className='infos-label'>Vendeur:</p>
+                    <p className='infos-value'>{sale.seller_username}</p>
+                </div>
+                <div className='infos-box'>
+                    <p className='infos-label'>Prix:</p>
+                    <p className='infos-value'>{sale.sale_price} pièces</p>
+                </div>
+                <div className='infos-box'>
+                    <p className='infos-label'>Quantité:</p>
+                    <p className='infos-value'>{sale.sale_qty}</p>
+                </div>
             </div>
         </div>
     );
