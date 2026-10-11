@@ -3,14 +3,18 @@ import '../../css/sales.css'
 
 function Sale({ sale }) {
     const cardData = {
-        id: sale.id_card, 
-        id_rarete: sale.id_rarity, 
-        nom: sale.card_name 
+        id: sale.id_card,
+        id_rarete: sale.id_rarity,
+        nom: sale.card_name
     }
+
+
 
     return (
         <div className='sale-container'>
-            <Card card={cardData}/>
+            <div className='card-container'>
+                <Card card={cardData} />
+            </div>
             <div className='infos-container'>
                 <p className='card-title'>{sale.card_name}</p>
                 <div className='infos-box'>
@@ -24,6 +28,11 @@ function Sale({ sale }) {
                 <div className='infos-box'>
                     <p className='infos-label'>Quantité:</p>
                     <p className='infos-value'>{sale.sale_qty}</p>
+                </div>
+                <div className='button-container'>
+                    <button className='buy-button'>
+                        Acheter
+                    </button>
                 </div>
             </div>
         </div>

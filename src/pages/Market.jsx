@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { GoSearch } from "react-icons/go";
+import { filterSales, sortSales } from '../utils/helpers';
 import Sale from '../components/general/Sale'
 import '../css/market.css'
 
@@ -13,7 +14,7 @@ function Market() {
     const [sortBy, setSortBy] = useState('price-asc');
     const [search, setSearch] = useState('');
 
-    // pour changer le trie (rarete, nom)
+    // pour changer le tri (prix, nom)
     const handleSortChange = (e) => {
         setSortBy(e.target.value);
     }
@@ -22,6 +23,14 @@ function Market() {
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
     }
+
+    // on utiliser les fonctions de triage et de recherche de helper.js
+    const sortedSales = useMemo(() => {
+        const filtered = filterSales(sales, search);
+        const sorted = sortSales(filtered, sortBy);
+
+        return sorted
+    }, [sales, sortBy, search]);
 
     useEffect(() => {
 
@@ -87,10 +96,10 @@ function Market() {
             </div>
 
             <div className='market-grid'>
-                {sales.length === 0 ? (
+                {sortedSales.length === 0 ? (
                     <p>Aucune carte en vente pour l'instant</p>
                 ) : (
-                    sales.map((sale) => (
+                    sortedSales.map((sale) => (
                         <Sale key={sale.id_sale} sale={sale} />
                     ))
                 )}
