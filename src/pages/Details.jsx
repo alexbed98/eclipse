@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../components/general/Card';
 import Specs from '../components/general/Specs';
 import { useAuth } from '../context/AuthContext';
@@ -10,6 +10,7 @@ import '../css/sell.css';
 
 function Details() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -60,6 +61,12 @@ function Details() {
       alert("Carte(s) mise(s) en vente avec succès!");
       setShowInterface(false);
 
+      if (card.quantite <= qty) {
+        navigate('/inventory');
+      }
+      else {
+        window.location.reload();
+      }
     }
     catch (err) {
       console.error("Erreur: ", err);

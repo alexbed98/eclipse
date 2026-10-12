@@ -7,6 +7,7 @@ import Sale from '../components/general/Sale'
 import '../css/market.css'
 
 function Market() {
+    const { player, loading: authLoading } = useAuth();
     const [loading, setLoading] = useState(true);
     const [sales, setSales] = useState([]);
     const [error, setError] = useState(null);
@@ -28,11 +29,11 @@ function Market() {
     const sortedSales = useMemo(() => {
         const filtered = filterSales(sales, search);
         const sorted = sortSales(filtered, sortBy);
-
         return sorted
     }, [sales, sortBy, search]);
 
     useEffect(() => {
+        if (authLoading) return;
 
         setLoading(true);
 
@@ -53,7 +54,7 @@ function Market() {
             .finally(() => {
                 setLoading(false);
             });
-    }, []);
+    }, [authLoading]);
 
     if (loading) return <p>Chargement du marché...</p>;
     if (error) return <p>Erreur : {error}</p>;
@@ -100,7 +101,11 @@ function Market() {
                     <p>Aucune carte en vente pour l'instant</p>
                 ) : (
                     sortedSales.map((sale) => (
-                        <Sale key={sale.id_sale} sale={sale} />
+                        <Sale
+                            key={sale.id_sale}
+                            sale={sale}
+                            isOwner={player ? sale.id_seller === player.id : false}
+                        />
                     ))
                 )}
             </div>

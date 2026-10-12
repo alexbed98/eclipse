@@ -3,12 +3,15 @@ import Card from '../general/Card'
 import '../../css/sales.css'
 import '../../css/specs.css'
 
-function Sale({ sale }) {
+function Sale({ sale, isOwner=false }) {
     const cardData = {
         id: sale.id_card,
         id_rarete: sale.id_rarity,
         nom: sale.card_name
     }
+
+    const buttonClass = isOwner ? "remove-button" : "buy-button";
+    const buttonText = isOwner ? "Retirer du marché" : "Acheter";
 
     return (
         <div className='sale-container'>
@@ -38,8 +41,8 @@ function Sale({ sale }) {
                     <p className='infos-value'>{sale.sale_qty}</p>
                 </div>
                 <div className='button-container'>
-                    <button className='buy-button'>
-                        Acheter
+                    <button className={buttonClass}>
+                        {buttonText}
                     </button>
                 </div>
             </div>
