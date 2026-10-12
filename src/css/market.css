@@ -9,3 +9,14 @@
 .page-title {
     margin-bottom: 15px;
 }
+
+.market-container .filter-radio {
+    padding: 2px 2px;
+    background-color: #f1f1f1;
+}
+
+.market-container .filter-options {
+    background-color: #f1f1f1;
+    padding: 3px 6px;
+    border-radius: 6px;
+}

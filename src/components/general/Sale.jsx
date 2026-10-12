@@ -3,7 +3,7 @@ import Card from '../general/Card'
 import '../../css/sales.css'
 import '../../css/specs.css'
 
-function Sale({ sale, isOwner=false }) {
+function Sale({ sale, isConnected=false, isOwner=false, onClick }) {
     const cardData = {
         id: sale.id_card,
         id_rarete: sale.id_rarity,
@@ -40,11 +40,14 @@ function Sale({ sale, isOwner=false }) {
                     <p className='infos-label'>Quantité:</p>
                     <p className='infos-value'>{sale.sale_qty}</p>
                 </div>
-                <div className='button-container'>
-                    <button className={buttonClass}>
-                        {buttonText}
-                    </button>
-                </div>
+
+                {isConnected && (
+                    <div className='button-container'>
+                        <button className={buttonClass} onClick={onClick}>
+                            {buttonText}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
