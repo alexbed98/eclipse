@@ -46,7 +46,7 @@ function Market() {
                 throw new Error(data.message || "Erreur lors du retrait de la carte du marché");
             }
 
-            setSales(sales.filter((sale) => sale.id_sale !== saleId));
+            await fetchMarket();
         }
         catch (err) {
             console.error("Erreur: ", err);
@@ -65,28 +65,24 @@ function Market() {
         return sorted
     }, [sales, sortBy, search, ownershipFilter]);
 
+    const fetchMarket = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/market');
+            if (!response.ok) throw new Error('Erreur lors du chargement du marché');
+            const data = await response.json();
+            setSales(data);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         if (authLoading) return;
-
-        setLoading(true);
-
-        fetch(`http://localhost:5000/api/market`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Problème lors du chargement du marché');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setSales(data);
-            })
-            .catch((error) => {
-                console.error("Erreur: ", error);
-                setError(error.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        fetchMarket();
     }, [authLoading]);
 
     if (loading) return <p>Chargement du marché...</p>;
@@ -171,7 +167,6 @@ function Market() {
                     })
                 )}
             </div>
-
 
         </div>
     );
