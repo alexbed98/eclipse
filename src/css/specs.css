@@ -67,25 +67,25 @@
 
 /* rarete 1 (commune): vert */
 .text-rarity-1 {
-    color: #259b29;
+    color: #127c16;
 }
 
 /* rarete 2 (rare): bleu */
 .text-rarity-2 {
-    color: #2e62d4;
+    color: #1f4fb6;
 }
 
 /* rarete 3 (epique): mauve */
 .text-rarity-3 {
-    color: #7f46bb;
+    color: #65309e;
 }
 
 /* rarete 4 (legendaire): rouge */
 .text-rarity-4 {
-    color: #e73026;
+    color: #df2218;
 }
 
 /* rarete 5 (mythique): jaune */
 .text-rarity-5 {
-    color: #d6b80a;
+    color: #c9ac09;
 }
