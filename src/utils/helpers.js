@@ -63,14 +63,14 @@ export function sortByOwned(cards, ownershipFilter) {
 
 // filtre les ventes par texte de recherche
 export function filterSales(sales, search, ownershipFilter, playerId) {
-    const owned = sales.filter((c) => c.id_seller === playerId);
-    const notOwned = sales.filter((c) => c.id_seller !== playerId);
-
     const cleanSearch = search.trim().toLowerCase();
 
     const filteredSales = sales.filter((sale) => {
         return cleanSearch === '' || sale.card_name?.toLowerCase().includes(cleanSearch);
     });
+
+    const owned = filteredSales.filter((c) => c.id_seller === playerId);
+    const notOwned = filteredSales.filter((c) => c.id_seller !== playerId);
 
     if (ownershipFilter == 'owned') return owned
     else if (ownershipFilter == 'not-owned') return notOwned
