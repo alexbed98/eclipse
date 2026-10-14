@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import '../css/deckDetails.css'
+const API_URL = import.meta.env.VITE_API_URL;
 
 function DeckDetails(){
     const { id } = useParams();
@@ -21,7 +22,7 @@ function DeckDetails(){
 
         setLoading(true);
 
-        fetch(`http://localhost:5000/api/deckDetails/${player.id}`)
+        fetch(`${API_URL}/deckDetails/${player.id}`)
         .then((response) => {
             if (!response.ok) {
             throw new Error('Problème lors du chargement de la collection');
@@ -43,7 +44,7 @@ function DeckDetails(){
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/deck/cartes/${id}`)
+        fetch(`${API_URL}/deck/cartes/${id}`)
         .then((response) => {
             if(!response.ok)
                 throw new Error("big lol");

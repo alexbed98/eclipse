@@ -3,6 +3,7 @@ import '../css/decks.css'
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Decks() {
     const {player, loading: authLoading} = useAuth();
@@ -11,7 +12,7 @@ function Decks() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/decks/${player.id}`)
+        fetch(`${API_URL}/decks/${player.id}`)
         .then((response) => {
             if(!response.ok){
                 throw new Error('Erreur lors du chargement des decks du joueur.')

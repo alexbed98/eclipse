@@ -2,6 +2,7 @@ import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { FiLogOut } from 'react-icons/fi'; // icone de deconnexion
 import { useState } from 'react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 import '../../css/header.css'
 
@@ -18,7 +19,7 @@ function Header() {
     }
 
     if(player !== null){
-        fetch(`http://localhost:5000/api/shop/${player.id}`)
+        fetch(`${API_URL}/shop/${player.id}`)
         .then((response) => {
             if(!response.ok)
                 throw new Error('Erreur lors du chargement des infos du joueur')

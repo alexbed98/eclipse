@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from "react-router-dom";
 import Form from '../components/general/Form';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Profile() {
     const { player, setPlayer, loading } = useAuth();
@@ -79,7 +80,7 @@ function Profile() {
             return;
         }
 
-        fetch('http://localhost:5000/api/profile', {
+        fetch(`${API_URL}/profile`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

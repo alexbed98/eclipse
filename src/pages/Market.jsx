@@ -6,6 +6,7 @@ import { filterSales, sortSales } from '../utils/helpers';
 import Sale from '../components/general/Sale'
 import Radio from '../components/inputs/Radio'
 import '../css/market.css'
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Market() {
     const { player, loading: authLoading } = useAuth();
@@ -36,7 +37,7 @@ function Market() {
         if(!window.confirm("Voulez-vous vraiment retirer cette carte du marché?")) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/market/${saleId}`,{
+            const response = await fetch(`${API_URL}/market/${saleId}`,{
                 method: 'DELETE',
             });
 
@@ -67,7 +68,7 @@ function Market() {
 
     const fetchMarket = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/market');
+            const response = await fetch(`${API_URL}/market`);
             if (!response.ok) throw new Error('Erreur lors du chargement du marché');
             const data = await response.json();
             setSales(data);

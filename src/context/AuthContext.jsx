@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // creation d'un contexte qui va permettre de retrouver le user
 // connecte facilement en utilisant le hook useAuth
@@ -13,7 +14,7 @@ export function AuthProvider({ children }) {
         const token = localStorage.getItem("token");
 
         if (token) {
-            fetch('http://localhost:5000/api/me', {
+            fetch(`${API_URL}/me`, {
                 method: "GET",
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../components/general/Card';
 import Specs from '../components/general/Specs';
 import { useAuth } from '../context/AuthContext';
+const API_URL = import.meta.env.VITE_API_URL;
 
 import '../css/details.css';
 import '../css/cards.css';
@@ -39,7 +40,7 @@ function Details() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/market/sell', {
+      const response = await fetch(`${API_URL}/market/sell`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ function Details() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/inventory/details/${id}/${player.id}`)
+    fetch(`${API_URL}/inventory/details/${id}/${player.id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des détails');

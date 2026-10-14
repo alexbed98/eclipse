@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Shop() {   
     const {player, loading: authLoading, currency, setCurrency} = useAuth();
@@ -22,7 +23,7 @@ function Shop() {
         }
 
         try{
-            const response = await fetch(`http://localhost:5000/api/shop/${player.id}/${prix}/${focus}`)
+            const response = await fetch(`${API_URL}/shop/${player.id}/${prix}/${focus}`)
             const data = await response.json();
 
             if(!data.success){
@@ -47,7 +48,7 @@ function Shop() {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/shop`)
+        fetch(`${API_URL}/shop`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Erreur lors du chargement des boosters');

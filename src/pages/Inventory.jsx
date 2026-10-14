@@ -6,6 +6,7 @@ import { filterCards, sortCards, sortByOwned } from '../utils/helpers';
 import Checkbox from '../components/inputs/Checkbox';
 import Radio from '../components/inputs/Radio';
 import { GoSearch } from "react-icons/go";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Inventory() {
   const { player, loading: authLoading } = useAuth();
@@ -105,7 +106,7 @@ function Inventory() {
 
     setLoading(true);
 
-    fetch(`http://localhost:5000/api/collection/${player.id}`)
+    fetch(`${API_URL}/collection/${player.id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Problème lors du chargement de la collection');

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Form from '../components/general/Form'
 import '../css/auth.css'
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Register() {
     const [formData, setFormData] = useState({ email: '', alias: '', lastname: '', firstname: '', password: '', passwordValidate: '' })
@@ -32,7 +33,7 @@ function Register() {
             return;
         }
 
-        fetch('http://localhost:5000/api/register', {
+        fetch(`${API_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
