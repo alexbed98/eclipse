@@ -61,3 +61,36 @@ export function sortByOwned(cards, ownershipFilter) {
     else return cards;
 }
 
+// filtre les ventes par texte de recherche
+export function filterSales(sales, search, ownershipFilter, playerId) {
+    const cleanSearch = search.trim().toLowerCase();
+
+    const filteredSales = sales.filter((sale) => {
+        return cleanSearch === '' || sale.card_name?.toLowerCase().includes(cleanSearch);
+    });
+
+    const owned = filteredSales.filter((c) => c.id_seller === playerId);
+    const notOwned = filteredSales.filter((c) => c.id_seller !== playerId);
+
+    if (ownershipFilter == 'owned') return owned
+    else if (ownershipFilter == 'not-owned') return notOwned
+    else return filteredSales;
+}
+
+// tri les ventes selon le tri choisi
+export function sortSales(sales, sortBy) {
+    return [...sales].sort((a, b) => {
+        switch (sortBy) {
+            case "price-asc":
+                return a.sale_price - b.sale_price;
+            case "price-desc":
+                return b.sale_price - a.sale_price;
+            case "name-asc":
+                return a.card_name.localeCompare(b.card_name);
+            case "name-desc":
+                return b.card_name.localeCompare(a.card_name);
+            default:
+                return 0;
+        }
+    })
+}

@@ -60,6 +60,7 @@ function Header() {
                             )}
 
                             <div className='navlink-right username'>{player.alias}</div>
+                            <div>Pièces: {piece}</div>
                             <button
                                 className='button-logout-icon'
                                 onClick={handleLogout}
@@ -67,7 +68,6 @@ function Header() {
                             >
                                 <FiLogOut size={18} />
                             </button>
-                            <div>Pièces: {piece}</div>
                         </>
                     )}
                 </nav>

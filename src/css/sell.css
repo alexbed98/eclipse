@@ -1,0 +1,44 @@
+.sell-interface {
+    background-color: rgb(168, 182, 196);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgb(200, 217, 233);
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 50%;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 1.15em;
+}
+
+.sell-interface input {
+    max-width: 20%;
+}
+
+.interface-row {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+}
+
+.interface-row button {
+    flex: 1;
+    padding: 8px;
+    font-size: 0.8em;
+    border: none;
+    border-radius: 6px;
+    color: white;
+}
+
+.interface-row button:hover {
+    opacity: 0.85;
+}
+
+.button-confirm {
+    background-color: rgb(46, 46, 150);
+}
+
+.button-cancel {
+    background-color: rgb(160, 39, 39);
+}

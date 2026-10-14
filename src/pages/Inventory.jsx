@@ -13,8 +13,8 @@ function Inventory() {
   const [sortBy, setSortBy] = useState('rarity-asc');
   const [seriesFilters, setSeriesFilters] = useState(['anges', 'dragons', 'zombies', 'goblins']);
   const [raritiesFilters, setRaritiesFilters] = useState([1, 2, 3, 4, 5]);
-  const [ownershipFilter, setOwnershipFilter] = useState('owned')
-  const [search, setSearch] = useState('')
+  const [ownershipFilter, setOwnershipFilter] = useState('owned');
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

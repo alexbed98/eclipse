@@ -1,0 +1,89 @@
+.sale-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    background-color: rgb(226, 226, 226);
+    border: 2px solid rgb(236, 236, 236);
+    border-radius: 8px;
+    padding: 8px;
+    gap: 8px;
+}
+
+/* colonne de gauche (l'image') */
+.card-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sale-container img {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* colonne de droite (les infos) */
+.infos-container {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 8px;
+    padding: 6px;
+    font-size: 1.05em;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 2px;
+    word-break: break-word;
+}
+
+.infos-box {
+    display: flex;
+    gap: 4px;
+    padding: 2px;
+}
+
+.infos-label {
+    color: rgb(78, 78, 78);
+    flex-shrink: 0;
+}
+
+.infos-value {
+    word-break: break-word;
+}
+
+
+.button-container {
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    margin-top: auto; 
+}
+
+.button-container button {
+    padding: 10px 0px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 90%;
+    cursor: pointer;
+}
+
+.button-container button:hover {
+    opacity: 0.85;
+}
+
+.buy-button {
+    background-color: rgb(44, 104, 41);
+}
+
+.remove-button {
+    background-color: rgb(187, 53, 53);
+}

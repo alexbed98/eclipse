@@ -1,0 +1,22 @@
+.market-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 25px;
+    margin-top: 15px;
+    justify-items: center;
+}
+
+.page-title {
+    margin-bottom: 15px;
+}
+
+.market-container .filter-radio {
+    padding: 2px 2px;
+    background-color: #f1f1f1;
+}
+
+.market-container .filter-options {
+    background-color: #f1f1f1;
+    padding: 3px 6px;
+    border-radius: 6px;
+}

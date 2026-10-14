@@ -3,7 +3,7 @@ import { Sword, Shield } from 'lucide-react';
 
 import '../../css/specs.css'
 
-function Specs({ card }) {
+function Specs({ card, onClick, showButton }) {
 
     if (!card) {
         return <div className='specs-container'>Chargement...</div>;
@@ -13,6 +13,10 @@ function Specs({ card }) {
         <div>
             <div className='specs-container'>
                 <h2 className='title'>{card.nom}</h2>
+
+                <div className='stat'>
+                    <span className='stat-value'>{card.description}</span>
+                </div>
 
                 <div className='stat'>
                     <span className='stat-label'>Attaque : </span>
@@ -43,7 +47,7 @@ function Specs({ card }) {
                     <span className='stat-value'>{card.quantite ?? 0}</span>
                 </div>
 
-                {card.quantite > 0 && <button className='button-sell'>Vendre</button>}
+                {card.quantite > 0 && !showButton && <button className='button-sell' onClick={onClick}>Vendre</button>}
             </div>
         </div>
     );
