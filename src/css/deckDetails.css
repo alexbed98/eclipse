@@ -1,0 +1,44 @@
+#deckDetails-title-container{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2em;
+    gap: 10em;
+}
+
+
+#deckDetails-main-container {
+    display: flex;
+    gap: 1em;
+    width: 100%;
+    align-items: flex-start;
+}
+
+
+#deckDetails-search-card {
+    flex: 1;
+    border: solid black 1px;
+    padding: 1em;
+
+}
+
+
+#deckDetails-card-list {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+    border: solid black 1px;
+    padding: 1em;
+}
+
+
+.deckDetails-card {
+    width: 8em;
+    margin: 0.5em;
+
+}
+
+
+.deckDetails-collection-cards {
+    width: 6em;
+    margin: 0.5em;
+}

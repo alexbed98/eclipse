@@ -2,7 +2,6 @@
     display: flex;
     margin: 3em auto;
     gap: 1em;
-     /* À retirer si jamais - width: 37em;  */
     overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
@@ -32,7 +31,6 @@
 #shop-carousel-left-button{
     content: '←';
     position-area: left center;
-     /* À retirer si jamais - translate: 40%;   */
 }
 
 .shop-booster{

@@ -1,0 +1,38 @@
+#deck-main-container{
+    display: flex;
+    flex-direction: column;
+}
+
+#deck-create{
+    margin: 1em;
+    height: 4em;
+    width: 10em;
+    border: double;
+    border-radius: 1em;
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#deck-create:active{
+    transform: translateY(4px);
+}
+
+#deck-create:hover{
+    background-color: lightgrey;
+}
+
+#deck-container{
+    display: flex;
+}
+
+.individualDeck{
+    border: solid black 3px;
+    border-radius: 5px;
+    margin: 1em;
+    padding: 1em;
+}
+
+.individualDeck:hover{
+    color: gold;
+}

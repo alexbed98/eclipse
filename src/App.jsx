@@ -14,6 +14,7 @@ import Admin from './pages/Admin'
 import Register from './pages/Register'
 import Details from './pages/Details';
 import Decks from './pages/Decks';
+import DeckDetails from './pages/DeckDetails'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/inventory/details/:id" element={<ProtectedRoute><Details/></ProtectedRoute>}/>
           <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
           <Route path="/decks" element={<ProtectedRoute><Decks/></ProtectedRoute>}/>
+          <Route path='/decks/:id' element={<ProtectedRoute><DeckDetails/></ProtectedRoute>}/>
 
           {/* routes protegees (admin seulement) */}
           <Route path="/admin" element={<AdminRoute><Admin/></AdminRoute>}/>
