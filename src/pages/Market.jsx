@@ -74,11 +74,39 @@ function Market() {
         setBuyQty(1);
     }
 
-    const executeBuy = () => {
-        // fetch
+    const executeBuy = async () => {
+        try {
+            const token = localStorage.getItem('token'); 
 
-        setSelectedSale(null);
-        setBuyQty(1);
+            const response = await fetch(`${API_URL}/market/buy`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    saleId: selectedSale.id_sale,
+                    quantity: buyQty
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Erreur lors de l'achat");
+            }
+
+            alert("Achat réussi !");
+            await fetchMarket();
+        }
+        catch (err) {
+            console.error("Erreur:", err);
+            alert(`Erreur: ${err.message}`);
+        }
+        finally {
+            setSelectedSale(null);
+            setBuyQty(1);
+        }
     }
 
     // on utiliser les fonctions de triage et de recherche de helper.js
