@@ -18,6 +18,9 @@ function Market() {
     const [search, setSearch] = useState('');
     const [ownershipFilter, setOwnershipFilter] = useState('not-owned');
 
+    const [selectedSale, setSelectedSale] = useState(null);
+    const [buyQty, setBuyQty] = useState(1);
+
     // pour changer le tri (prix, nom)
     const handleSortChange = (e) => {
         setSortBy(e.target.value);
@@ -34,16 +37,16 @@ function Market() {
     }
 
     const handleRemove = async (saleId) => {
-        if(!window.confirm("Voulez-vous vraiment retirer cette carte du marché?")) return;
+        if (!window.confirm("Voulez-vous vraiment retirer cette carte du marché?")) return;
 
         try {
-            const response = await fetch(`${API_URL}/market/${saleId}`,{
+            const response = await fetch(`${API_URL}/market/${saleId}`, {
                 method: 'DELETE',
             });
 
             const data = await response.json();
 
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error(data.message || "Erreur lors du retrait de la carte du marché");
             }
 
@@ -56,7 +59,16 @@ function Market() {
     }
 
     const handleBuy = (sale) => {
-        alert("buy");
+        setSelectedSale(sale);
+        setBuyQty(1);
+    }
+
+    const executeBuy = () => {
+        alert(`Achat de ${buyQty} exemplaire(s) de la vente #${selectedSale.id_sale}`);
+
+
+        setSelectedSale(null);
+        setBuyQty(1);
     }
 
     // on utiliser les fonctions de triage et de recherche de helper.js
@@ -162,12 +174,56 @@ function Market() {
                                 sale={sale}
                                 isConnected={player}
                                 isOwner={isOwner}
-                                onClick={() => isOwner ? handleRemove(sale.id_sale) : handleBuy(sale.id_sale)}
+                                onClick={() => isOwner ? handleRemove(sale.id_sale) : handleBuy(sale)}
                             />
                         );
                     })
                 )}
             </div>
+
+            {selectedSale && (
+                <div className='buy-box'>
+                    <div className='buy-content'>
+                        <div className='buy-infos'>
+                            <h3>Achat de carte</h3>
+                            <p>Carte: {selectedSale.card_name}</p>
+                            <p>Vendeur: {selectedSale.seller_username}</p>
+                            <p>Prix unitaire: {selectedSale.sale_price} pièces</p>
+                            <p>Quantité disponible: {selectedSale.sale_qty}</p>
+                        </div>
+
+                        <div className='buy-input'>
+                            <label htmlFor='qty-input'>Quantité désirée</label>
+                            <input
+                                id='qty-input'
+                                type='number'
+                                min='1'
+                                max={selectedSale.sale_qty}
+                                value={buyQty}
+                                onChange={(e) => {
+                                    const newQty = Number(e.target.value);
+                                    if (newQty >= 1 && newQty <= selectedSale.sale_qty){
+                                        setBuyQty(newQty);
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        <div className='buy-infos'>
+                            <p>Prix total: {buyQty * selectedSale.sale_price} pièces</p>
+                        </div>
+
+                        <div className='buy-buttons'>
+                            <button className='cancel-button' onClick={() => setSelectedSale(null)}>
+                                Annuler
+                            </button>
+                            <button className='confirm-button' onClick={executeBuy}>
+                                Acheter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     );
