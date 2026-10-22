@@ -21,7 +21,7 @@
     border-radius: 6px;
 }
 
-.buy-box {
+.confirm-box {
     position: fixed;
     top: 0;
     left: 0;
@@ -72,14 +72,14 @@
     border-color: #6185af;
 }
 
-.buy-buttons {
+.confirm-buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 8px;
 }
 
-.buy-buttons button {
+.confirm-buttons button {
     width: 100%;
     padding: 8px 0;
     font-size: 0.97em;
@@ -99,11 +99,11 @@
     background-color: #a5a5a5;
 }
 
-.confirm-button {
+.okay-button {
     background-color: #348354;
     color: #ffffff;
 }
 
-.confirm-button:hover {
+.okay-button:hover {
     background-color: rgb(26, 117, 66);
 }

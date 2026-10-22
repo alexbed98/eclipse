@@ -21,6 +21,9 @@ function Market() {
     const [selectedSale, setSelectedSale] = useState(null);
     const [buyQty, setBuyQty] = useState(1);
 
+    const [selectedRemove, setSelectedRemove] = useState(null);
+    const [removeQty, setRemoveQty] = useState(1);
+
     // pour changer le tri (prix, nom)
     const handleSortChange = (e) => {
         setSortBy(e.target.value);
@@ -36,9 +39,13 @@ function Market() {
         setOwnershipFilter(e.target.value);
     }
 
-    const handleRemove = async (saleId) => {
-        if (!window.confirm("Voulez-vous vraiment retirer cette carte du marché?")) return;
+    const handleRemove = async (sale) => {
+        setSelectedRemove(sale);
+        setRemoveQty(1);
+    }
 
+    const executeRemove = async () => {
+        const saleId = selectedRemove.id_sale;
         try {
             const response = await fetch(`${API_URL}/market/${saleId}`, {
                 method: 'DELETE',
@@ -56,6 +63,10 @@ function Market() {
             console.error("Erreur: ", err);
             alert(`Erreur: ${err.message}`);
         }
+        finally {
+            setSelectedRemove(null);
+            setRemoveQty(1);
+        }
     }
 
     const handleBuy = (sale) => {
@@ -64,8 +75,7 @@ function Market() {
     }
 
     const executeBuy = () => {
-        alert(`Achat de ${buyQty} exemplaire(s) de la vente #${selectedSale.id_sale}`);
-
+        // fetch
 
         setSelectedSale(null);
         setBuyQty(1);
@@ -174,7 +184,7 @@ function Market() {
                                 sale={sale}
                                 isConnected={player}
                                 isOwner={isOwner}
-                                onClick={() => isOwner ? handleRemove(sale.id_sale) : handleBuy(sale)}
+                                onClick={() => isOwner ? handleRemove(sale) : handleBuy(sale)}
                             />
                         );
                     })
@@ -182,7 +192,7 @@ function Market() {
             </div>
 
             {selectedSale && (
-                <div className='buy-box'>
+                <div className='confirm-box'>
                     <div className='buy-content'>
                         <div className='buy-infos'>
                             <h3>Achat de carte</h3>
@@ -202,7 +212,7 @@ function Market() {
                                 value={buyQty}
                                 onChange={(e) => {
                                     const newQty = Number(e.target.value);
-                                    if (newQty >= 1 && newQty <= selectedSale.sale_qty){
+                                    if (newQty >= 1 && newQty <= selectedSale.sale_qty) {
                                         setBuyQty(newQty);
                                     }
                                 }}
@@ -213,12 +223,30 @@ function Market() {
                             <p>Prix total: {buyQty * selectedSale.sale_price} pièces</p>
                         </div>
 
-                        <div className='buy-buttons'>
+                        <div className='confirm-buttons'>
                             <button className='cancel-button' onClick={() => setSelectedSale(null)}>
                                 Annuler
                             </button>
-                            <button className='confirm-button' onClick={executeBuy}>
+                            <button className='okay-button' onClick={executeBuy}>
                                 Acheter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {selectedRemove && (
+                <div className='confirm-box'>
+                    <div className='buy-content'>
+                        <div>
+                            <h3>Êtes-vous certain de vouloir retirer cette carte du marché?</h3>
+                        </div>
+                        <div className='confirm-buttons'>
+                            <button className='cancel-button' onClick={() => setSelectedRemove(null)}>
+                                Annuler
+                            </button>
+                            <button className='okay-button' onClick={executeRemove}>
+                                Confirmer
                             </button>
                         </div>
                     </div>

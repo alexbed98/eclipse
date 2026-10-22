@@ -65,9 +65,6 @@ function Details() {
       if (card.quantite <= qty) {
         navigate('/inventory');
       }
-      else {
-        window.location.reload();
-      }
     }
     catch (err) {
       console.error("Erreur: ", err);
