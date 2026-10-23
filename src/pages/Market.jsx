@@ -1,11 +1,14 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../hooks/useNotification';
 import { Link } from 'react-router-dom';
 import { GoSearch } from "react-icons/go";
 import { filterSales, sortSales } from '../utils/helpers';
 import Sale from '../components/general/Sale'
 import Radio from '../components/inputs/Radio'
 import '../css/market.css'
+import '../css/modalBox.css'
+import '../css/notif.css'
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Market() {
@@ -23,6 +26,9 @@ function Market() {
 
     const [selectedRemove, setSelectedRemove] = useState(null);
     const [removeQty, setRemoveQty] = useState(1);
+
+    const {notification, showNotification} = useNotification();
+
 
     // pour changer le tri (prix, nom)
     const handleSortChange = (e) => {
@@ -57,11 +63,12 @@ function Market() {
                 throw new Error(data.message || "Erreur lors du retrait de la carte du marché");
             }
 
+            showNotification("Retrait effectué avec succès!", "success");
             await fetchMarket();
         }
         catch (err) {
             console.error("Erreur: ", err);
-            alert(`Erreur: ${err.message}`);
+            showNotification("Erreur lors du retrait", "error");
         }
         finally {
             setSelectedRemove(null);
@@ -96,12 +103,12 @@ function Market() {
                 throw new Error(data.message || "Erreur lors de l'achat");
             }
 
-            alert("Achat réussi !");
+            showNotification("Achat effectué avec succès!", "success");
             await fetchMarket();
         }
         catch (err) {
             console.error("Erreur:", err);
-            alert(`Erreur: ${err.message}`);
+            showNotification("Erreur lors de l'achat", "error");
         }
         finally {
             setSelectedSale(null);
@@ -153,6 +160,13 @@ function Market() {
 
     return (
         <div className='market-container'>
+
+            {/* banniere de notification */}
+            {notification && (
+                <div className={`notif-banner ${notification.type}`}>
+                    {notification.text}
+                </div>
+            )}
 
             {/* barre de recherche & tri */}
             <div className="sort-container">
@@ -220,8 +234,8 @@ function Market() {
             </div>
 
             {selectedSale && (
-                <div className='confirm-box'>
-                    <div className='buy-content'>
+                <div className='modal-box'>
+                    <div className='modal-content'>
                         <div className='buy-infos'>
                             <h3>Achat de carte</h3>
                             <p>Carte: {selectedSale.card_name}</p>
@@ -251,11 +265,11 @@ function Market() {
                             <p>Prix total: {buyQty * selectedSale.sale_price} pièces</p>
                         </div>
 
-                        <div className='confirm-buttons'>
+                        <div className='button-box'>
                             <button className='cancel-button' onClick={() => setSelectedSale(null)}>
                                 Annuler
                             </button>
-                            <button className='okay-button' onClick={executeBuy}>
+                            <button className='confirm-button' onClick={executeBuy}>
                                 Acheter
                             </button>
                         </div>
@@ -264,16 +278,16 @@ function Market() {
             )}
 
             {selectedRemove && (
-                <div className='confirm-box'>
-                    <div className='buy-content'>
+                <div className='modal-box'>
+                    <div className='modal-content'>
                         <div>
                             <h3>Êtes-vous certain de vouloir retirer cette carte du marché?</h3>
                         </div>
-                        <div className='confirm-buttons'>
+                        <div className='button-box'>
                             <button className='cancel-button' onClick={() => setSelectedRemove(null)}>
                                 Annuler
                             </button>
-                            <button className='okay-button' onClick={executeRemove}>
+                            <button className='confirm-button' onClick={executeRemove}>
                                 Confirmer
                             </button>
                         </div>
