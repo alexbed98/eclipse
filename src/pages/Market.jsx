@@ -4,12 +4,14 @@ import { useNotification } from '../hooks/useNotification';
 import { Link } from 'react-router-dom';
 import { GoSearch } from "react-icons/go";
 import { filterSales, sortSales } from '../utils/helpers';
-import Sale from '../components/general/Sale'
-import Radio from '../components/inputs/Radio'
-import '../css/market.css'
-import '../css/modalBox.css'
-import '../css/notif.css'
+import Sale from '../components/general/Sale';
+import Radio from '../components/inputs/Radio';
+
 const API_URL = import.meta.env.VITE_API_URL;
+
+import '../css/market.css';
+import '../css/modalBox.css';
+import '../css/notif.css';
 
 function Market() {
     const { player, loading: authLoading } = useAuth();

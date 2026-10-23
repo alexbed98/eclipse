@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useNotification } from '../hooks/useNotification';
 import Card from '../components/general/Card';
 import Specs from '../components/general/Specs';
 import { useAuth } from '../context/AuthContext';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 import '../css/details.css';
 import '../css/cards.css';
 import '../css/sell.css';
+import '../css/modalBox.css';
+import '../css/notif.css';
 
 function Details() {
   const { id } = useParams();
@@ -16,16 +20,18 @@ function Details() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { player, loading: authLoading } = useAuth();
-  const [showInterface, setShowInterface] = useState(false);
+  const [saleMode, setSaleMode] = useState(false);
   const [saleQty, setSaleQty] = useState(1);
   const [salePrice, setSalePrice] = useState(10);
 
+  const { notification, showNotification } = useNotification();
+
   const onClickSell = async () => {
-    setShowInterface(true);
+    setSaleMode(true);
   };
 
   const onClickCancel = async () => {
-    setShowInterface(false);
+    setSaleMode(false);
     setSaleQty(1);
     setSalePrice(10);
   };
@@ -34,8 +40,8 @@ function Details() {
     const price = salePrice;
     const qty = saleQty;
 
-    if (!price || price <= 0){
-      alert("Le prix doit être supérieur à 0.");
+    if (!price || price <= 0) {
+      showNotification("Le prix doit être supérieur à 0", "error");
       return
     }
 
@@ -59,8 +65,8 @@ function Details() {
         throw new Error(data.message || "Erreur lors de la mise en vente");
       }
 
-      alert("Carte(s) mise(s) en vente avec succès!");
-      setShowInterface(false);
+      showNotification("Mise en vente effectuée avec succès!", "success");
+      setSaleMode(false);
 
       if (card.quantite <= qty) {
         navigate('/inventory');
@@ -68,7 +74,7 @@ function Details() {
     }
     catch (err) {
       console.error("Erreur: ", err);
-      alert(`Erreur: ${err.message}`);
+      showNotification("Erreur lors de la vente", "error");
     }
   };
 
@@ -102,7 +108,7 @@ function Details() {
       .finally(() => {
         setLoading(false);
       });
-  }, [id]);
+  }, [id, saleMode]);
 
   if (loading) return <p>Chargement des détails...</p>;
   if (error) return <p>Erreur : {error}</p>;
@@ -110,29 +116,69 @@ function Details() {
 
   return (
     <div className='details-container'>
+
+      {/* banniere de notification */}
+      {notification && (
+        <div className={`notif-banner ${notification.type}`}>
+          {notification.text}
+        </div>
+      )}
+
       <div className='details-left'>
         <Card card={card} />
       </div>
 
       <div className='details-right'>
-        <Specs card={card} onClick={onClickSell} showButton={showInterface} />
-        {showInterface && (
-          <div className='sell-interface'>
-            <div className='interface-row'>
-              <label>Quantité: </label>
-              <input type='number' value={saleQty} onChange={handleQtyChange} />
+        <Specs card={card} onClick={onClickSell} />
+      </div>
+
+      {saleMode && (
+        <div className='modal-box'>
+          <div className='modal-content'>
+            <h2>Mise en vente</h2>
+            <div className='sell-input'>
+              <label htmlFor='qty-input'>Quantité à mettre en vente:</label>
+              <input
+                id='qty-input'
+                type='number'
+                min='1'
+                max={card.quantite}
+                value={saleQty}
+                onChange={(e) => {
+                  const newQty = Number(e.target.value);
+                  if (newQty >= 1 && newQty <= card.quantite) {
+                    setSaleQty(newQty);
+                  }
+                }}
+              />
             </div>
-            <div className='interface-row'>
-              <label>Prix: </label>
-              <input type='number' value={salePrice} onChange={handlePriceChange} />
+            <div className='sell-input'>
+              <label htmlFor='price-input'>Prix unitaire:</label>
+              <input
+                id='price-input'
+                type='number'
+                min='1'
+                max='9999'
+                value={salePrice}
+                onChange={(e) => {
+                  const newPrice = Number(e.target.value);
+                  if (newPrice >= 1 && newPrice <= 9999) {
+                    setSalePrice(newPrice);
+                  }
+                }}
+              />
             </div>
-            <div className='interface-row'>
-              <button className='button-confirm' onClick={onClickConfirm}>Mettre en vente</button>
-              <button className='button-cancel' onClick={onClickCancel}>Annuler</button>
+            <div className='button-box'>
+              <button className='cancel-button' onClick={onClickCancel}>
+                Annuler
+              </button>
+              <button className='confirm-button' onClick={onClickConfirm}>
+                Confirmer
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
