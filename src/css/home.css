@@ -1,0 +1,49 @@
+/* grille principale */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* banniere avec image de fond et titre */
+.banner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    padding: 16px;
+
+    width: 100%;
+    min-height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('/public/banners/banner_01.jpg');
+    background-size: cover;
+    background-position: center; 
+}
+
+.banner-title, .banner-text {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* grille des sections */
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* sections */
+.home-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid black;
+}
