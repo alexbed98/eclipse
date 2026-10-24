@@ -14,7 +14,7 @@ import '../css/modalBox.css';
 import '../css/notif.css';
 
 function Market() {
-    const { player, loading: authLoading } = useAuth();
+    const { player, refreshPlayer, loading: authLoading } = useAuth();
     const [loading, setLoading] = useState(true);
     const [sales, setSales] = useState([]);
     const [error, setError] = useState(null);
@@ -107,6 +107,7 @@ function Market() {
 
             showNotification("Achat effectué avec succès!", "success");
             await fetchMarket();
+            await refreshPlayer();
         }
         catch (err) {
             console.error("Erreur:", err);
