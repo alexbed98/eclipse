@@ -37,7 +37,7 @@
 .home-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    gap: 24px;
 }
 
 /* sections */
@@ -52,6 +52,10 @@
     color: #ffffff;
 }
 
+.home-card h2 {
+   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
+}
+
 .notifications-box, .market-preview, .shop-preview, .game-preview {
     display: flex;
     flex-direction: column;
@@ -62,7 +66,7 @@
 .notif-box {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .notif {
@@ -70,13 +74,19 @@
     flex-direction: row;
     gap: 6px;
     padding: 6px;
-    background-color: rgb(207, 223, 235);
+    background-color: rgb(204, 216, 226);
     border-radius: 6px;
     color: rgb(34, 34, 34);
 }
 
+.notif:nth-child(even) {
+    background-color: rgb(23, 36, 48);
+    color: white;
+}
+
 .notif-button {
     padding: 8px;
+    align-self: center;
     border: none;
     border-radius: 6px;
     background-color: rgb(211, 41, 41);
