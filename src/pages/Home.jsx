@@ -24,11 +24,15 @@ function Home() {
             });
     }, []);
 
+    const hideNotif = () => {
+        alert('notif efface!');
+    }
+
     return (
         <div className='home-container'>
             {/* titre et banniere */}
             <div className='banner-container'>
-                <h1 className='banner-title'>Bienvenue sur Eclipse</h1>
+                <h1 className='banner-title'>Bienvenue sur Eclipse {player?.alias}</h1>
                 <p className='banner-text'>Combattez, collectionnez et échangez vos cartes.</p>
             </div>
 
@@ -41,7 +45,14 @@ function Home() {
                         <h2>Notifications</h2>
                         <div className='notif-box'>
                             {/* systeme de notif a faire */}
-                            <div className='notif'>Exemple: Votre carte a ete vendu 25 pièces!</div>
+                            <div className='notif'>
+                                <div className='notif-text'>Ex: Votre carte 'Golbin Fou' a ete achetée 25 pièces par 'Walter White'!</div>
+                                <button className='notif-button' onClick={hideNotif}>X</button>
+                            </div>
+                            <div className='notif'>
+                                <div className='notif-text'>Ex: Votre carte 'Dragon Rouge' a ete achetée 350 pièces par 'Jesse Pinkman'!</div>
+                                <button className='notif-button' onClick={hideNotif}>X</button>
+                            </div>
                         </div>
                     </div>
                 )}
