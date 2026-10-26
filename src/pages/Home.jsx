@@ -14,16 +14,46 @@ function Home() {
     // index de la carte affichee dans le carousel
     const [cardIndex, setCardIndex] = useState(0);
 
+    // le booster le plus recent a afficher
+    const [latestBooster, setLatestBooster] = useState(null);
+
+    // fetch market
     useEffect(() => {
         fetch(`${API_URL}/market`)
             .then(res => res.json())
             .then(data => {
-                // prend les 3 cartes mises en ventes le plus recemment
-                setRecentSales(data.slice(0, 3));
+
+                console.log("Données du marché reçues :", data);
+                let notOwnedSales = data;
+
+                if (player) {
+                    // on prend seulement les ventes qui ne sont pas ceux du joueur connecte
+                    notOwnedSales = data.filter((sale) => sale.id_seller !== player.id)
+                }
+
+                // prend les 5 cartes mises en ventes le plus recemment
+                setRecentSales(notOwnedSales.slice(0, 5));
                 setLoading(false);
             })
             .catch(err => {
                 console.error("Erreur chargement de l'accueil: ", err);
+                setLoading(false);
+            });
+    }, [player]);
+
+    // fetch shop
+    useEffect(() => {
+        fetch(`${API_URL}/shop`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.length > 0) {
+                    // recupere le dernier booster ajouter
+                    setLatestBooster(data[data.length - 1]);
+                }
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Erreur chargement du magasin: ", err);
                 setLoading(false);
             });
     }, []);
@@ -60,10 +90,11 @@ function Home() {
                 {/* nouveaute du market (carousel de carte) */}
                 <div className='home-card market-preview'>
                     <h2>Nouveautés du Marché</h2>
+                    <p>Soyez les premiers à découvrir ces nouvelles vente de carte sur le marché.</p>
                     {loading ? (
                         <p>Chargement...</p>
                     ) : recentSales.length === 0 ? (
-                        <p>Aucune carte pour l'instant.</p>
+                        <p>Aucune contenu pour l'instant.</p>
                     ) : (
                         <div className='market-carousel'>
                             <img
@@ -78,16 +109,34 @@ function Home() {
                             </div>
                         </div>
 
-                        
+
                     )}
-                    <Link to="/market" className='link-market'>Voir tout le marché</Link>
+                    <Link to="/market" className='link-home'>Visiter le marché</Link>
                 </div>
 
                 {/* nouveaute du shop (booster) */}
                 <div className='home-card shop-preview'>
-                    <h2>Magasin</h2>
-                    <p>Découvrez les derniers boosters disponibles pour agrandir votre collection.</p>
-                    <Link to="/shop" className='btn-secondary'>Visiter la boutique</Link>
+                    <h2>Nouveauté du Magasin</h2>
+                    <p>Découvrez la nouvelle serie de boosters disponible maintenant dans le magasin.</p>
+                    {loading ? (
+                        <p>Chargement...</p>
+                    ) : !latestBooster ? (
+                        <p>Aucun booster disponible.</p>
+                    ) : (
+                        <div className='market-carousel'>
+                            <img
+                                src={`/public/boosters/${latestBooster.id}.png`}
+                                alt={latestBooster.nom}
+                                className='booster-img'
+                            />
+                            <div className='card-info'>
+                                <span className='card-name'>{latestBooster.nom || latestBooster.name}</span>
+                                <span className='card-seller new-booster'>------------------------------------------------</span>
+                                <span className='card-price'>Prix: {latestBooster.prix || latestBooster.price} pièces</span>
+                            </div>
+                        </div>
+                    )}
+                    <Link to="/shop" className='link-home'>Visiter la boutique</Link>
                 </div>
 
                 {/* notifications (si connecté) */}

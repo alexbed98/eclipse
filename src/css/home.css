@@ -56,6 +56,19 @@
    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
 }
 
+.booster-img {
+    /* width: 140px; */
+    height: 260px;
+    width: auto;
+    object-fit: contain;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.new-booster {
+    color: red;
+}
+
 .notifications-box, .market-preview, .shop-preview, .game-preview {
     display: flex;
     flex-direction: column;
@@ -92,4 +105,25 @@
     background-color: rgb(211, 41, 41);
     color: #ffffff;
     cursor: pointer;
+}
+
+/* boutons vers le marke/shop */
+.link-home {
+    display: inline-block;
+    background-color: #1d1a4e;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    margin-top: auto;
+}
+
+.link-home:hover {
+    background-color: rgb(63, 54, 168);
+    transform: translateY(-2px);
 }

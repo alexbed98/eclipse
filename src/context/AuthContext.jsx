@@ -22,6 +22,11 @@ export function AuthProvider({ children }) {
             });
 
             if (!res.ok) {
+                // Si le token est expiré ou invalide, on déconnecte proprement le joueur
+                if (res.status === 401 || res.status === 403) {
+                    logout();
+                    return;
+                }
                 throw new Error("Impossible de rafraîchir le joueur");
             }
 
