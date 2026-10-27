@@ -18,7 +18,7 @@
 
     width: 100%;
     min-height: 220px;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
     
     background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('/public/banners/banner_02.jpg');
@@ -45,7 +45,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 20px;
+    padding: 16px;
     border-radius: 8px;
     background-color: rgb(50, 69, 83);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
@@ -79,21 +79,23 @@
 .notif-box {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    margin-top: 8px;
 }
 
 .notif {
     display: flex;
     flex-direction: row;
     gap: 6px;
-    padding: 6px;
-    background-color: rgb(204, 216, 226);
+    padding: 6px 10px;
+    background-color: rgb(207, 216, 223);
     border-radius: 6px;
     color: rgb(34, 34, 34);
+    font-size: 0.92em;
 }
 
 .notif:nth-child(even) {
-    background-color: rgb(23, 36, 48);
+    background-color: rgb(23, 35, 46);
     color: white;
 }
 
