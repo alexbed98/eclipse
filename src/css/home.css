@@ -8,7 +8,7 @@
 }
 
 /* banniere avec image de fond et titre */
-.banner-container {
+.home-banner-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -21,14 +21,14 @@
     border-radius: 10px;
     overflow: hidden;
     
-    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('/public/banners/banner_02.jpg');
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('/public/banners/home.jpg');
     background-size: cover;
     background-position: center; 
 
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-.banner-title, .banner-text {
+.home-banner-title, .home-banner-text {
     color: #ffffff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }

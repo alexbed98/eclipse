@@ -29,7 +29,7 @@ function Market() {
     const [selectedRemove, setSelectedRemove] = useState(null);
     const [removeQty, setRemoveQty] = useState(1);
 
-    const {notification, showNotification} = useNotification();
+    const { notification, showNotification } = useNotification();
 
 
     // pour changer le tri (prix, nom)
@@ -85,7 +85,7 @@ function Market() {
 
     const executeBuy = async () => {
         try {
-            const token = localStorage.getItem('token'); 
+            const token = localStorage.getItem('token');
 
             const response = await fetch(`${API_URL}/market/buy`, {
                 method: 'POST',
@@ -171,8 +171,16 @@ function Market() {
                 </div>
             )}
 
+
+
             {/* barre de recherche & tri */}
             <div className="sort-container">
+
+                <div className='market-banner-container'>
+                    <h1 className='market-banner-title'>Bienvenue sur le marché</h1>
+                    <p className='market-banner-text'>Achetez et vendez des cartes entre joueurs.</p>
+                </div>
+
                 <div className="search-box">
                     <GoSearch size={20} color={'grey'} className='search-icon' />
                     <input

@@ -47,4 +47,28 @@
     border-color: #6185af;
 }
 
+/* banniere avec image de fond et titre */
+.market-banner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
 
+    padding: 16px;
+
+    width: 100%;
+    min-height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('/public/banners/market.jpg');
+    background-size: cover;
+    background-position: center; 
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.market-banner-title, .market-banner-text {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}

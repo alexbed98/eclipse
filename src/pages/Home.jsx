@@ -79,9 +79,9 @@ function Home() {
     return (
         <div className='home-container'>
             {/* titre et banniere */}
-            <div className='banner-container'>
-                <h1 className='banner-title'>Bienvenue sur Eclipse {player?.alias}</h1>
-                <p className='banner-text'>Combattez, collectionnez et échangez vos cartes.</p>
+            <div className='home-banner-container'>
+                <h1 className='home-banner-title'>Bienvenue sur Eclipse {player?.alias}</h1>
+                <p className='home-banner-text'>Combattez, collectionnez et échangez vos cartes.</p>
             </div>
 
             {/* grille principale*/}
