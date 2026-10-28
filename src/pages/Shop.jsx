@@ -21,7 +21,6 @@ function Shop() {
             alert("Veuillez vous connecter")
             return;
         }
-
         try{
             const response = await fetch(`${API_URL}/shop/${player.id}/${prix}/${focus}`)
             const data = await response.json();
@@ -30,7 +29,6 @@ function Shop() {
                 alert(data.message);
                 return;
             }
-
             setCurrency(data.updatedCurrency);
             setCardsObtained(data.cardsObtained)
             setShowInterface(true);
@@ -53,13 +51,11 @@ function Shop() {
                 if (!response.ok) {
                     throw new Error('Erreur lors du chargement des boosters');
                 }
-
                 return response.json();
             })
             .then((data) => {
                 setBooster(data);
                 setPrix(data[0].prix)
-
             })
             .catch((error) => {
                 console.error("Erreur: ", error);
@@ -134,7 +130,7 @@ function Shop() {
                                 </div>
                             ))}
                         </div>
-                        <button className='shop-button' onClick={() => {setShowInterface(false)}}>
+                        <button className='profile-button' onClick={() => {setShowInterface(false)}}>
                             Fermer
                         </button>
                     </div>     
@@ -157,7 +153,7 @@ function Shop() {
                 <div id='shop-currency'>
                     <p>{prix} pièces</p>
                 </div>
-                <button className='shop-button' onClick={acheterBooster}>
+                <button className='profile-button' onClick={acheterBooster}>
                     Acheter
                 </button>
             </div>

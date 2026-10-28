@@ -3,27 +3,10 @@
     flex-direction: column;
 }
 
-#deck-create{
-    margin: 1em;
-    height: 4em;
-    width: 10em;
-    border: double;
-    border-radius: 1em;
-    align-self: center;
-    justify-content: center;
-    text-align: center;
-}
-
-#deck-create:active{
-    transform: translateY(4px);
-}
-
-#deck-create:hover{
-    background-color: lightgrey;
-}
 
 #deck-container{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .individualDeck{
@@ -35,4 +18,65 @@
 
 .individualDeck:hover{
     color: gold;
+}
+
+.deck-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.deck-modal {
+    background: #c2c2c2;
+    padding: 35px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    animation: modalAppear 0.25s ease-out;
+}
+
+.deck-modal h2 {
+    text-align: center;
+    margin: 0;
+    font-size: 24px;
+}
+
+.deck-modal input {
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #536278;
+    background: #202938;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.deck-modal input::placeholder {
+    color: #a8b5c6;
+}
+
+
+/*animation*/
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
