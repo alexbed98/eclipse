@@ -1,35 +1,19 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { FiLogOut } from 'react-icons/fi'; // icone de deconnexion
-import { useState } from 'react';
-const API_URL = import.meta.env.VITE_API_URL;
 
 import '../../css/header.css'
 
 {/* reste a determiner avec l'equipe quelle onglet du menu est visible par qui */ }
 
 function Header() {
-    const { player, logout } = useAuth();
+    const { player, logout, currency } = useAuth();
     const navigate = useNavigate();
-    const [piece, setPiece] = useState(null)
 
     const handleLogout = () => {
         logout();
         navigate('/login');
     }
-
-    if(player !== null){
-        fetch(`${API_URL}/shop/${player.id}`)
-        .then((response) => {
-            if(!response.ok)
-                throw new Error('Erreur lors du chargement des infos du joueur')
-            return response.json();
-        })
-        .then((data) => {
-            setPiece(data.nbPiece);
-        })
-    }
-
 
     return (
         <header className='header-container'>
@@ -61,7 +45,7 @@ function Header() {
                             )}
 
                             <div className='navlink-right username'>{player.alias}</div>
-                            <div>Pièces: {piece}</div>
+                            <div>Pièces: {currency ?? 0}</div>
                             <button
                                 className='button-logout-icon'
                                 onClick={handleLogout}

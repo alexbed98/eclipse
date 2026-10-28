@@ -1,15 +1,20 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../hooks/useNotification';
 import { Link } from 'react-router-dom';
 import { GoSearch } from "react-icons/go";
 import { filterSales, sortSales } from '../utils/helpers';
-import Sale from '../components/general/Sale'
-import Radio from '../components/inputs/Radio'
-import '../css/market.css'
+import Sale from '../components/general/Sale';
+import Radio from '../components/inputs/Radio';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
+import '../css/market.css';
+import '../css/modalBox.css';
+import '../css/notif.css';
+
 function Market() {
-    const { player, loading: authLoading } = useAuth();
+    const { player, refreshPlayer, loading: authLoading } = useAuth();
     const [loading, setLoading] = useState(true);
     const [sales, setSales] = useState([]);
     const [error, setError] = useState(null);
@@ -17,6 +22,15 @@ function Market() {
     const [sortBy, setSortBy] = useState('price-asc');
     const [search, setSearch] = useState('');
     const [ownershipFilter, setOwnershipFilter] = useState('not-owned');
+
+    const [selectedSale, setSelectedSale] = useState(null);
+    const [buyQty, setBuyQty] = useState(1);
+
+    const [selectedRemove, setSelectedRemove] = useState(null);
+    const [removeQty, setRemoveQty] = useState(1);
+
+    const { notification, showNotification } = useNotification();
+
 
     // pour changer le tri (prix, nom)
     const handleSortChange = (e) => {
@@ -33,30 +47,76 @@ function Market() {
         setOwnershipFilter(e.target.value);
     }
 
-    const handleRemove = async (saleId) => {
-        if(!window.confirm("Voulez-vous vraiment retirer cette carte du marché?")) return;
+    const handleRemove = async (sale) => {
+        setSelectedRemove(sale);
+        setRemoveQty(1);
+    }
 
+    const executeRemove = async () => {
+        const saleId = selectedRemove.id_sale;
         try {
-            const response = await fetch(`${API_URL}/market/${saleId}`,{
+            const response = await fetch(`${API_URL}/market/${saleId}`, {
                 method: 'DELETE',
             });
 
             const data = await response.json();
 
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error(data.message || "Erreur lors du retrait de la carte du marché");
             }
 
+            showNotification("Retrait effectué avec succès!", "success");
             await fetchMarket();
         }
         catch (err) {
             console.error("Erreur: ", err);
-            alert(`Erreur: ${err.message}`);
+            showNotification("Erreur lors du retrait", "error");
+        }
+        finally {
+            setSelectedRemove(null);
+            setRemoveQty(1);
         }
     }
 
     const handleBuy = (sale) => {
-        alert("buy");
+        setSelectedSale(sale);
+        setBuyQty(1);
+    }
+
+    const executeBuy = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const response = await fetch(`${API_URL}/market/buy`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    saleId: selectedSale.id_sale,
+                    quantity: buyQty
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Erreur lors de l'achat");
+            }
+
+            showNotification("Achat effectué avec succès!", "success");
+            await fetchMarket();
+            await refreshPlayer();
+        }
+        catch (err) {
+            console.error("Erreur:", err);
+            showNotification("Erreur lors de l'achat", "error");
+        }
+        finally {
+            setSelectedSale(null);
+            setBuyQty(1);
+        }
     }
 
     // on utiliser les fonctions de triage et de recherche de helper.js
@@ -104,8 +164,23 @@ function Market() {
     return (
         <div className='market-container'>
 
+            {/* banniere de notification */}
+            {notification && (
+                <div className={`notif-banner ${notification.type}`}>
+                    {notification.text}
+                </div>
+            )}
+
+
+
             {/* barre de recherche & tri */}
             <div className="sort-container">
+
+                <div className='market-banner-container'>
+                    <h1 className='market-banner-title'>Bienvenue sur le marché</h1>
+                    <p className='market-banner-text'>Achetez et vendez des cartes entre joueurs.</p>
+                </div>
+
                 <div className="search-box">
                     <GoSearch size={20} color={'grey'} className='search-icon' />
                     <input
@@ -162,12 +237,74 @@ function Market() {
                                 sale={sale}
                                 isConnected={player}
                                 isOwner={isOwner}
-                                onClick={() => isOwner ? handleRemove(sale.id_sale) : handleBuy(sale.id_sale)}
+                                onClick={() => isOwner ? handleRemove(sale) : handleBuy(sale)}
                             />
                         );
                     })
                 )}
             </div>
+
+            {selectedSale && (
+                <div className='modal-box'>
+                    <div className='modal-content'>
+                        <div className='buy-infos'>
+                            <h3>Achat de carte</h3>
+                            <p>Carte: {selectedSale.card_name}</p>
+                            <p>Vendeur: {selectedSale.seller_username}</p>
+                            <p>Prix unitaire: {selectedSale.sale_price} pièces</p>
+                            <p>Quantité disponible: {selectedSale.sale_qty}</p>
+                        </div>
+
+                        <div className='buy-input'>
+                            <label htmlFor='qty-input'>Quantité désirée</label>
+                            <input
+                                id='qty-input'
+                                type='number'
+                                min='1'
+                                max={selectedSale.sale_qty}
+                                value={buyQty}
+                                onChange={(e) => {
+                                    const newQty = Number(e.target.value);
+                                    if (newQty >= 1 && newQty <= selectedSale.sale_qty) {
+                                        setBuyQty(newQty);
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        <div className='buy-infos'>
+                            <p>Prix total: {buyQty * selectedSale.sale_price} pièces</p>
+                        </div>
+
+                        <div className='button-box'>
+                            <button className='cancel-button' onClick={() => setSelectedSale(null)}>
+                                Annuler
+                            </button>
+                            <button className='confirm-button' onClick={executeBuy}>
+                                Acheter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {selectedRemove && (
+                <div className='modal-box'>
+                    <div className='modal-content'>
+                        <div>
+                            <h3>Êtes-vous certain de vouloir retirer cette carte du marché?</h3>
+                        </div>
+                        <div className='button-box'>
+                            <button className='cancel-button' onClick={() => setSelectedRemove(null)}>
+                                Annuler
+                            </button>
+                            <button className='confirm-button' onClick={executeRemove}>
+                                Confirmer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     );

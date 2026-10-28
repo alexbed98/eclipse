@@ -17,3 +17,20 @@
 .details-right {
     flex: 1;
 }
+
+.sell-input label {
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.sell-input input {
+    padding: 6px 12px;
+    margin-left: 6px;
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
+    outline: none;
+}
+
+.sell-input input:focus {
+    border-color: #6185af;
+}

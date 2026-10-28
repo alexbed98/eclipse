@@ -1,0 +1,38 @@
+.notif-banner {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    z-index: 2000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.notif {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.notif-banner.success {
+    background-color: #138341;
+    color: #ffffff;
+}
+
+.notif-banner.error {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}

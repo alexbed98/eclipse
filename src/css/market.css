@@ -20,3 +20,55 @@
     padding: 3px 6px;
     border-radius: 6px;
 }
+
+.buy-infos p {
+    margin: 6px 0;
+    font-size: 0.96em;
+}
+
+.buy-infos h3 {
+    font-size: 1.3em;
+}
+
+.buy-input label {
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.buy-input input {
+    padding: 6px 12px;
+    margin-left: 6px;
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
+    outline: none;
+}
+
+.buy-input input:focus {
+    border-color: #6185af;
+}
+
+/* banniere avec image de fond et titre */
+.market-banner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    padding: 16px;
+
+    width: 100%;
+    min-height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('/public/banners/market.jpg');
+    background-size: cover;
+    background-position: center; 
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.market-banner-title, .market-banner-text {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}

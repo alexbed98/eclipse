@@ -14,44 +14,48 @@ function Login() {
         { id: 'password', name: 'password', label: 'Mot de passe :', type: 'password', placeholder: '••••••••' }
     ];
 
-    const { setPlayer } = useAuth();
+    // On récupère refreshPlayer depuis le contexte
+    const { refreshPlayer } = useAuth();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage('');
 
-        fetch(`${API_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                adresse_courriel: formData.email,
-                mot_de_passe: formData.password
-            })
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Identifiants invalides');
-                }
-                return res.json();
-            })
-            .then((data) => {
-                localStorage.setItem("token", data.token)
+        try {
+            const res = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    adresse_courriel: formData.email,
+                    mot_de_passe: formData.password
+                })
+            });
 
-                setPlayer(data.joueur);
+            if (!res.ok) {
+                throw new Error('Identifiants invalides');
+            }
 
-                navigate('/');
-            })
-            .catch((err) => {
-                console.error(err);
-                setErrorMessage("courriel ou mot de passe incorrect")
-            })
+            const data = await res.json();
+            
+            // 1. On stocke le token d'abord
+            localStorage.setItem("token", data.token);
+
+            // 2. On appelle refreshPlayer pour charger proprement le joueur ET sa monnaie via /me
+            await refreshPlayer();
+
+            // 3. On redirige vers l'accueil
+            navigate('/');
+        } catch (err) {
+            console.error(err);
+            setErrorMessage("courriel ou mot de passe incorrect");
+        }
     };
 
     return (
@@ -77,4 +81,4 @@ function Login() {
     );
 }
 
-export default Login
+export default Login;

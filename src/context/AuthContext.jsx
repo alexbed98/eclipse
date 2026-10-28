@@ -1,8 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
-// creation d'un contexte qui va permettre de retrouver le user
-// connecte facilement en utilisant le hook useAuth
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -10,37 +8,45 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [currency, setCurrency] = useState(null);
 
-    useEffect(() => {
+    // fonction pour recharger les infos du joueur
+    const refreshPlayer = async () => {
         const token = localStorage.getItem("token");
+        if (!token) return;
 
-        if (token) {
-            fetch(`${API_URL}/me`, {
+        try {
+            const res = await fetch(`${API_URL}/me`, {
                 method: "GET",
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
-            })
-                .then((res) => {
-                    if (!res.ok) {
-                        localStorage.removeItem("token");
-                        throw new Error("Session invalide ou expiree");
-                    }
-                    return res.json();
-                })
-                .then((data) => {
-                    setPlayer(data);
-                    setCurrency(data.nbPiece)
-                })
-                .catch((err) => {
-                    console.error("Erreur d'authentification initiale:", err);
-                    setPlayer(null);
-                    setCurrency(null)
-                })
-                .finally(() => {
-                    setLoading(false); 
-                });
+            });
+
+            if (!res.ok) {
+                // Si le token est expiré ou invalide, on déconnecte proprement le joueur
+                if (res.status === 401 || res.status === 403) {
+                    logout();
+                    return;
+                }
+                throw new Error("Impossible de rafraîchir le joueur");
+            }
+
+            const data = await res.json();
+            setPlayer(data);
+            setCurrency(data.nbPiece);
+        } catch (err) {
+            console.error("Erreur lors du rafraîchissement du joueur:", err);
+        }
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            refreshPlayer().finally(() => {
+                setLoading(false);
+            });
         } else {
-            setLoading(false); 
+            setLoading(false);
         }
     }, []);
 
@@ -52,12 +58,12 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ player, setPlayer, loading, logout, currency, setCurrency}}>
+        <AuthContext.Provider value={{ player, setPlayer, loading, logout, currency, setCurrency, refreshPlayer }}>
             {children}
         </AuthContext.Provider>
     );
 }
 
 export function useAuth() {
-    return useContext(AuthContext)
+    return useContext(AuthContext);
 }
