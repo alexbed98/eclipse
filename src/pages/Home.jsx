@@ -165,7 +165,7 @@ function Home() {
                 <div className='home-card game-preview'>
                     <h2>Prêt à jouer ?</h2>
                     {player ? (
-                        <Link to="/game" className='btn-primary'>Lancez une partie</Link>
+                        <Link to="/game" className='link-game'>Lancer une partie</Link>
                     ) : (
                         <Link to="/login" className='btn-primary'>Connectez-vous pour jouer</Link>
                     )}

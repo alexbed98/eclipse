@@ -14,18 +14,19 @@
     align-items: flex-start;
     justify-content: flex-end;
 
-    padding: 16px;
+    padding: 24px;
 
     width: 100%;
     min-height: 220px;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
     
-    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('/public/banners/home.jpg');
+    background-image: linear-gradient(to top, rgba(25, 30, 39, 0.5), rgba(0, 0, 0, 0)), url('/public/banners/home.jpg');
     background-size: cover;
     background-position: center; 
 
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .home-banner-title, .home-banner-text {
@@ -40,92 +41,132 @@
     gap: 24px;
 }
 
-/* sections */
+/* sections (Home Cards)*/
 .home-card {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 16px;
-    border-radius: 8px;
-    background-color: rgb(50, 69, 83);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #161922; 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #c9d1d9;
 }
 
 .home-card h2 {
+    color: #ffffff;
    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
 }
 
 .booster-img {
-    /* width: 140px; */
     height: 260px;
     width: auto;
     object-fit: contain;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.7));
+    border: none;
 }
 
 .new-booster {
-    color: red;
+    color: #ff7b72;
 }
 
 .notifications-box, .market-preview, .shop-preview, .game-preview {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 /* section notif */
 .notif-box {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 8px;
+    gap: 8px;
+    margin-top: 4px;
 }
 
 .notif {
     display: flex;
     flex-direction: row;
-    gap: 6px;
-    padding: 6px 10px;
-    background-color: rgb(207, 216, 223);
-    border-radius: 6px;
-    color: rgb(34, 34, 34);
-    font-size: 0.92em;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 10px;
+    background-color: #252b33; 
+    border-radius: 8px;
+    border-left: 8px solid #58a6ff;
+    color: #e6edf3;
+    font-size: 0.87em;
 }
 
 .notif:nth-child(even) {
-    background-color: rgb(23, 35, 46);
-    color: white;
+    border-left-color: #bc8cff;
 }
 
 .notif-button {
-    padding: 8px;
+    padding: 4px 8px;
     align-self: center;
     border: none;
     border-radius: 6px;
-    background-color: rgb(211, 41, 41);
-    color: #ffffff;
+    background-color: rgba(248, 81, 73, 0.15);
+    color: #f85149;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-/* boutons vers le marke/shop */
-.link-home {
-    display: inline-block;
-    background-color: #1d1a4e;
+.notif-button:hover {
+    background-color: rgba(248, 81, 73, 0.3);
+}
+
+/* boutons vers le market/shop/jeu */
+.link-home, .link-game {
     color: #ffffff;
     text-decoration: none;
-    padding: 10px 16px;
+    padding: 10px 18px;
     border-radius: 8px;
-    text-align: center;
     font-weight: 600;
     font-size: 0.9rem;
-    transition: background-color 0.2s, transform 0.2s;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* boutons market / magasin*/
+.link-home {
+    background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+    text-align: center;
     margin-top: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .link-home:hover {
-    background-color: rgb(63, 54, 168);
+    background: linear-gradient(135deg, #2ea043 0%, #3fb950 100%);
     transform: translateY(-2px);
+}
+
+/* bouton du Jeu */
+.link-game {
+    font-size: 1rem;
+    background: linear-gradient(135deg, #d2b222 0%, #bb8009 100%); 
+    color: #ffffff;
+    display: inline-flex;
+    width: fit-content;
+    align-self: flex-start;
+    text-align: start;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 15px rgba(233, 194, 22, 0.3);
+}
+
+.link-game:hover {
+    background: linear-gradient(135deg, #e3b341 0%, #d29922 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(210, 153, 34, 0.2);
+}
+
+.game-preview {
+    background-image: linear-gradient(to top, rgba(15, 20, 30, 0.6), rgba(15, 20, 30, 0.2)), url('/public/banners/game.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
 }
