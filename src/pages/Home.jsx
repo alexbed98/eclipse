@@ -17,6 +17,9 @@ function Home() {
     // le booster le plus recent a afficher
     const [latestBooster, setLatestBooster] = useState(null);
 
+    // les notif du joueur
+    const [notifications, setNotifications] = useState(null);
+
     // fetch market
     useEffect(() => {
         fetch(`${API_URL}/market`)
@@ -58,6 +61,39 @@ function Home() {
             });
     }, []);
 
+    // fetch notif si joueur connecte
+    useEffect(() => {
+        if (!player) return
+
+        fetch(`${API_URL}/notifications/${player.id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log("Données des notif reçues :", data);
+                setNotifications(data);
+            })
+            .catch(err => {
+                console.error('Erreur de chargement des notifications: ', err);
+            })
+    }, [player]);
+
+    // delete notif par id
+    const deleteNotif = (notifId) => {
+        fetch(`${API_URL}/notifications/${notifId}`, {
+            method: 'DELETE',
+        })
+            .then(res => {
+                if (res.ok) {
+                    // Supprime la notification localement pour rafraîchir l'interface instantanément
+                    setNotifications(prev => prev.filter(n => n.id !== notifId));
+                } else {
+                    console.error("Échec de la suppression");
+                }
+            })
+            .catch(err => {
+                console.error("Erreur lors de la suppression de la notification:", err);
+            });
+    };
+
     // change de carte a toute les 8 secondes dans le carousel
     useEffect(() => {
         if (recentSales.length <= 1) return;
@@ -69,9 +105,6 @@ function Home() {
         return () => clearInterval(interval);
     }, [recentSales]);
 
-    const hideNotif = () => {
-        alert('notif efface!');
-    }
 
     // carte affichee dans le carousel
     const currentSale = recentSales[cardIndex];
@@ -80,7 +113,7 @@ function Home() {
         <div className='home-container'>
             {/* titre et banniere */}
             <div className='home-banner-container'>
-                <h1 className='home-banner-title'>Bienvenue sur Eclipse {player?.alias}</h1>
+                <h1 className='home-banner-title'>Bienvenue sur Eclipse</h1>
                 <p className='home-banner-text'>Combattez, collectionnez et échangez vos cartes.</p>
             </div>
 
@@ -144,19 +177,16 @@ function Home() {
                     <div className='home-card notifications-box'>
                         <h2>Notifications</h2>
                         <div className='notif-box'>
-                            {/* systeme de notif a faire */}
-                            <div className='notif'>
-                                <div className='notif-text'>Ex: Votre carte 'Golbin Fou' a ete achetée 25 pièces par 'Walter White'!</div>
-                                <button className='notif-button' onClick={hideNotif}>X</button>
-                            </div>
-                            <div className='notif'>
-                                <div className='notif-text'>Ex: Votre carte 'Dragon Rouge' a ete achetée 350 pièces par 'Jesse Pinkman'!</div>
-                                <button className='notif-button' onClick={hideNotif}>X</button>
-                            </div>
-                            <div className='notif'>
-                                <div className='notif-text'>Ex: Votre carte 'Ange Ultime' a ete achetée 215 pièces par 'Saul Goodman'!</div>
-                                <button className='notif-button' onClick={hideNotif}>X</button>
-                            </div>
+                            {!notifications || notifications.length === 0 ? (
+                                <p style={{ fontSize: '0.9rem', color: '#93c5fd' }}>Aucune nouvelle notification.</p>
+                            ) : (
+                                notifications.map((notif) => (
+                                    <div className='notif' key={notif.id}>
+                                        <div className='notif-text'>{notif.message}</div>
+                                        <button className='notif-button' onClick={() => deleteNotif(notif.id)}>X</button>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
                 )}
@@ -172,7 +202,7 @@ function Home() {
                 </div>
 
             </div>
-        </div>
+        </div >
     );
 }
 
