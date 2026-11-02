@@ -1,4 +1,4 @@
-import { getRarity, getSerie } from '../../utils/helpers';
+import { getRarity } from '../../utils/helpers';
 import Card from '../general/Card'
 import '../../css/sales.css'
 import '../../css/specs.css'
@@ -26,7 +26,7 @@ function Sale({ sale, isConnected=false, isOwner=false, onClick }) {
                 </div>
                 <div className='infos-box'>
                     <p className='infos-label'>Série:</p>
-                    <p className='infos-value'>{getSerie(sale.id_serie)}</p>
+                    <p className='infos-value'>{sale.series_name}</p>
                 </div>
                 <div className='infos-box'>
                     <p className='infos-label'>Rareté:</p>

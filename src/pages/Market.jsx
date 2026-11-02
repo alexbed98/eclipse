@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../hooks/useNotification';
-import { Link } from 'react-router-dom';
 import { GoSearch } from "react-icons/go";
 import { filterSales, sortSales } from '../utils/helpers';
 import Sale from '../components/general/Sale';
