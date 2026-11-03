@@ -12,11 +12,15 @@ function Decks() {
     const [loading, setLoading] = useState(true);
     const [deckTitle, setDeckTitle] = useState("");
     const [interfaceForm, setInterface] = useState(false);
+    const [activeDeckOverlay, setActiveDeckOverlay] = useState(false);
+    const [cards, setCards] = useState([]);
+    const [selectedDeck, setSelectedDeck] = useState(null);
 
     useEffect(() => {
         if (authLoading || !player?.id) return;
 
         fetchDecks();
+        fetchAllCards();
     }, [authLoading, player?.id]);
 
     const fetchDecks = () => {
@@ -41,11 +45,7 @@ function Decks() {
     }
 
     const handleForm = () => {
-        if(!interfaceForm)
-            setInterface(true);
-        else{
-            setInterface(false);
-        }
+        setInterface(!interfaceForm);
     }
 
     const handleCreateDeck = () => {
@@ -57,10 +57,54 @@ function Decks() {
         })
     }
 
+    const handleDeckOverlay = () => {
+        setActiveDeckOverlay(!activeDeckOverlay);
+    }
+
+    const fetchAllCards = () => {
+        fetch(`${API_URL}/decks/allCards`)
+        .then((response) => {
+            if(!response.ok)
+                throw new Error("Erreur lors de la récupération des cartes")
+            return response.json();
+        })
+        .then((data) => {
+            setCards(data);
+        })
+        .catch((error) => {
+            console.error("Erreur :", error);
+        });
+    }
+
+    const setImageDeck = (idImage) => {
+        fetch(`${API_URL}/decks/deckPicture/${selectedDeck}/${idImage}`)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Erreur lors de la sauvegarde de l'image.");
+            }
+            return response.json();
+        })
+        .then(() => {
+            console.log("Image sauvegardée !");
+            fetchDecks();
+        })
+        .catch((error) => {
+            console.error("Erreur :", error);
+        });
+    };
+
+
     if (loading) return <p>Chargement des decks</p>;
+    
 
     return (
         <div id='deck-main-container'>
+
+            <div className='deck-banner-container'>
+                <h1 className='market-banner-title'>Bienvenue à la forge</h1>
+                <p className='market-banner-text'>Fabriquez vos decks pour affronter vos adversaires.</p>
+            </div>
+            
             <button id='deck-create' className='profile-button' onClick={handleForm}>Créer un deck</button>
             {interfaceForm && (
                 <div className="deck-overlay">
@@ -79,9 +123,29 @@ function Decks() {
                     </div>
                 </div>
             )}
+            {activeDeckOverlay  && (
+                <div id='deck-card-list-container'>
+                    <div className='deck-card-list'>
+                        {cards.length > 0 ? cards.map((element, index) => {
+                            return(
+                                <img onClick={() => {setImageDeck(element.id);; handleDeckOverlay();}} src={`/cards/${element.id}.png`} alt={element.nom || 'Carte'} key={element.id}></img>
+                            )
+                        }) : ""}
+                    </div>
+                    <button onClick={handleDeckOverlay}>Annuler</button>
+                </div>
+            )}
             <div id='deck-container'>
                 {[deck].flat().map((element, index) => (
-                    <Link to={`/decks/${element.id}`} key={element.id} className='individualDeck'>{element.nom}</Link>
+                    <div className='individualDeck' key={element.id}>
+                        <Link to={`/decks/${element.id}`}  className='individualDeck-link'>
+                                <div className='deck-deckTitle'>{element.nom}</div>
+                            <img src={`/cards/${element.image}`} className='deck-deckImage' alt={element.nom} />
+                        </Link>
+                        <div className='deck-button-container'>
+                            <button className='deck-button-modify-picture' onClick={() => {handleDeckOverlay(); setSelectedDeck(element.id);}}>Modifier l'image de couverture</button>
+                        </div>
+                    </div>
                 ))}
             </div>
         </div>
