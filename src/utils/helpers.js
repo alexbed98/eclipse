@@ -15,6 +15,9 @@ export const getSerie = (id_serie) => {
         case 2: return  'Dragons';
         case 3: return  'Zombies';
         case 4: return  'Goblins';
+        case 5: return  'Elfes';
+        case 6: return  'Mages';
+        case 7: return  'Vampires';
         default: return 'Inconnue';
     }
 };

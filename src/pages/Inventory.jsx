@@ -12,12 +12,31 @@ function Inventory() {
   const { player, loading: authLoading } = useAuth();
   const [cards, setCards] = useState([]);
   const [sortBy, setSortBy] = useState('rarity-asc');
-  const [seriesFilters, setSeriesFilters] = useState(['anges', 'dragons', 'zombies', 'goblins']);
+  const [seriesFilters, setSeriesFilters] = useState([]);
   const [raritiesFilters, setRaritiesFilters] = useState([1, 2, 3, 4, 5]);
   const [ownershipFilter, setOwnershipFilter] = useState('owned');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const seriesList = useMemo(() => {
+    const map = new Map();
+    cards.forEach(card => {
+      if (card.id_serie && !map.has(card.id_serie)) {
+        map.set(card.id_serie, {
+          id: card.id_serie,
+          label: card.nom_serie || `Série ${card.id_serie}`
+        });
+      }
+    });
+    return Array.from(map.values());
+  }, [cards]);
+
+  useEffect(() => {
+    if (seriesList.length > 0 && seriesFilters.length === 0) {
+      setSeriesFilters(seriesList.map(s => s.id));
+    }
+  }, [seriesList]);
 
   function handleTilt(event) {
     const element = event.currentTarget;
@@ -58,11 +77,11 @@ function Inventory() {
 
   // pour changer les filtres de series
   const handleSeriesChange = (e) => {
-    if (!seriesFilters.includes(e.target.value)) {
-      setSeriesFilters([...seriesFilters, e.target.value]);
-    }
-    else {
-      setSeriesFilters(seriesFilters.filter(f => f !== e.target.value));
+    const serieId = Number(e.target.value);
+    if (!seriesFilters.includes(serieId)) {
+      setSeriesFilters([...seriesFilters, serieId]);
+    } else {
+      setSeriesFilters(seriesFilters.filter(f => f !== serieId));
     }
   }
 
@@ -90,9 +109,17 @@ function Inventory() {
 
   // on utiliser les fonctions de triage et de filtrage de helper.js
   const sortedCards = useMemo(() => {
-    const filtered = filterCards(cards, seriesFilters, raritiesFilters, search);
-    const sorted = sortCards(filtered, sortBy);
+    const cleanSearch = search.trim().toLowerCase();
 
+    const filtered = cards.filter((card) => {
+      const matchSerie = seriesFilters.includes(card.id_serie);
+      const matchRarity = raritiesFilters.includes(card.id_rarete);
+      const matchSearch = cleanSearch === '' || card.nom?.toLowerCase().includes(cleanSearch);
+
+      return matchSerie && matchRarity && matchSearch;
+    });
+
+    const sorted = sortCards(filtered, sortBy);
     return sortByOwned(sorted, ownershipFilter);
   }, [cards, seriesFilters, raritiesFilters, ownershipFilter, sortBy, search]);
 
@@ -114,6 +141,7 @@ function Inventory() {
         return response.json();
       })
       .then((data) => {
+        console.log("Données reçues pour l'inventaire :", data);
         setCards(data);
       })
       .catch((error) => {
@@ -128,13 +156,6 @@ function Inventory() {
   if (authLoading || loading) return <p>Chargement de l'inventaire...</p>;
   if (!player) return <p>Veuillez vous connecter pour voir votre inventaire.</p>;
   if (error) return <p>Erreur : {error}</p>;
-
-  const seriesList = [
-    { id: 'anges', label: 'Anges' },
-    { id: 'dragons', label: 'Dragons' },
-    { id: 'zombies', label: 'Zombies' },
-    { id: 'goblins', label: 'Goblins' }
-  ];
 
   const rarityList = [
     { id: 1, label: 'Communes' },

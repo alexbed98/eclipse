@@ -1,4 +1,4 @@
-import { getRarity, getSerie } from '../../utils/helpers';
+import { getRarity } from '../../utils/helpers';
 import { Sword, Shield } from 'lucide-react';
 
 import '../../css/specs.css'
@@ -32,7 +32,7 @@ function Specs({ card, onClick }) {
 
                 <div className='stat'>
                     <span className='stat-label'>Série :</span>
-                    <span className='stat-value'>{getSerie(card.id_serie)}</span>
+                    <span className='stat-value'>{card.nom_serie}</span>
                 </div>
 
                 <div className='stat'>
