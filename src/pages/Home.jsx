@@ -164,7 +164,7 @@ function Home() {
                             />
                             <div className='card-info'>
                                 <span className='card-name'>{latestBooster.nom || latestBooster.name}</span>
-                                <span className='card-seller new-booster'>------------------------------------------------</span>
+                                <span className='card-seller'>------------------------------------------------</span>
                                 <span className='card-price'>Prix: {latestBooster.prix || latestBooster.price} pièces</span>
                             </div>
                         </div>

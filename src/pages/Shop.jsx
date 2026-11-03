@@ -5,10 +5,11 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 const API_URL = import.meta.env.VITE_API_URL;
 
-function Shop() {   
-    const {player, loading: authLoading, currency, setCurrency} = useAuth();
+function Shop() {
+    const { player, loading: authLoading, currency, setCurrency } = useAuth();
     const [booster, setBooster] = useState([]);
-    const [loading, setLoading] = useState(true); 
+    const [nouveauBooster, setNouveauBooster] = useState();
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [prix, setPrix] = useState(null);
     const [focus, setFocus] = useState(null);
@@ -17,15 +18,15 @@ function Shop() {
     const [cardsObtained, setCardsObtained] = useState([]);
 
     const acheterBooster = async () => {
-        if(!player){
+        if (!player) {
             alert("Veuillez vous connecter")
             return;
         }
-        try{
+        try {
             const response = await fetch(`${API_URL}/shop/${player.id}/${prix}/${focus}`)
             const data = await response.json();
 
-            if(!data.success){
+            if (!data.success) {
                 alert(data.message);
                 return;
             }
@@ -34,7 +35,7 @@ function Shop() {
             setShowInterface(true);
 
         }
-        catch(error){
+        catch (error) {
             console.error("Erreur lors de l'achat :", error);
             alert("Une erreur est survenue lors de l'achat.");
         }
@@ -55,7 +56,8 @@ function Shop() {
             })
             .then((data) => {
                 setBooster(data);
-                setPrix(data[0].prix)
+                setPrix(data[0].prix);
+                setNouveauBooster(data.at(-1));
             })
             .catch((error) => {
                 console.error("Erreur: ", error);
@@ -66,7 +68,7 @@ function Shop() {
             });
     }, []);
 
-    if(!loading && focus === null){
+    if (!loading && focus === null) {
         setFocus(booster[0].id)
     }
 
@@ -74,9 +76,9 @@ function Shop() {
         const carousel = carouselRef.current;
         if (!carousel) return;
 
-        const product = carousel.querySelector(".shop-booster");
+        const product = carousel.querySelector(".booster-box");
         if (!product) return;
-        
+
         const gap = parseFloat(getComputedStyle(carousel).gap);
         const distance = product.offsetWidth + gap;
 
@@ -85,7 +87,7 @@ function Shop() {
             behavior: "smooth"
         });
 
-        if(focus < booster.length){
+        if (focus < booster.length) {
             const newFocus = focus + 1;
             setFocus(newFocus);
             setPrix(booster[focus].prix)
@@ -105,7 +107,7 @@ function Shop() {
             behavior: "smooth"
         });
 
-        if(focus !== 1){
+        if (focus !== 1) {
             const newFocus = focus - 1;
             setFocus(newFocus);
             setPrix(booster[newFocus - 1].prix);
@@ -117,11 +119,14 @@ function Shop() {
 
     return (
         <div>
-            <h1>Bienvenue dans le magasin</h1>
+            <div className='shop-banner-container'>
+                <h1 className='shop-banner-title'>Bienvenue sur Eclipse</h1>
+                <p className='shop-banner-text'>Combattez, collectionnez et échangez vos cartes.</p>
+            </div>
             <br />
             {showInterface && (
                 <div className='shop-results-overlay'>
-                        <div className='shop-results'>
+                    <div className='shop-results'>
                         <h1>Voici les cartes que vous avez obtenues!</h1>
                         <div className='obtained-cards'>
                             {cardsObtained?.map((idCard, index) => (
@@ -130,22 +135,29 @@ function Shop() {
                                 </div>
                             ))}
                         </div>
-                        <button className='profile-button' onClick={() => {setShowInterface(false)}}>
+                        <button className='profile-button' onClick={() => { setShowInterface(false) }}>
                             Fermer
                         </button>
-                    </div>     
+                    </div>
                 </div>
             )}
             <button id='shop-carousel-left-button' onClick={scrollLeft}>←</button>
             <div id="shop-carousel" ref={carouselRef}>
                 {booster.length === 0 ? (
                     <p>Erreur lors du chargement du magasin</p>) : (
-                        booster.map((element, index) => (
-                            <img src={`/boosters/${element.id}.png`} className={`shop-booster ${element.id === focus ? 'shop-highlight': ''}`}
+                    booster.map((element, index) => (
+                        <div className='booster-box'>
+                            <img src={`/boosters/${element.id}.png`} className={`shop-booster ${element.id === focus ? 'shop-highlight' : ''}`}
                                 key={`${element.id}-${index}`} onClick={() => handleClick(element)}
                             />
-                        ))
-                    )
+                            <div className='booster-info'>
+                                <div className='booster-name'>{element.nom}</div>
+                                <div className='booster-price'>{element.prix} pièces</div>
+                            </div>
+                            {element.id === nouveauBooster.id && ( <div className='new-booster'>Nouveau!</div> )}
+                        </div>
+                    ))
+                )
                 }
             </div>
             <button id='shop-carousel-right-button' onClick={scrollRight}>→</button>
