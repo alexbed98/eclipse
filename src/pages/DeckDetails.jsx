@@ -10,7 +10,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { filterCards, sortCards, sortByOwned } from '../utils/helpers';
 import Notifications from '../components/general/notifications';
 
-
 function DeckDetails(){
     const { id } = useParams();
     const { player, loading: authLoading } = useAuth();
@@ -23,11 +22,12 @@ function DeckDetails(){
     const [deckName, setDeckName] = useState("");
     const [interfaceDelete, setInterfaceDelete] = useState(false);
     const navigate = useNavigate();
+    const [numberOfCardInDeck, setNumberOfCardInDeck] = useState(0);
 
     const [sortBy, setSortBy] = useState('rarity-asc');
     const [ownershipFilter, setOwnershipFilter] = useState('owned');
     const [raritiesFilters, setRaritiesFilters] = useState([1, 2, 3, 4, 5]);
-    const [seriesFilters, setSeriesFilters] = useState(['anges', 'dragons', 'zombies', 'goblins']);
+    const [seriesFilters, setSeriesFilters] = useState(['anges', 'dragons', 'zombies', 'goblins', 'elfes', 'mages', 'vampires', 'inconnue']);
     const [search, setSearch] = useState('');
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
@@ -207,11 +207,40 @@ function DeckDetails(){
 
     }, [numeroNotification, notificationId])
 
-
     function afficherNotification(numero) {
         setNumeroNotification(numero);
         setNotificationId(id => id + 1);
     }
+
+    // code pour 'griser' les cartes selon leur quantité en inventaire vs quantité dans le deck ou atteint max capacité du deck.
+    const MAX_COPIES = 2;
+
+    const getDeckQuantity = (cardId) => {
+        const cardInDeck = listeCartes.find(
+            (element) => Number(element.id_carte) === Number(cardId)
+        );
+
+        return cardInDeck ? Number(cardInDeck.quantite) : 0;
+    };
+
+    const isCardUnavailable = (card) => {
+        const quantityInDeck = getDeckQuantity(card.id);
+
+        const quantityOwned = Number(card.quantite);
+
+        return (
+            quantityInDeck >= MAX_COPIES ||
+            quantityOwned <= quantityInDeck
+        );
+    };
+
+    useEffect(() => {
+            let count = 0;
+            listeCartes.forEach(element => {
+                count += element.quantite;
+            });
+            setNumberOfCardInDeck(count);
+    }, [listeCartes])
 
     if (loading) return <p>Chargement des cartes</p>;
 
@@ -221,8 +250,8 @@ function DeckDetails(){
                 <Notifications NumeroNotification={numeroNotification}/>
             )}
             <div id='deckDetails-title-container'>
-                <div>Page de détails du deck: {deckName.nom}!</div>
-                <button className='profile-button' onClick={handleNavigationDeck}>Sauvegarder et retour à la page des decks</button>
+                <div className='deckDetails-deckTitle'>Page de détails du deck: {deckName.nom}!</div>
+                <button className='profile-button' onClick={handleNavigationDeck}>Retour à la page des decks</button>
                 <button className='profile-button' onClick={handleInterfaceDelete}>Effacer le deck</button>
                 {interfaceDelete && (
                     <div className='deck-overlay'>
@@ -234,6 +263,7 @@ function DeckDetails(){
                     </div>
                 )}
             </div>
+            <div className='deckDetails-card-count'>Nombre de cartes dans le deck: {numberOfCardInDeck}/20</div>
             <div id='deckDetails-main-container'>
                 <div id='deckDetails-search-card'>
                           <div className="sort-container">
@@ -249,14 +279,17 @@ function DeckDetails(){
                               />
                             </div>
                         </div>
-                    {sortedCards.map((element, index) => (
-                        <div key={element.id || index} className='deckDetails-collection-cards-container'>
-                            <img  className='deckDetails-collection-cards' src={`/cards/${element.id}.png`}></img>
-                            <div>
-                                <button className='deckDetails-overlay-button1' onClick={() => handleAddCard(element)}>+</button>
-                            </div>
-                        </div>
-                    ))}
+                        {sortedCards.map((element, index) => {
+                            const unavailable = isCardUnavailable(element);
+                            return (
+                                <div key={element.id || index} className={`deckDetails-collection-cards-container ${unavailable ? 'card-unavailable' : ''}`}>
+                                    <img className='deckDetails-collection-cards' src={`/cards/${element.id}.png`} alt={element.nom}/>
+                                    <div>
+                                        <button className='deckDetails-overlay-button1' onClick={() => handleAddCard(element)} disabled={unavailable}> + </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
                 </div>
                 <div id='deckDetails-card-list'>
                     {listeCartes.map((element, index) => (

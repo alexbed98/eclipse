@@ -5,6 +5,19 @@
     gap: 10em;
 }
 
+.deckDetails-deckTitle{
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px 25px;
+    margin: 20px auto;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+}
+
 #deckDetails-main-container {
     display: flex;
     gap: 1em;
@@ -29,6 +42,7 @@
 .deckDetails-card {
     width: 10em;
     margin: 0.5em;
+    border-radius: 12px;
 }
 
 .deckDetails-collection-cards-container{
@@ -45,11 +59,11 @@
 .deckDetails-collection-cards {
     width: 6em;
     margin: 0.5em;
+    border-radius: 12px;
 }
 
 .deckDetails-collection-cards:hover{
     z-index: 1000;
-    
 }
 
 .deckDetails-overlay-button1{
@@ -81,4 +95,23 @@
     display: inline-block;
     z-index: 1;
     padding-bottom: 25px;
+}
+
+.card-unavailable {
+    filter: grayscale(100%);
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.deckDetails-card-count{
+    display: flex;
+    justify-self: center;
+    margin-left: 8em;
+    font-size: 1.5em;
+    color: white;
+    background-color: black;
+    padding: 0.5em;
+    border-radius: 12px;
+
 }
