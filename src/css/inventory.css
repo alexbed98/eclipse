@@ -20,10 +20,6 @@
   min-width: 250px;
 }
 
-.search-box input {
-    background-color: #f1f1f1;
-}
-
 .search-box .search-icon {
   position: absolute;
   left: 12px;
@@ -35,13 +31,18 @@
 .search-box input {
   width: 100%;
   padding: 10px 10px 10px 36px;
-  background: linear-gradient(90deg, #1a1e29 0%, #8792ad 100%);
-  border: 1px solid #37435c;
-  color: white;
+  border: 1px solid #e2e5eb;
   border-radius: 8px;
   font-size: 0.95em;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inventory-container .search-box input {
+  background: linear-gradient(90deg, #1a1e29 0%, #40485c 100%);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.35);
+  border: none;
+  color: white;
 }
 
 .search-box input:focus {
@@ -56,17 +57,28 @@
   font-size: 0.95em;
 }
 
+.sort-box label{
+  color: rgb(49, 47, 47);
+}
+
 .sort-box select {
+  border: 1px solid #e2e5eb;
   padding: 0.55rem 1rem;
   border-radius: 8px;
-  background: linear-gradient(90deg, #78839e 0%, #8792ad 20%);
   font-size: 0.95rem;
   cursor: pointer;
   outline: none;
 }
 
+.inventory-container .sort-box select {
+  background: linear-gradient(90deg, #3c455c 0%, #464d61 100%);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.35);
+  border: none;
+  color: rgb(206, 206, 206);
+}
+
 .filter-panel {
-  background: linear-gradient(90deg, #1a1e29 0%, #8792ad 100%);
+  background: linear-gradient(90deg, #1a1e29 0%, #464d61 100%);
   border-radius: 8px;
   padding: 12px 16px;
   display: flex;
@@ -82,10 +94,10 @@
 }
 
 .filter-label {
-  font-weight: 500;
+  font-weight: 600;
   min-width: 80px;
   font-size: 1rem;
-  color: #dbdbdb;
+  color: #c9c9c9;
 }
 
 .filter-options {
@@ -106,14 +118,13 @@
 }
 
 .filter-checkbox, .filter-radio {
-    background-color: #aec0e2;
+    background-color: #91a6cc;
     padding: 1px 0px 0px 7px;
     border-radius: 6px;
 }
 
 .filter-checkbox:hover {
-  border-color: #94a3b8;
-  background-color: #dddddd;
+  background-color: #c9d6ee;
 }
 
 .filter-checkbox, .filter-radio {
@@ -123,8 +134,8 @@
 }
 
 .cards-container {
-  background: linear-gradient(90deg, #1a1e29 0%, #8792ad 100%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(90deg, #1a1e29 0%, #464d61 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
   border-radius: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -178,7 +189,7 @@
   background: rgba(0, 0, 0, 0.85);
   color: #ddc6da;
   border: 1px solid #ddc6da;
-  font-size: 0.8rem;
+  font-size: 1rem;
   padding: 2px 7px;
   border-radius: 12px;
   pointer-events: none;

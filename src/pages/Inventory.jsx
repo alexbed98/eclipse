@@ -11,7 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 function Inventory() {
   const { player, loading: authLoading } = useAuth();
   const [cards, setCards] = useState([]);
-  const [sortBy, setSortBy] = useState('rarity-asc');
+  const [sortBy, setSortBy] = useState('rarity-desc');
   const [seriesFilters, setSeriesFilters] = useState([]);
   const [raritiesFilters, setRaritiesFilters] = useState([1, 2, 3, 4, 5]);
   const [ownershipFilter, setOwnershipFilter] = useState('owned');
@@ -201,7 +201,7 @@ function Inventory() {
             <select id="sort-select" value={sortBy} onChange={handleSortChange}>
               {sortByList.map((sort) => (
                 <option key={sort.id} value={sort.id}>
-                  {sort.label}
+                  <div>{sort.label}</div>
                 </option>
               ))}
             </select>
