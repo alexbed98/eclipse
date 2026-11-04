@@ -1,39 +1,40 @@
 import '../css/shop.css'
 import { useAuth } from '../context/AuthContext';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Shop() {
-    const { player, loading: authLoading, currency, setCurrency } = useAuth();
-    const [booster, setBooster] = useState([]);
+    const { player, refreshPlayer, authLoading } = useAuth();
+    const [boosters, setBoosters] = useState([]);
+    const [selectedBooster, setSelectedBooster] = useState(null);
     const [nouveauBooster, setNouveauBooster] = useState();
+    const [cardsObtained, setCardsObtained] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [prix, setPrix] = useState(null);
-    const [focus, setFocus] = useState(null);
-    const carouselRef = useRef(null);
     const [showInterface, setShowInterface] = useState(false);
-    const [cardsObtained, setCardsObtained] = useState([]);
+    const [showConfirmBox, setShowConfirmBox] = useState(false);
+    const carouselRef = useRef(null);
 
     const acheterBooster = async () => {
         if (!player) {
             alert("Veuillez vous connecter")
             return;
         }
+        if (!selectedBooster) return;
+
         try {
-            const response = await fetch(`${API_URL}/shop/${player.id}/${prix}/${focus}`)
+            const response = await fetch(`${API_URL}/shop/${player.id}/${selectedBooster.prix}/${selectedBooster.id}`);
             const data = await response.json();
 
             if (!data.success) {
                 alert(data.message);
                 return;
             }
-            setCurrency(data.updatedCurrency);
-            setCardsObtained(data.cardsObtained)
-            setShowInterface(true);
 
+            await refreshPlayer();
+            setCardsObtained(data.cardsObtained)
+            setShowConfirmBox(false);
+            setShowInterface(true);
         }
         catch (error) {
             console.error("Erreur lors de l'achat :", error);
@@ -41,9 +42,12 @@ function Shop() {
         }
     }
 
-    const handleClick = (param) => {
-        setPrix(param.prix);
-        setFocus(param.id);
+    const handleClickFocus = async (booster) => {
+        setSelectedBooster(booster);
+    }
+
+    const handleClickBuy = async () => {
+        setShowConfirmBox(true)
     }
 
     useEffect(() => {
@@ -55,9 +59,11 @@ function Shop() {
                 return response.json();
             })
             .then((data) => {
-                setBooster(data);
-                setPrix(data[0].prix);
-                setNouveauBooster(data.at(-1));
+                setBoosters(data);
+                if (data.length > 0) {
+                    setSelectedBooster(data[0]);
+                    setNouveauBooster(data.at(-1));
+                }
             })
             .catch((error) => {
                 console.error("Erreur: ", error);
@@ -68,57 +74,65 @@ function Shop() {
             });
     }, []);
 
-    if (!loading && focus === null) {
-        setFocus(booster[0].id)
-    }
-
     const scrollRight = () => {
         const carousel = carouselRef.current;
-        if (!carousel) return;
+        if (!carousel || boosters.length === 0) return;
 
         const product = carousel.querySelector(".booster-box");
         if (!product) return;
 
-        const gap = parseFloat(getComputedStyle(carousel).gap);
+        const gap = parseFloat(getComputedStyle(carousel).gap) || 0;
         const distance = product.offsetWidth + gap;
 
-        carousel.scrollBy({
-            left: distance,
-            behavior: "smooth"
-        });
+        carousel.scrollBy({ left: distance, behavior: "smooth" });
 
-        if (focus < booster.length) {
-            const newFocus = focus + 1;
-            setFocus(newFocus);
-            setPrix(booster[focus].prix)
+        const currentIndex = boosters.findIndex((b) => b.id === selectedBooster?.id);
+        if (currentIndex !== -1 && currentIndex < boosters.length - 1) {
+            setSelectedBooster(boosters[currentIndex + 1]);
         }
     };
 
     const scrollLeft = () => {
         const carousel = carouselRef.current;
-        if (!carousel) return;
-        const product = carousel.querySelector(".shop-booster");
+        if (!carousel || boosters.length === 0) return;
+
+        const product = carousel.querySelector(".booster-box");
         if (!product) return;
-        const gap = parseFloat(getComputedStyle(carousel).gap);
+
+        const gap = parseFloat(getComputedStyle(carousel).gap) || 0;
         const distance = product.offsetWidth + gap;
 
-        carousel.scrollBy({
-            left: -distance,
-            behavior: "smooth"
-        });
+        carousel.scrollBy({ left: -distance, behavior: "smooth" });
 
-        if (focus !== 1) {
-            const newFocus = focus - 1;
-            setFocus(newFocus);
-            setPrix(booster[newFocus - 1].prix);
+        const currentIndex = boosters.findIndex((b) => b.id === selectedBooster?.id);
+        if (currentIndex > 0) {
+            setSelectedBooster(boosters[currentIndex - 1]);
         }
     };
 
-    if (loading) return <p>Chargement du magasin</p>;
+    if (authLoading || loading) return <p>Chargement du magasin</p>;
     if (error) return <p>Erreur: {error}</p>;
 
     return (
         <div>
+            {showConfirmBox && selectedBooster && (
+                <div className='modal-box'>
+                    <div className='modal-content'>
+                        <div>
+                            <h3>Êtes-vous certain de vouloir acheter un {selectedBooster.nom} pour {selectedBooster.prix} pièces?</h3>
+                        </div>
+                        <div className='button-box'>
+                            <button className='cancel-button' onClick={() => setShowConfirmBox(false)}>
+                                Annuler
+                            </button>
+                            <button className='confirm-button' onClick={acheterBooster}>
+                                Confirmer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className='shop-banner-container'>
                 <h1 className='shop-banner-title'>Bienvenue sur Eclipse</h1>
                 <p className='shop-banner-text'>Combattez, collectionnez et échangez vos cartes.</p>
@@ -135,7 +149,7 @@ function Shop() {
                                 </div>
                             ))}
                         </div>
-                        <button className='profile-button' onClick={() => { setShowInterface(false) }}>
+                        <button className='shop-button close-button' onClick={() => { setShowInterface(false) }}>
                             Fermer
                         </button>
                     </div>
@@ -143,18 +157,25 @@ function Shop() {
             )}
             <button id='shop-carousel-left-button' onClick={scrollLeft}>←</button>
             <div id="shop-carousel" ref={carouselRef}>
-                {booster.length === 0 ? (
+                {boosters.length === 0 ? (
                     <p>Erreur lors du chargement du magasin</p>) : (
-                    booster.map((element, index) => (
+                    boosters.map((element, index) => (
                         <div className='booster-box'>
-                            <img src={`/boosters/${element.id}.png`} className={`shop-booster ${element.id === focus ? 'shop-highlight' : ''}`}
-                                key={`${element.id}-${index}`} onClick={() => handleClick(element)}
+                            <img
+                                src={`/boosters/${element.id}.png`}
+                                className={`shop-booster 
+                                            ${element.id === selectedBooster?.id ? 'shop-highlight' : ''}
+                                            `}
+                                key={`${element.id}-${index}`}
+                                onClick={() => handleClickFocus(element)}
                             />
                             <div className='booster-info'>
                                 <div className='booster-name'>{element.nom}</div>
                                 <div className='booster-price'>{element.prix} pièces</div>
                             </div>
-                            {element.id === nouveauBooster.id && ( <div className='new-booster'>Nouveau!</div> )}
+                            {element.id === nouveauBooster.id && (
+                                <div className='new-booster'>Nouveau!</div>
+                            )}
                         </div>
                     ))
                 )
@@ -162,12 +183,14 @@ function Shop() {
             </div>
             <button id='shop-carousel-right-button' onClick={scrollRight}>→</button>
             <div id='shop-container-buy'>
-                <div id='shop-currency'>
-                    <p>{prix} pièces</p>
-                </div>
-                <button className='profile-button' onClick={acheterBooster}>
-                    Acheter
-                </button>
+                {player ?
+                    <button className='shop-button' onClick={handleClickBuy}>
+                        Acheter
+                    </button> :
+                    <div className='login-message'>
+                        Connectez vous pour acheter!
+                    </div>
+                }
             </div>
         </div>
     );

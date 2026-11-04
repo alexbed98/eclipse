@@ -169,7 +169,7 @@ function Home() {
                             </div>
                         </div>
                     )}
-                    <Link to="/shop" className='link-home'>Visiter la boutique</Link>
+                    <Link to="/shop" className='link-home'>Visiter le magasin</Link>
                 </div>
 
                 {/* notifications (si connecté) */}
