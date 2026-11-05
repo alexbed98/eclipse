@@ -1,0 +1,5 @@
+/* container principal */
+.game-menu-container {
+    display: flex;
+    flex-direction: column;
+}
