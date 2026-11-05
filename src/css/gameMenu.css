@@ -23,26 +23,33 @@
 
 /* ----------------------------------- */
 
-/* menu select pour choisir un deck */
 .setup-box{
     display: flex;
     flex-direction: row;
+    gap: 20px;
 }
 
+/* menu select pour choisir un deck */
 .deck-selector {
     padding: 22px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     justify-content: flex-start;
-    font-size: 1.4em;
 }
 
 .deck-selector select {
     padding: 7px;
-
 }
 /* ----------------------------------- */
+
+/* liste des cartes dans le deck */
+.cards-list {
+    overflow-y: scroll;
+    height: 170px;
+}
+/* ----------------------------------- */
+
 
 /* image cover du deck */
 .deck-preview {
@@ -51,7 +58,7 @@
 
 .deck-preview img {
     border-radius: 10px;
-    max-width: 180px;
+    max-width: 190px;
 }
 /* ----------------------------------- */
 

@@ -17,6 +17,7 @@ function GameMenu() {
 
     const [decks, setDecks] = useState([]);
     const [selectedDeckId, setSelectedDeckId] = useState(null);
+    const [cards, setCards] = useState(null);
     const [difficulty, setDifficulty] = useState('medium');
 
     const [loading, setLoading] = useState(true);
@@ -44,6 +45,24 @@ function GameMenu() {
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
     }, [player, authLoading]);
+
+    // charger les cartes du deck selectionne
+    useEffect(() => {
+    if (!selectedDeckId) return;
+
+    fetch(`${API_URL}/deck/cartes/${selectedDeckId}`)
+        .then((res) => {
+            if (!res.ok) throw new Error("Problème lors du chargement des cartes");
+            return res.json();
+        })
+        .then((data) => {
+            setCards(data);
+        })
+        .catch((err) => {
+            console.error(err);
+            setError(err.message);
+        });
+}, [selectedDeckId]);
 
     // pour changer le deck selectionne
     const handleChangeSelected = (e) => {
@@ -86,7 +105,7 @@ function GameMenu() {
             <div className='setup-container'>
                 <div className='setup-box'>
                     <div className='deck-selector'>
-                        <label htmlFor="deck-select">Choisissez votre deck</label>
+                        <label htmlFor="deck-select"><h3>Choisissez votre deck</h3></label>
                         <select id='deck-select' value={selectedDeckId} onChange={handleChangeSelected}>
                             {decks.map((sort) => (
                                 <option key={sort.id} value={sort.id}>
@@ -94,6 +113,12 @@ function GameMenu() {
                                 </option>
                             ))}
                         </select>
+                        <p>Liste des cartes</p>
+                        <div className='cards-list'>
+                            {cards?.map((card) => (
+                                <div>{card.id_carte}</div>
+                            ))}
+                        </div>
                     </div>
                     <div className='deck-preview'>
                         <img src={`/cards/${chosenDeck.image}`} alt={chosenDeck.nom} />
