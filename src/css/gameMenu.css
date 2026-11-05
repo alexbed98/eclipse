@@ -2,4 +2,56 @@
 .game-menu-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    /* background-color: rgb(7, 19, 34);
+    color: white; */
 }
+/* ----------------------------------- */
+
+/* titre */
+.game-menu-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    padding: 16px;
+    font-size: 1.1em;
+}
+
+/* ----------------------------------- */
+
+/* menu select pour choisir un deck */
+.setup-box{
+    display: flex;
+    flex-direction: row;
+}
+
+.deck-selector {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: flex-start;
+    font-size: 1.4em;
+}
+
+.deck-selector select {
+    padding: 7px;
+
+}
+/* ----------------------------------- */
+
+/* image cover du deck */
+.deck-preview {
+    padding: 22px;
+}
+
+.deck-preview img {
+    border-radius: 10px;
+    max-width: 180px;
+}
+/* ----------------------------------- */
+
