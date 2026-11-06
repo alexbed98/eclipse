@@ -6,9 +6,9 @@ import '../css/gameMenu.css';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const BOT_DIFFICULTIES = [
-    { id: 'easy', label: 'Apprenti', color: '#22c522' },
-    { id: 'medium', label: 'Guerrier', color: '#eab308' },
-    { id: 'hard', label: 'Héro', color: '#ef4444' }
+    { id: 'easy', label: 'Apprenti (facile)' },
+    { id: 'medium', label: 'Guerrier (intermédiaire)' },
+    { id: 'hard', label: 'Héro (difficile)' }
 ];
 
 function GameMenu() {
@@ -48,25 +48,29 @@ function GameMenu() {
 
     // charger les cartes du deck selectionne
     useEffect(() => {
-    if (!selectedDeckId) return;
+        if (!selectedDeckId) return;
 
-    fetch(`${API_URL}/deck/cartes/${selectedDeckId}`)
-        .then((res) => {
-            if (!res.ok) throw new Error("Problème lors du chargement des cartes");
-            return res.json();
-        })
-        .then((data) => {
-            setCards(data);
-        })
-        .catch((err) => {
-            console.error(err);
-            setError(err.message);
-        });
-}, [selectedDeckId]);
+        fetch(`${API_URL}/deck/cartes/${selectedDeckId}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("Problème lors du chargement des cartes");
+                return res.json();
+            })
+            .then((data) => {
+                setCards(data);
+            })
+            .catch((err) => {
+                console.error(err);
+                setError(err.message);
+            });
+    }, [selectedDeckId]);
 
     // pour changer le deck selectionne
     const handleChangeSelected = (e) => {
         setSelectedDeckId(Number(e.target.value));
+    }
+
+    const handleChangeDifficulty = (diff) => {
+        setDifficulty(diff)
     }
 
     const handleStartGame = async () => {
@@ -103,7 +107,7 @@ function GameMenu() {
             {error && <div>{error}</div>}
 
             <div className='setup-container'>
-                <div className='setup-box'>
+                <div className='deck-setup-box'>
                     <div className='deck-selector'>
                         <label htmlFor="deck-select"><h3>Choisissez votre deck</h3></label>
                         <select id='deck-select' value={selectedDeckId} onChange={handleChangeSelected}>
@@ -116,7 +120,7 @@ function GameMenu() {
                         <p>Liste des cartes</p>
                         <div className='cards-list'>
                             {cards?.map((card) => (
-                                <div>{card.id_carte}</div>
+                                <div>{card.nom_carte}</div>
                             ))}
                         </div>
                     </div>
@@ -125,9 +129,23 @@ function GameMenu() {
                     </div>
                 </div>
 
-                <div className='setup-box'>
+                <div className='diff-setup-box'>
                     <h3>Choisissez la Difficulté de l'ordinateur</h3>
+                    <div className='diff-box'>
+                        {BOT_DIFFICULTIES.map((diff) => (
+                            <button
+                                key={diff.id}
+                                className={`diff-button diff-${diff.id} ${difficulty === diff.id ? 'diff-selected' : ''}`}
+                                onClick={() => {handleChangeDifficulty(diff.id)}}>
+                                {diff.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
+            </div>
+
+            <div>
+                <button>Commencer la partie</button>
             </div>
 
         </div>
