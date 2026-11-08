@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { starterDeck, starterCards } from '../utils/helpers';
 import '../css/gameMenu.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const BOT_DIFFICULTIES = [
-    { id: 'easy', label: 'Apprenti (facile)' },
-    { id: 'medium', label: 'Guerrier (intermédiaire)' },
-    { id: 'hard', label: 'Héro (difficile)' }
+    { id: 'easy', label: 'Apprenti (facile)', desc: 'L\'ordinateur joue ses cartes aléatoirement sans stratégie.' },
+    { id: 'medium', label: 'Guerrier (intermédiaire)', desc: 'L\'ordinateur priorise ses attaques envers vos cartes faibles afin de les éliminer.' },
+    { id: 'hard', label: 'Héro (difficile)', desc: 'L\'ordinateur choisi et optimise son attaque en fonction de la situation.' }
 ];
 
 function GameMenu() {
@@ -16,7 +17,7 @@ function GameMenu() {
     const navigate = useNavigate();
 
     const [decks, setDecks] = useState([]);
-    const [selectedDeckId, setSelectedDeckId] = useState(null);
+    const [selectedDeckId, setSelectedDeckId] = useState(0);
     const [cards, setCards] = useState(null);
     const [difficulty, setDifficulty] = useState('medium');
 
@@ -41,6 +42,10 @@ function GameMenu() {
                 if (data.length > 0) {
                     setSelectedDeckId(data[0].id);
                 }
+                else {
+                    setSelectedDeckId(0);
+                    setDecks(starterDeck(player.id));
+                }
             })
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
@@ -48,7 +53,10 @@ function GameMenu() {
 
     // charger les cartes du deck selectionne
     useEffect(() => {
-        if (!selectedDeckId) return;
+        if (!selectedDeckId || selectedDeckId === 0) {
+            setCards(starterCards(selectedDeckId));
+            return;
+        } 
 
         fetch(`${API_URL}/deck/cartes/${selectedDeckId}`)
             .then((res) => {
@@ -74,10 +82,15 @@ function GameMenu() {
     }
 
     const handleStartGame = async () => {
-        if (!selectedDeckId) {
+        if (selectedDeckId === null || selectedDeckId === undefined) {
             alert('Veuillez sélectionner un deck.');
             return;
         }
+
+        if (!chosenDeck) {
+            alert('Le deck sélectionné est introuvable.');
+            return;
+    }
 
         try {
             navigate('/game', {
@@ -119,13 +132,15 @@ function GameMenu() {
                         </select>
                         <p>Liste des cartes:</p>
                         <div className='cards-list'>
-                            {cards?.map((card) => (
-                                <div>{card.nom_carte}</div>
+                            {cards?.map((card, index) => (
+                                <div key={card.id ? `${card.id}-${index}` : index}>
+                                    {card.nom_carte}
+                                </div>
                             ))}
                         </div>
                     </div>
                     <div className='deck-preview'>
-                        <img src={`/cards/${chosenDeck.image}`} alt={chosenDeck.nom} />
+                        <img src={`/cards/${chosenDeck?.image}`} alt={chosenDeck?.nom} />
                     </div>
                 </div>
 

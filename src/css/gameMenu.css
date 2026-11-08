@@ -1,13 +1,16 @@
 /* conteneur principal */
 .game-menu-container {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
+    gap: 35px;
     align-items: center;
     border: 1px solid black;
     padding: 10px;
     border-radius: 10px;
     background-color: rgb(7, 17, 29);
     color: white;
+    font-size: 1.1em;
 }
 /* ----------------------------------- */
 
@@ -17,7 +20,7 @@
     flex-direction: column;
     gap: 10px;
     text-align: center;
-    padding: 14px;
+    padding: 18px;
     font-size: 1.1em;
 }
 /* ----------------------------------- */
@@ -26,7 +29,7 @@
 .setup-container {
     display: flex;
     flex-direction: row;
-    gap: 14px;
+    gap: 40px;
 }
 /* ----------------------------------- */
 
@@ -79,6 +82,7 @@
 .deck-preview img {
     border-radius: 10px;
     max-width: 190px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
 }
 /* ----------------------------------- */
 
@@ -148,7 +152,7 @@
     border: none;
     cursor: pointer;
     border-radius: 8px;
-    background-color: rgb(19, 17, 49);
+    background-color: rgb(31, 26, 92);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
     color: white;
 }
