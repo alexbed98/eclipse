@@ -80,7 +80,7 @@ function GameMenu() {
         }
 
         try {
-            navigate('/battle', {
+            navigate('/game', {
                 state: {
                     playerDeck: chosenDeck.id,
                     botDifficulty: difficulty
@@ -117,7 +117,7 @@ function GameMenu() {
                                 </option>
                             ))}
                         </select>
-                        <p>Liste des cartes</p>
+                        <p>Liste des cartes:</p>
                         <div className='cards-list'>
                             {cards?.map((card) => (
                                 <div>{card.nom_carte}</div>
@@ -144,8 +144,8 @@ function GameMenu() {
                 </div>
             </div>
 
-            <div>
-                <button>Commencer la partie</button>
+            <div className='button-start-box'>
+                <button className='button-start' onClick={handleStartGame}>Commencer la partie</button>
             </div>
 
         </div>

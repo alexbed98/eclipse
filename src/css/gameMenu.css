@@ -6,8 +6,8 @@
     border: 1px solid black;
     padding: 10px;
     border-radius: 10px;
-    /* background-color: rgb(7, 19, 34);
-    color: white; */
+    background-color: rgb(7, 17, 29);
+    color: white;
 }
 /* ----------------------------------- */
 
@@ -26,20 +26,26 @@
 .setup-container {
     display: flex;
     flex-direction: row;
+    gap: 14px;
 }
 /* ----------------------------------- */
+
+/* boites de settings */
+.deck-setup-box, .diff-setup-box {
+    border-radius: 8px;
+    background-color: rgb(30, 38, 61);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
 
 /* section de la selection de deck */
 .deck-setup-box{
     display: flex;
     flex-direction: row;
-    border: 1px solid black;
     gap: 20px;
 }
 
 /* menu select pour choisir un deck */
 .deck-selector {
-    border: 1px solid black;
     padding: 22px;
     display: flex;
     flex-direction: column;
@@ -53,7 +59,6 @@
 
 /* liste des cartes dans le deck */
 .cards-list {
-    border: 1px solid black;
     font-size: 0.9em;
     overflow-y: scroll;
     height: 170px;
@@ -61,6 +66,9 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    background-color: rgb(16, 16, 36);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
 }
 
 /* image du cover du deck */
@@ -77,10 +85,10 @@
 /* section choix de difficulte */
 .diff-setup-box {
     padding: 20px;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
-    gap: 18px
+    gap: 18px;
+    flex: 1;
 }
 
 .diff-selector {
@@ -89,26 +97,30 @@
 }
 
 .diff-box {
+    padding: 18px 0px;
     display: flex;
     flex-direction: column;
     gap: 18px;
-    font-size: 1.1em;
+    font-size: 1.2em;
     align-items: center;
+    flex: 1;
+    justify-content: space-evenly;
 }
 
 .diff-button {
-    padding: 12px;
+    padding: 14px;
     text-align: center;
     min-width: 70%;
     border: none;
+    cursor: pointer;
     border-radius: 6px;
     background-color: rgb(235, 236, 236);
     font-weight: 600;
 }
 
 .diff-selected {
-    background-color: rgb(207, 207, 214);
-    border: 2px solid rgb(43, 43, 66);
+    background-color: rgb(101, 101, 160);
+    border: 2px solid rgb(208, 208, 231);
 }
 
 .diff-easy {
@@ -125,6 +137,20 @@
 /* ----------------------------------- */
 
 /* bouton pour commencer la partie */
+.button-start-box {
+    padding: 20px
+}
 
+.button-start {
+    padding: 14px;
+    font-weight: 600;
+    font-size: 1.4em;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: rgb(19, 17, 49);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+    color: white;
+}
 
 /* ----------------------------------- */
