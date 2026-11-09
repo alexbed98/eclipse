@@ -101,7 +101,7 @@ function Decks() {
         <div id='deck-main-container'>
 
             <div className='deck-banner-container'>
-                <h1 className='market-banner-title'>Bienvenue à la forge</h1>
+                <h1 className='market-banner-title'>Bienvenue à la section de création de decks</h1>
                 <p className='market-banner-text'>Fabriquez vos decks pour affronter vos adversaires.</p>
             </div>
             

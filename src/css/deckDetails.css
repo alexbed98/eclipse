@@ -1,21 +1,36 @@
-#deckDetails-title-container{
-    display: flex;
-    flex-direction: row;
+#deckDetails-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
     margin-bottom: 2em;
-    gap: 10em;
+    padding: 0 1em;
+    box-sizing: border-box;
 }
 
-.deckDetails-deckTitle{
-    display: inline-block;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
+.deckDetails-deckTitle,
+.deckDetails-card-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 3.5em;
+    
+
+    font-size: 1.4em;
+    font-weight: 600;
     text-align: center;
-    padding: 15px 25px;
-    margin: 20px auto;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+    padding: 15px 10px;
+    border-radius: 8px;
+}
+
+#deckDetails-header .profile-button {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 #deckDetails-main-container {
@@ -37,6 +52,9 @@
     display: flex;
     flex-wrap: wrap;
     padding: 1em;
+    min-height: 45em;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
 }
 
 .deckDetails-card {
@@ -102,16 +120,4 @@
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
-}
-
-.deckDetails-card-count{
-    display: flex;
-    justify-self: center;
-    margin-left: 8em;
-    font-size: 1.5em;
-    color: white;
-    background-color: black;
-    padding: 0.5em;
-    border-radius: 12px;
-
 }
