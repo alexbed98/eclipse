@@ -41,7 +41,7 @@ function DeckDetails(){
     }, [cards, seriesFilters, raritiesFilters, ownershipFilter, sortBy, search]);
 
 
-    const fetchDeck = () => {
+    const fetchListeCollection = () => {
         fetch(`${API_URL}/deckDetails/${player.id}`)
         .then((response) => {
             if (!response.ok) {
@@ -78,7 +78,6 @@ function DeckDetails(){
         });
     })
 
-    // useEffect qui get la liste des decks du joueur au chargement de la page - utilisation de fetchDeck.
     useEffect(() => {
         if (authLoading) return;
 
@@ -87,7 +86,7 @@ function DeckDetails(){
             return;
         }
         setLoading(true);
-        fetchDeck();
+        fetchListeCollection();
     }, [player, authLoading]);
 
     // Ici on fetch la liste des cartes du deck.

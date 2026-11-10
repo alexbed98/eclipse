@@ -47,18 +47,25 @@
 .game-botCard{
     position: center;
     border: solid black 2px;
-    padding-right: 2em;
-    padding-left: 2em;
-    padding-top: 4em;
-    padding-bottom: 4em;
     margin: 0.1em;
     border-radius: 12px;
     z-index: 10;
     background-color: black;
+    max-width: 10em;
 }
 
 .game-botCard:hover{
     transform: translateY(60px);
+}
+
+.game-botCardOnField{
+    position: center;
+    border: solid black 2px;
+    margin: 0.1em;
+    border-radius: 12px;
+    z-index: 10;
+    background-color: black;
+    max-width: 10em;
 }
 
 
@@ -111,7 +118,7 @@
 }
 
 .game-playerHand{
-    color: blue;
+    color: lightseagreen;
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -123,16 +130,23 @@
 .game-playerCard{
     position: center;
     border: solid black 2px;
-    padding-right: 2em;
-    padding-left: 2em;
-    padding-top: 4em;
-    padding-bottom: 4em;
     margin: 0.1em;
     border-radius: 12px;
     z-index: 10;
     background-color: black;
+    max-width: 10em;
 }
 
 .game-playerCard:hover{
     transform: translateY(-70px);
+}
+
+.game-playerCardOnField{
+    position: center;
+    border: solid black 2px;
+    margin: 0.1em;
+    border-radius: 12px;
+    z-index: 10;
+    background-color: black;
+    max-width: 10em;
 }
