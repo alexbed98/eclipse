@@ -8,15 +8,10 @@
     margin: 1.5em;
     width: 280px;
     padding: 16px 25px;
-
     font-size: 20px;
     font-weight: bold;
-
-    border: 2px solid gold;
     border-radius: 12px;
-
     cursor: pointer;
-
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -120,10 +115,8 @@
     color: gold;
     z-index: 1;
     text-align: center;
-
     width: max-content;
     max-width: 98%;
-
     padding: 8px 16px;
     background-color: rgba(0, 0, 0);
     border-radius: 12px;
@@ -145,7 +138,7 @@
     background-color: rgba(0, 0, 0);
     color: gold;
     border-radius: 12px;
-    padding: 10px 16px;
+    padding: 10px 8px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;

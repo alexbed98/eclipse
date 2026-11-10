@@ -41,7 +41,7 @@ function DeckDetails(){
     }, [cards, seriesFilters, raritiesFilters, ownershipFilter, sortBy, search]);
 
 
-    const fetchDeck = () => {
+    const fetchListeCollection = () => {
         fetch(`${API_URL}/deckDetails/${player.id}`)
         .then((response) => {
             if (!response.ok) {
@@ -78,7 +78,6 @@ function DeckDetails(){
         });
     })
 
-    // useEffect qui get la liste des decks du joueur au chargement de la page - utilisation de fetchDeck.
     useEffect(() => {
         if (authLoading) return;
 
@@ -87,7 +86,7 @@ function DeckDetails(){
             return;
         }
         setLoading(true);
-        fetchDeck();
+        fetchListeCollection();
     }, [player, authLoading]);
 
     // Ici on fetch la liste des cartes du deck.
@@ -249,22 +248,37 @@ function DeckDetails(){
             {numeroNotification !== 0 && (
                 <Notifications NumeroNotification={numeroNotification}/>
             )}
-            <div id='deckDetails-title-container'>
-                <div className='deckDetails-deckTitle'>Page de détails du deck: {deckName.nom}!</div>
-                <button className='profile-button' onClick={handleNavigationDeck}>Retour à la page des decks</button>
-                <button className='profile-button' onClick={handleInterfaceDelete}>Effacer le deck</button>
-                {interfaceDelete && (
-                    <div className='deck-overlay'>
-                        <div className="deck-modal">
-                        <h2>Voulez-vous vraiment effacer votre deck?</h2>
-                        <button className='profile-button' onClick={handleDelete}>Effacer</button>
-                        <button className='profile-button' onClick={handleInterfaceDelete}>Annuler</button>
-                    </div>
-                    </div>
-                )}
+
+            <div id="deckDetails-header">
+                <div className="deckDetails-deckTitle">
+                    Page de détails du deck: {deckName.nom}!
+                </div>
+                    <button className="profile-button" onClick={handleNavigationDeck}>
+                        Retour à la page des decks
+                    </button>
+                    <button className="profile-button" onClick={handleInterfaceDelete}>
+                        Effacer le deck
+                    </button>
+                <div className="deckDetails-card-count">
+                    Nombre de cartes dans le deck: {numberOfCardInDeck}/20
+                </div>
             </div>
-            <div className='deckDetails-card-count'>Nombre de cartes dans le deck: {numberOfCardInDeck}/20</div>
-            <div id='deckDetails-main-container'>
+            
+            {interfaceDelete && (
+                <div className="deck-overlay">
+                    <div className="deck-modal">
+                        <h2>Voulez-vous vraiment effacer votre deck?</h2>
+                        <button className="profile-button" onClick={handleDelete}>
+                            Effacer
+                        </button>
+                        <button className="profile-button" onClick={handleInterfaceDelete}>
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            <div id="deckDetails-main-container">
                 <div id='deckDetails-search-card'>
                           <div className="sort-container">
                             <div className="search-box">
