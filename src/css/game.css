@@ -1,16 +1,66 @@
-.game-mainContainer{
-    border: solid black 2px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: visible;
+/* permet au main de s'elargir plus que sur les autres pages */
+main {
+    max-width: 1420px;;
 }
 
-.game-botZone{
-    border: solid black 2px;
-    height: 50vh;
+/* conteneur principal */
+.game-container{
+    border: solid rgb(255, 0, 0) 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* conteneurs du bot et du joueur (moitier du haut et du bas) */
+.bot-container, .player-container {
+    border: solid rgb(0, 86, 245) 2px;
     display: flex;
     flex-direction: row;
+    gap: 20px;
+}
+
+/* petits panneaux pour zone du deck et zone du cimetiere */
+/* (se situe a gauche pour le bot et a droite pour le joueur) */
+.small-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border: solid rgb(3, 3, 3) 2px;
+    padding: 18px;
+}
+
+.deck-zone{
+    position: center;
+    border-radius: 12px;
+    max-width: 140px;
+}
+
+.graveyard-zone {
+    border: 2px solid black;
+    border-radius: 12px;
+    min-height: 210px;
+    width: 140px;
+}
+
+/* grands panneaux pour zone de la main et la zone de jeu */
+/* (se situe a droite pour le bot et a gauche pour le joueur) */
+.large-pannel {
+    display: flex;
+    flex-direction: column;
+}
+
+.hand-zone {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    padding: 20px;;
+}
+
+.play-zone {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    padding: 20px;;
 }
 
 .game-playerZone{
@@ -20,12 +70,7 @@
     flex-direction: row;
 }
 
-.game-deck{
-    border: solid black 2px;
-    width: 7em;
-    height: 10em;
-    margin: 1em;
-}
+
 
 .game-graveyard{
     border: solid black 2px;
@@ -44,19 +89,21 @@
     top: -60px;
 }
 
-.game-botCard{
+/* image des cartes dans la main */
+.card-hand {
     position: center;
-    border: solid black 2px;
-    margin: 0.1em;
     border-radius: 12px;
-    z-index: 10;
-    background-color: black;
-    max-width: 10em;
+    max-width: 140px;
 }
 
-.game-botCard:hover{
-    transform: translateY(60px);
+.card-trans-down:hover{
+    transform: translateY(10px);
 }
+
+.card-trans-up:hover{
+    transform: translateY(-10px);
+}
+/* ----------------------------------- */
 
 .game-botCardOnField{
     position: center;
@@ -117,36 +164,3 @@
     z-index: 999;
 }
 
-.game-playerHand{
-    color: lightseagreen;
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    top: 850px;
-}
-
-.game-playerCard{
-    position: center;
-    border: solid black 2px;
-    margin: 0.1em;
-    border-radius: 12px;
-    z-index: 10;
-    background-color: black;
-    max-width: 10em;
-}
-
-.game-playerCard:hover{
-    transform: translateY(-70px);
-}
-
-.game-playerCardOnField{
-    position: center;
-    border: solid black 2px;
-    margin: 0.1em;
-    border-radius: 12px;
-    z-index: 10;
-    background-color: black;
-    max-width: 10em;
-}

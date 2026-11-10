@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ProtectedRoute, AdminRoute, GuestRoute } from './components/general/ProtectedRoute';
 
 import Header from "./components/general/Header";
@@ -18,9 +18,15 @@ import DeckDetails from './pages/DeckDetails';
 import GameMenu from './pages/GameMenu';
 
 function App() {
+  const location = useLocation();
+
+  // route pour laquelle le header et le footer doivent etre cacher
+  const hideLayoutRoutes = ['/game'];
+  const isGameActive = hideLayoutRoutes.includes(location.pathname);
+
   return (
     <div className='app-container'>
-      <Header/>
+      {!isGameActive && <Header/>}
 
       <main>
         <Routes>
@@ -47,7 +53,7 @@ function App() {
         </Routes>
       </main>
 
-      <Footer/>
+      {!isGameActive && <Footer/>}
     </div>
   )
 }
