@@ -1,0 +1,160 @@
+/* conteneur principal */
+.game-menu-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    align-items: center;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(7, 17, 29);
+    color: white;
+    font-size: 1.1em;
+}
+/* ----------------------------------- */
+
+/* titre */
+.game-menu-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    padding: 18px;
+    font-size: 1.1em;
+}
+/* ----------------------------------- */
+
+/* conteneur des boite de settings */
+.setup-container {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+/* ----------------------------------- */
+
+/* boites de settings */
+.deck-setup-box, .diff-setup-box {
+    border-radius: 8px;
+    background-color: rgb(30, 38, 61);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* section de la selection de deck */
+.deck-setup-box{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+/* menu select pour choisir un deck */
+.deck-selector {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: flex-start;
+}
+
+.deck-selector select {
+    padding: 7px;
+}
+
+/* liste des cartes dans le deck */
+.cards-list {
+    font-size: 0.9em;
+    overflow-y: scroll;
+    height: 170px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background-color: rgb(16, 16, 36);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+}
+
+/* image du cover du deck */
+.deck-preview {
+    padding: 22px;
+}
+
+.deck-preview img {
+    border-radius: 10px;
+    max-width: 190px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
+}
+/* ----------------------------------- */
+
+/* section choix de difficulte */
+.diff-setup-box {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 1;
+}
+
+.diff-selector {
+    display: flex;
+    flex-direction: column;
+}
+
+.diff-box {
+    padding: 18px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    font-size: 1.2em;
+    align-items: center;
+    flex: 1;
+    justify-content: space-evenly;
+}
+
+.diff-button {
+    padding: 14px;
+    text-align: center;
+    min-width: 70%;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    background-color: rgb(235, 236, 236);
+    font-weight: 600;
+}
+
+.diff-selected {
+    background-color: rgb(101, 101, 160);
+    border: 2px solid rgb(208, 208, 231);
+}
+
+.diff-0 {
+    color: rgb(1, 97, 1);
+}
+
+.diff-1 {
+    color: rgb(196, 176, 0);
+}
+
+.diff-2 {
+    color: rgb(236, 0, 0);
+}
+/* ----------------------------------- */
+
+/* bouton pour commencer la partie */
+.button-start-box {
+    padding: 20px
+}
+
+.button-start {
+    padding: 14px;
+    font-weight: 600;
+    font-size: 1.4em;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: rgb(31, 26, 92);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+/* ----------------------------------- */

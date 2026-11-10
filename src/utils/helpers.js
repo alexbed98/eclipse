@@ -22,6 +22,43 @@ export const getSerie = (id_serie) => {
     }
 };
 
+export const starterDeck = (idJoueur) => {
+    return [
+        {
+            id: 0,
+            id_joueur: idJoueur,
+            image: 'backDesign.jpg',
+            nom: 'Deck de démarrage'
+        }
+    ];
+}
+
+export const starterCards = (idDeck) => {
+    return [
+        { id_carte: 1, id_deck: idDeck, nom_carte: 'Chérubin Messager', quantite: 1 },
+        { id_carte: 2, id_deck: idDeck, nom_carte: 'Garde du Temple',  quantite: 1 },
+        { id_carte: 3, id_deck: idDeck, nom_carte: 'Acolyte de Lumière',  quantite: 1 },
+        { id_carte: 4, id_deck: idDeck, nom_carte: 'Sentinelle Ailée',  quantite: 1 },
+        { id_carte: 5, id_deck: idDeck, nom_carte: 'Porteur de Flambeau',  quantite: 1 },
+        { id_carte: 16, id_deck: idDeck, nom_carte: 'Wyrmling des Braises',  quantite: 1 },
+        { id_carte: 17, id_deck: idDeck, nom_carte: 'Drake des Falaises',  quantite: 1 },
+        { id_carte: 18, id_deck: idDeck, nom_carte: 'Dragonneau d\'Émeraude',  quantite: 1 },
+        { id_carte: 19, id_deck: idDeck, nom_carte: 'Reptile Cendré',  quantite: 1 },
+        { id_carte: 20, id_deck: idDeck, nom_carte: 'Vouivre des Pics',  quantite: 1 },
+        { id_carte: 31, id_deck: idDeck, nom_carte: 'Marcheur Décomposé',  quantite: 1 },
+        { id_carte: 32, id_deck: idDeck, nom_carte: 'Goule des Fosses',  quantite: 1 },
+        { id_carte: 33, id_deck: idDeck, nom_carte: 'Cadavre Ranimé',  quantite: 1 },
+        { id_carte: 34, id_deck: idDeck, nom_carte: 'Zombi Infecté',  quantite: 1 },
+        { id_carte: 35, id_deck: idDeck, nom_carte: 'Rongeur d\'Os',  quantite: 1 },
+        { id_carte: 36, id_deck: idDeck, nom_carte: 'Horreur Errante',  quantite: 1 },
+        { id_carte: 46, id_deck: idDeck, nom_carte: 'Eclaireur Goblin',  quantite: 1 },
+        { id_carte: 47, id_deck: idDeck, nom_carte: 'Lancier des Fanges',  quantite: 1 },
+        { id_carte: 48, id_deck: idDeck, nom_carte: 'Voleur de Bourse',  quantite: 1 },
+        { id_carte: 49, id_deck: idDeck, nom_carte: 'Saboteur Goblin',  quantite: 1 },
+        { id_carte: 55, id_deck: idDeck, nom_carte: 'Chef de Meute Goblin',  quantite: 1 }
+    ];
+}
+
 // filtre les cartes par filtre de serie et par texte de recherche
 export function filterCards(cards, seriesFilters, raritiesFilters, search = '') {
     const cleanSearch = search.trim().toLowerCase();
