@@ -67,10 +67,6 @@
     border: none;
 }
 
-.new-booster {
-    color: #ff7b72;
-}
-
 .notifications-box, .market-preview, .shop-preview, .game-preview {
     display: flex;
     flex-direction: column;

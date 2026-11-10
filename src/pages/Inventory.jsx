@@ -11,7 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 function Inventory() {
   const { player, loading: authLoading } = useAuth();
   const [cards, setCards] = useState([]);
-  const [sortBy, setSortBy] = useState('rarity-asc');
+  const [sortBy, setSortBy] = useState('rarity-desc');
   const [seriesFilters, setSeriesFilters] = useState([]);
   const [raritiesFilters, setRaritiesFilters] = useState([1, 2, 3, 4, 5]);
   const [ownershipFilter, setOwnershipFilter] = useState('owned');
@@ -179,114 +179,117 @@ function Inventory() {
   ]
 
   return (
-  <div className='inventory-container'>
-    <header className="inventory-header">
-      
-      {/* barre de recherche & tri */}
-      <div className="sort-container">
-        <div className="search-box">
-          <GoSearch size={20} color={'grey'} className='search-icon'/>
-          <input
-            type="search"
-            id="search"
-            name="search"
-            placeholder="Rechercher une carte..."
-            value={search}
-            onChange={handleSearchChange}
-          />
-        </div>
+    <div className='inventory-container'>
+      <header className="inventory-header">
 
-        <div className="sort-box">
-          <label htmlFor="sort-select">Trier par :</label>
-          <select id="sort-select" value={sortBy} onChange={handleSortChange}>
-            {sortByList.map((sort) => (
-              <option key={sort.id} value={sort.id}>
-                {sort.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+        {/* barre de recherche & tri */}
+        <div className="sort-container">
+          <div className="search-box">
+            <GoSearch size={20} color={'grey'} className='search-icon' />
+            <input
+              type="search"
+              id="search"
+              name="search"
+              placeholder="Rechercher une carte..."
+              value={search}
+              onChange={handleSearchChange}
+            />
+          </div>
 
-      {/* filtres */}
-      <div className="filter-panel">
-        <div className="filter-group">
-          <span className="filter-label">Séries :</span>
-          <div className="filter-options">
-            {seriesList.map((serie) => (
-              <Checkbox
-                key={serie.id}
-                id={`serie-${serie.id}`}
-                className="filter-checkbox"
-                name="serie-filter"
-                value={serie.id}
-                label={serie.label}
-                checked={seriesFilters.includes(serie.id)}
-                onChange={handleSeriesChange}
-              />
-            ))}
+          <div className="sort-box">
+            <label htmlFor="sort-select">Trier par :</label>
+            <select id="sort-select" value={sortBy} onChange={handleSortChange}>
+              {sortByList.map((sort) => (
+                <option key={sort.id} value={sort.id}>
+                  <div>{sort.label}</div>
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
-        <div className="filter-group">
-          <span className="filter-label">Raretés :</span>
-          <div className="filter-options">
-            {rarityList.map((rarity) => (
-              <Checkbox
-                key={rarity.id}
-                id={`rarity-${rarity.id}`}
-                className="filter-checkbox"
-                name="rarity-filter"
-                value={rarity.id}
-                label={rarity.label}
-                checked={raritiesFilters.includes(rarity.id)}
-                onChange={handleRaritiesChange}
-              />
-            ))}
+        {/* filtres */}
+        <div className="filter-panel">
+          <div className="filter-group">
+            <span className="filter-label">Séries :</span>
+            <div className="filter-options">
+              {seriesList.map((serie) => (
+                <Checkbox
+                  key={serie.id}
+                  id={`serie-${serie.id}`}
+                  className="filter-checkbox"
+                  name="serie-filter"
+                  value={serie.id}
+                  label={serie.label}
+                  checked={seriesFilters.includes(serie.id)}
+                  onChange={handleSeriesChange}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="filter-group">
+            <span className="filter-label">Raretés :</span>
+            <div className="filter-options">
+              {rarityList.map((rarity) => (
+                <Checkbox
+                  key={rarity.id}
+                  id={`rarity-${rarity.id}`}
+                  className="filter-checkbox"
+                  name="rarity-filter"
+                  value={rarity.id}
+                  label={rarity.label}
+                  checked={raritiesFilters.includes(rarity.id)}
+                  onChange={handleRaritiesChange}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="filter-group">
+            <span className="filter-label">Possession :</span>
+            <div className="filter-options">
+              {ownershipList.map((ownership) => (
+                <Radio
+                  key={ownership.id}
+                  id={`ownership-${ownership.id}`}
+                  className="filter-radio"
+                  name="ownership-filter"
+                  value={ownership.id}
+                  label={ownership.label}
+                  checked={ownershipFilter === ownership.id}
+                  onChange={handleOwnerShipChange}
+                />
+              ))}
+            </div>
           </div>
         </div>
+      </header>
 
-        <div className="filter-group">
-          <span className="filter-label">Possession :</span>
-          <div className="filter-options">
-            {ownershipList.map((ownership) => (
-              <Radio
-                key={ownership.id}
-                id={`ownership-${ownership.id}`}
-                className="filter-radio"
-                name="ownership-filter"
-                value={ownership.id}
-                label={ownership.label}
-                checked={ownershipFilter === ownership.id}
-                onChange={handleOwnerShipChange}
-              />
-            ))}
+      {/* Affichage des cartes */}
+      <main className="cards-container">
+        {sortedCards.length === 0 ? (
+          <div className="empty-state">
+            <p>Aucun objet ne correspond à vos critères.</p>
           </div>
-        </div>
-      </div>
-    </header>
-
-    {/* Affichage des cartes */}
-    <main className="cards-container">
-      {sortedCards.length === 0 ? (
-        <div className="empty-state">
-          <p>Aucun objet ne correspond à vos critères.</p>
-        </div>
-      ) : (
-        sortedCards.map((element, index) => (
-          <Link
-            key={element.id || index}
-            className={`card rarity-${element.id_rarete} ${element.quantite < 1 ? 'non-obtenu' : ''}`}
-            to={`details/${element.id}`}
-            onMouseMove={handleTilt}
-            onMouseLeave={handleMouseLeave}
-          >
-            <img src={`/cards/${element.id}.png`} alt={element.nom || 'Carte'} />
-          </Link>
-        ))
-      )}
-    </main>
-  </div>
-);
+        ) : (
+          sortedCards.map((element, index) => (
+            <Link
+              key={element.id || index}
+              className={`card rarity-${element.id_rarete} ${element.quantite < 1 ? 'non-obtenu' : ''}`}
+              to={`details/${element.id}`}
+              onMouseMove={handleTilt}
+              onMouseLeave={handleMouseLeave}
+            >
+              <img src={`/cards/${element.id}.png`} alt={element.nom || 'Carte'} />
+              {element.quantite > 1 && (
+                <span className="card-badge">x{element.quantite}</span>
+              )}
+            </Link>
+          ))
+        )}
+      </main>
+    </div>
+  );
 }
 export default Inventory

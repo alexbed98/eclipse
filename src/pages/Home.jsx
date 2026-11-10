@@ -164,12 +164,12 @@ function Home() {
                             />
                             <div className='card-info'>
                                 <span className='card-name'>{latestBooster.nom || latestBooster.name}</span>
-                                <span className='card-seller new-booster'>------------------------------------------------</span>
+                                <span className='card-seller'>------------------------------------------------</span>
                                 <span className='card-price'>Prix: {latestBooster.prix || latestBooster.price} pièces</span>
                             </div>
                         </div>
                     )}
-                    <Link to="/shop" className='link-home'>Visiter la boutique</Link>
+                    <Link to="/shop" className='link-home'>Visiter le magasin</Link>
                 </div>
 
                 {/* notifications (si connecté) */}
@@ -195,7 +195,7 @@ function Home() {
                 <div className='home-card game-preview'>
                     <h2>Prêt à jouer ?</h2>
                     {player ? (
-                        <Link to="/game" className='link-game'>Lancer une partie</Link>
+                        <Link to="/gamemenu" className='link-game'>Lancer une partie</Link>
                     ) : (
                         <Link to="/login" className='btn-primary'>Connectez-vous pour jouer</Link>
                     )}
