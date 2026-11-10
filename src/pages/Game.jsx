@@ -279,27 +279,27 @@ function Game() {
     return (
         <div className="game-container"> {/* Container principal du jeu */}
 
-            <div className="bot-container">
+            <div className="bot-container"> {/* Container du bot */}
 
-                <div className="small-panel">
-                    <img className="deck-zone" src={`/cards/backDesign.jpg`} /> {/* Deck du bot */}
-                    <img className="graveyard-zone" /> {/* Cimetiere du bot */}
+                <div className="small-panel"> {/* Petit panel du bot (zone de gauche pour deck et cimetiere) */}
+                    <img className="deck-zone card-game" src={`/cards/backDesign.jpg`} /> {/* Deck du bot */}
+                    <img className="graveyard-zone card-game" /> {/* Cimetiere du bot */}
                 </div>
 
-                <div className="large-panel">
-                    <div className="hand-zone"> {/* Main du bot */}
+                <div className="large-panel"> {/* Grand panel du bot (zone de droite pour main et field) */}
+                    <div className="hand-zone"> {/* Zone de main du bot */}
                         {botHand.map((element, index) => {
                             return (
-                                <img key={element.id_carte} className="card-hand card-trans-down" src={`/cards/backDesign.jpg`} />
+                                <img key={element.id_carte} className="card-game" src={`/cards/backDesign.jpg`} />
                             )
                         })}
                     </div>
 
-                    <div className="play-zone"> {/* Container de la zone de jeu du bot */}
+                    <div className="play-zone"> {/* Zone de jeu du bot */}
                         {botField.map((element, index) => {
                             return (
                                 <div key={element.id || index} >
-                                    <img src={`/cards/${element.id_carte}.png`} className="game-botCardOnField" onClick={() => waitingForTarget && SelectTarget(element)} />
+                                    <img src={`/cards/${element.id_carte}.png`} className="card-game card-trans-down" onClick={() => waitingForTarget && SelectTarget(element)} />
                                 </div>
                             )
                         })}
@@ -307,34 +307,38 @@ function Game() {
                 </div>
             </div>
 
-            <button onClick={passTurn}>Fin de tour</button>
+            <div className="player-container"> {/* Container du joueur */}
 
-            <div className="player-container">
-                <div className="player-zone">{/* Container de la zone de jeu du joueur */}
-                    <div className="game-playerField"> {/* Zone pour les créatures du joueur */}
+                <div className="large-panel"> {/* Grand panel du joueur (zone de gauche pour main et field) */}
+
+                    <div className="play-zone"> {/* Zone de jeu du joueur */}
                         {playerField.map((element, index) => {
                             return (
                                 <div key={element.id || index} >
-                                    <img src={`/cards/${element.id_carte}.png`} className="game-playerCardOnField" onClick={() => Attack(element)} />
+                                    <img src={`/cards/${element.id_carte}.png`} className="card-game card-trans-up" onClick={() => Attack(element)} />
                                 </div>
                             )
                         })}
                     </div>
-                    <div>
-                        <div className="game-graveyard">zone cimetiere</div> {/* Cimetiere du joueur */}
-                        <div className="game-deck">zone deck</div> {/* Deck du joueur */}
+
+                    <div className="hand-zone player-hand-zone"> {/* Zone de main du joueur */}
+                        {playerHand.map((element, index) => {
+                            return (
+                                <div key={element.id || index} >
+                                    <img src={`/cards/${element.id_carte}.png`} className="card-game card-trans-up" onClick={() => playCard(element)} />
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
 
-                <div className="player-hand">{/* Main du joueur */}
-                    {playerHand.map((element, index) => {
-                        return (
-                            <div key={element.id || index} >
-                                <img src={`/cards/${element.id_carte}.png`} className="card-hand card-trans-up" onClick={() => playCard(element)} />
-                            </div>
-                        )
-                    })}
+                <div className="small-panel"> {/* Petit panel du joueur (zone de droite pour deck et cimetiere) */}
+                    {/* Bouton pour terminer le tour */}
+                    <button className='button-end-turn' onClick={passTurn}>Terminer le  tour</button>
+                    <img className="graveyard-zone card-game" /> {/* Cimetiere du joueur */}
+                    <img className="deck-zone card-game" src={`/cards/backDesign.jpg`} /> {/* Deck du joueur */}
                 </div>
+
             </div>
         </div >
     );
