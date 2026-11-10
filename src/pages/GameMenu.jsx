@@ -7,9 +7,9 @@ import '../css/gameMenu.css';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const BOT_DIFFICULTIES = [
-    { id: 'easy', label: 'Apprenti (facile)', desc: 'L\'ordinateur joue ses cartes aléatoirement sans stratégie.' },
-    { id: 'medium', label: 'Guerrier (intermédiaire)', desc: 'L\'ordinateur priorise ses attaques envers vos cartes faibles afin de les éliminer.' },
-    { id: 'hard', label: 'Héro (difficile)', desc: 'L\'ordinateur choisi et optimise son attaque en fonction de la situation.' }
+    { id: 0, label: 'Apprenti (facile)', desc: 'L\'ordinateur joue ses cartes aléatoirement sans stratégie.' },
+    { id: 1, label: 'Guerrier (intermédiaire)', desc: 'L\'ordinateur priorise ses attaques envers vos cartes faibles afin de les éliminer.' },
+    { id: 2, label: 'Héro (difficile)', desc: 'L\'ordinateur choisi et optimise son attaque en fonction de la situation.' }
 ];
 
 function GameMenu() {
@@ -19,7 +19,7 @@ function GameMenu() {
     const [decks, setDecks] = useState([]);
     const [selectedDeckId, setSelectedDeckId] = useState(0);
     const [cards, setCards] = useState(null);
-    const [difficulty, setDifficulty] = useState('medium');
+    const [difficulty, setDifficulty] = useState(1);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

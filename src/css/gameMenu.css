@@ -127,15 +127,15 @@
     border: 2px solid rgb(208, 208, 231);
 }
 
-.diff-easy {
+.diff-0 {
     color: rgb(1, 97, 1);
 }
 
-.diff-medium {
+.diff-1 {
     color: rgb(196, 176, 0);
 }
 
-.diff-hard {
+.diff-2 {
     color: rgb(236, 0, 0);
 }
 /* ----------------------------------- */
