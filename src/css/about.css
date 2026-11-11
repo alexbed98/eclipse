@@ -1,0 +1,146 @@
+/* container principal */
+.about-container {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    box-sizing: border-box;
+}
+
+/* banniere titre et logo (backcard) */
+.about-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #101826;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    padding: 36px 40px;
+    gap: 24px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 3.2em;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #f5be18;
+    text-shadow: 0 0 25px rgba(234, 179, 8, 0.35);
+    text-transform: uppercase;
+}
+
+.header-subtext {
+    margin: 0;
+    font-size: 1.15em;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+.about-card-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-card-preview .card-game {
+    width: 130px;
+    border-radius: 10px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(216, 163, 4, 0.85);
+    transform: rotate(3deg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card-preview .card-game:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.8), 0 0 24px rgba(245, 191, 28, 0.986);
+}
+
+/* cache la derniere carte pour les plus petits ecrans */
+@media (max-width: 1100px) {
+    .about-card-preview .card-game:nth-child(n+4) {
+        display: none;
+    }
+}
+
+/* cache les 2 dernieres cartes pour les encore plus petits ecrans */
+@media (max-width: 950px) {
+    .about-card-preview .card-game:nth-child(n+3) {
+        display: none;
+    }
+}
+
+/* cache les 3 dernieres cartes pour les ENCORE plus petits ecrans */
+@media (max-width: 750px) {
+    .about-card-preview .card-game:nth-child(n+2) {
+        display: none;
+    }
+}
+
+/* grille d'info */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.about-info-card {
+    background-color: #101826;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.about-info-card:hover {
+    border-color: rgba(234, 179, 8, 0.4);
+    transform: translateY(-2px);
+}
+
+.info-label {
+    font-size: 0.85em;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.info-value,
+.info- {
+    font-size: 1.25em;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+/* box de description */
+.about-description-box {
+    background-color: #101826;
+    border-radius: 14px;
+    padding: 30px 36px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.description-heading {
+    margin: 0 0 16px 0;
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #eab308;
+    padding-bottom: 6px;
+}
+
+.description-body {
+    font-size: 1.05em;
+    line-height: 1.55;
+    color: #cbd5e1;
+}

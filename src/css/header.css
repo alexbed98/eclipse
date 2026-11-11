@@ -17,6 +17,11 @@
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
+#navbar-title {
+    color: #f5be18;
+    text-shadow: 0 0 15px rgba(234, 178, 8, 0.226);
+}
+
 .brand-title {
     display: flex;
     align-items: center;
