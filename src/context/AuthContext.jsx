@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
 
             const data = await res.json();
             setPlayer(data);
-            setCurrency(data.nbPiece);
+            setCurrency(data.nbPiece ?? data.nbpiece);
         } catch (err) {
             console.error("Erreur lors du rafraîchissement du joueur:", err);
         }
