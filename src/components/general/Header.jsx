@@ -4,8 +4,6 @@ import { FiLogOut } from 'react-icons/fi'; // icone de deconnexion
 
 import '../../css/header.css'
 
-{/* reste a determiner avec l'equipe quelle onglet du menu est visible par qui */ }
-
 function Header() {
     const { player, logout, currency } = useAuth();
     const navigate = useNavigate();
@@ -21,9 +19,10 @@ function Header() {
                 <nav className='navbar'>
                     {/* onglets TOUJOURS visibles */}
                     <Link to="/" className='brand-title'>
-                        <h1>ECLIPSE</h1>
+                        <h1 id='navbar-title'>ÉCLIPSE</h1>
                     </Link>
                     <NavLink to="/">ACCUEIL</NavLink>
+                    <NavLink to="/about">À PROPOS</NavLink>
                     <NavLink to="/shop">MAGASIN</NavLink>
                     <NavLink to="/market">MARCHÉ</NavLink>
 

@@ -113,7 +113,7 @@ function Home() {
         <div className='home-container'>
             {/* titre et banniere */}
             <div className='home-banner-container'>
-                <h1 className='home-banner-title'>Bienvenue sur Eclipse</h1>
+                <h1 className='home-banner-title'>Bienvenue sur Éclipse</h1>
                 <p className='home-banner-text'>Combattez, collectionnez et échangez vos cartes.</p>
             </div>
 

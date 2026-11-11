@@ -16,6 +16,7 @@ import Details from './pages/Details';
 import Decks from './pages/Decks';
 import DeckDetails from './pages/DeckDetails';
 import GameMenu from './pages/GameMenu';
+import About from './pages/About';
 
 function App() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/shop" element={<Shop/>}/>
           <Route path="/market" element={<Market/>}/>
+          <Route path="/about" element={<About/>}/>
 
           {/* routes seulement accessible aux guests (utilisateurs non-connectes) */}
           <Route path="/login" element={<GuestRoute><Login/></GuestRoute>}/>
