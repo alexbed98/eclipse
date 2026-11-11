@@ -25,7 +25,7 @@ function App() {
   const isGameActive = hideLayoutRoutes.includes(location.pathname);
 
   return (
-    <div className='app-container'>
+    <div className={`app-container ${isGameActive ? 'game-mode' : ''}`}>
       {!isGameActive && <Header/>}
 
       <main>

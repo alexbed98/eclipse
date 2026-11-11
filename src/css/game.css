@@ -1,13 +1,20 @@
+.app-container.game-mode {
+    background-color: #0d111b;
+}
+
 /* permet au main de s'elargir plus que sur les autres pages */
 main {
-    max-width: 1420px;
+    max-width: 1460px;
     padding: 10px;
 }
 
 /* conteneur principal */
 .game-container{
+    box-sizing: border-box;
     padding: 10px;
-    background-color: rgb(146, 146, 146);
+    background: radial-gradient(circle at center, #162135 0%, #0d131f 100%);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 0 80px rgba(0, 0, 0, 0.5);
     border-radius: 1.5em;
     display: flex;
     flex-direction: column;
@@ -18,102 +25,142 @@ main {
 .bot-container, .player-container {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    min-width: 0;
 }
 
 /* petits panneaux pour zone du deck et zone du cimetiere */
-/* (se situe a gauche pour le bot et a droite pour le joueur) */
 .small-panel {
-    background-color: rgb(212, 226, 238);
-    border-radius: 1em;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 10px;
+    padding: 12px;
     flex: 1;
     align-items: center;
     justify-content: space-evenly;
+    /* border-left: 3px solid rgb(90, 90, 90); */
+}
+
+.center-line {
+    border-bottom: 3px solid rgb(90, 90, 90);
+    margin: 0px 8px;
 }
 
 .deck-zone{
-    position: center;
     border-radius: 10px;
-    max-width: 140px;
+    width: 100%;
+    max-width: 120px;
+    aspect-ratio: 5 / 7.4;
+    object-fit: cover;
 }
 
 .graveyard-zone {
-    border: 2px solid rgb(122, 122, 122);
+    border: 3px dashed rgb(54, 54, 54);
     border-radius: 10px;
-    min-height: 195px;
-    width: 140px;
+    width: 100%;
+    max-width: 120px;
+    aspect-ratio: 5 / 7.4;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(70, 70, 70);
+    font-size: 0.85em;
+    font-weight: 600;
+    text-align: center;
 }
 
 /* grands panneaux pour zone de la main et la zone de jeu */
-/* (se situe a droite pour le bot et a gauche pour le joueur) */
 .large-panel {
-    background-color: rgb(221, 221, 221);
     padding: 10px;
     border-radius: 1em;
     display: flex;
     flex-direction: column;
     gap: 10px;
     flex: 8;
+    min-width: 0;
 }
 
 .hand-zone {
-    padding: 6px;
+    padding: 10px;
     display: flex;
     flex-direction: row;
-    gap: 1.2em;
+    gap: 0.8em;
     flex: 1;
     justify-content: center;
     align-items: center;
+    border-radius: 1em;
+    min-width: 0;
 }
 
 .player-hand-zone {
-    background-color: rgb(84, 64, 90);
-    border-radius: 1em;
+    background: linear-gradient(180deg, rgba(52, 47, 83, 0.4) 0%, rgba(34, 29, 58, 0.9) 100%);
+    border: 1px solid rgba(107, 92, 246, 0.25);
 }
 
 .bot-hand-zone {
-    background-color: rgb(221, 221, 221);
-    border-radius: 1em;
+    background: linear-gradient(0deg, rgba(88, 27, 27, 0.4) 0%, rgba(58, 16, 16, 0.9) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 .play-zone {
-    background-color: rgb(221, 221, 221);
-    border-radius: 1em;
-    padding: 6px;
     display: flex;
     flex-direction: row;
-    gap: 12px;
-    padding: 20px;
+    gap: 10px;
+    padding: 12px;
     flex: 1;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 0.8em;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* image des cartes dans la main */
 .card-game {
-    position: center;
     border-radius: 10px;
-    max-width: 130px;
+    flex: 0 1 140px;
+    width: 100%;
+    max-width: 140px;
+    min-width: 0;
+    height: auto;
+    aspect-ratio: 5 / 7.4;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s ease;
+}
+
+.playable-card {
+    cursor: pointer;
+}
+
+.card-shadow {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.8);
 }
 
 .card-trans-down:hover{
-    transform: translateY(10px);
+    transform: translateY(12px) scale(1.05);
 }
 
 .card-trans-up:hover{
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.05);
 }
+
+/* .rarity-1 { border: 3px solid rgba(34, 197, 94, 0.7); }
+.rarity-2 { border: 3px solid rgba(56, 189, 248, 0.7); }
+.rarity-3 { border: 3px solid rgba(168, 85, 247, 0.7); }
+.rarity-4 { border: 3px solid rgba(239, 68, 68, 0.75); }
+.rarity-5 { border: 3px solid rgba(245, 158, 11, 0.85); } */
+
 /* ----------------------------------- */
 
 /* bouton pour terminer le tour */
 .button-end-turn {
     padding: 14px;
     border: none;
+    cursor: pointer;
     border-radius: 8px;
-    background-color: rgb(163, 29, 5);
+    background-color: rgb(83, 16, 5);
     color: white;
 }
 /* ----------------------------------- */

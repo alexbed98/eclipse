@@ -206,8 +206,8 @@ function Game() {
         const fetchDecks = async () => {
             try {
                 const [botResponse, playerResponse] = await Promise.all([
-                    fetch(`${API_URL}/deck/cartes/${2}`),
-                    fetch(`${API_URL}/deck/cartes/${5}`)
+                    fetch(`${API_URL}/deck/cartes/${5}`),
+                    fetch(`${API_URL}/deck/cartes/${2}`)
                 ]);
 
                 if (!botResponse.ok || !playerResponse.ok) {
@@ -281,16 +281,16 @@ function Game() {
 
             <div className="bot-container"> {/* Container du bot */}
 
-                <div className="small-panel"> {/* Petit panel du bot (zone de gauche pour deck et cimetiere) */}
-                    <img className="deck-zone card-game" src={`/cards/backDesign.jpg`} /> {/* Deck du bot */}
-                    <img className="graveyard-zone card-game" /> {/* Cimetiere du bot */}
-                </div>
-
-                <div className="large-panel"> {/* Grand panel du bot (zone de droite pour main et field) */}
-                    <div className="hand-zone"> {/* Zone de main du bot */}
+                <div className="large-panel large-panel-bot"> {/* Grand panel du bot (pour main et field) */}
+                    <div className="hand-zone bot-hand-zone"> {/* Zone de main du bot */}
                         {botHand.map((element, index) => {
                             return (
-                                <img key={element.id_carte} className="card-game" src={`/cards/backDesign.jpg`} />
+                                <img 
+                                    key={element.id_carte} 
+                                    className="card-game card-shadow" 
+                                    src={`/cards/backDesign.jpg`}
+                                    alt='card in hand' 
+                                />
                             )
                         })}
                     </div>
@@ -298,45 +298,64 @@ function Game() {
                     <div className="play-zone"> {/* Zone de jeu du bot */}
                         {botField.map((element, index) => {
                             return (
-                                <div key={element.id || index} >
-                                    <img src={`/cards/${element.id_carte}.png`} className="card-game card-trans-down" onClick={() => waitingForTarget && SelectTarget(element)} />
-                                </div>
+                                <img
+                                    key={element.id || index}
+                                    src={`/cards/${element.id_carte}.png`}
+                                    className="card-game card-shadow card-trans-down playable-card" 
+                                    onClick={() => waitingForTarget && SelectTarget(element)} 
+                                    alt='card in field'
+                                />
                             )
                         })}
                     </div>
                 </div>
+
+                <div className="small-panel"> {/* Petit panel du bot (pour deck et cimetiere) */}
+                    <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} /> {/* Deck du bot */}
+                    <img className="graveyard-zone card-game" alt='graveyard' /> {/* Cimetiere du bot */}
+                </div>
             </div>
+
+            <div className="center-line"></div>
 
             <div className="player-container"> {/* Container du joueur */}
 
-                <div className="large-panel"> {/* Grand panel du joueur (zone de gauche pour main et field) */}
+                <div className="large-panel"> {/* Grand panel du joueur (pour main et field) */}
 
                     <div className="play-zone"> {/* Zone de jeu du joueur */}
                         {playerField.map((element, index) => {
                             return (
-                                <div key={element.id || index} >
-                                    <img src={`/cards/${element.id_carte}.png`} className="card-game card-trans-up" onClick={() => Attack(element)} />
-                                </div>
+                                <img 
+                                    key={element.id || index}    
+                                    src={`/cards/${element.id_carte}.png`} 
+                                    className={`card-game card-shadow playable-card card-trans-up rarity-${element.id_rarete}`} 
+                                    onClick={() => Attack(element)}
+                                    alt='card in field' 
+                                />
                             )
                         })}
                     </div>
 
                     <div className="hand-zone player-hand-zone"> {/* Zone de main du joueur */}
                         {playerHand.map((element, index) => {
+                            console.log(element.id_rarete);
                             return (
-                                <div key={element.id || index} >
-                                    <img src={`/cards/${element.id_carte}.png`} className="card-game card-trans-up" onClick={() => playCard(element)} />
-                                </div>
+                                <img 
+                                    key={element.id || index}
+                                    src={`/cards/${element.id_carte}.png`} 
+                                    className={`card-game card-shadow playable-card card-trans-up rarity-${element.id_rarete}`}
+                                    onClick={() => playCard(element)}
+                                    alt='card in hand' />
                             )
                         })}
                     </div>
                 </div>
 
-                <div className="small-panel"> {/* Petit panel du joueur (zone de droite pour deck et cimetiere) */}
+                <div className="small-panel"> {/* Petit panel du joueur (pour deck et cimetiere) */}
                     {/* Bouton pour terminer le tour */}
                     <button className='button-end-turn' onClick={passTurn}>Terminer le  tour</button>
-                    <img className="graveyard-zone card-game" /> {/* Cimetiere du joueur */}
-                    <img className="deck-zone card-game" src={`/cards/backDesign.jpg`} /> {/* Deck du joueur */}
+                    <img className="graveyard-zone card-game" alt='graveyard' /> {/* Cimetiere du joueur */}
+                    <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} /> {/* Deck du joueur */}
                 </div>
 
             </div>
