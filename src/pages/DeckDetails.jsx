@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 import { GoSearch } from "react-icons/go";
 import { useState, useEffect, useMemo } from 'react';
 import { filterCards, sortCards, sortByOwned } from '../utils/helpers';
-import Notifications from '../components/general/notifications';
+import Notifications from '../components/general/Notifications';
 
 function DeckDetails(){
     const { id } = useParams();
