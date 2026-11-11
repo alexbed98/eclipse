@@ -1,5 +1,25 @@
 :root {
     /* couleurs */
+
+    /* backgrounds */
+    --bg-deep: #080c14;       /* fond principal */
+    --bg-surface: #101826;    /* containers et boites */
+    --bg-elevated: #1a2536;   /* input select, etc */
+
+    /* Bordures */
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-focus: rgba(234, 179, 8, 0.5);
+
+    /* Textes */
+    --text-main: #f8fafc;     /* Titres */
+    --text-muted: #94a3b8;    /* Sous-titres et descriptions */
+    --text-dark: #080c14;     /* Texte pour bouton jaunes */
+
+    /* Accents */
+    --accent-gold: #eab308;        /* Boutons */
+    --accent-gold-hover: #facc15;  /* Boutons hover */
+    --accent-gold-glow: rgba(234, 179, 8, 0.35); /* Contour */
+
     --color-black: #000000;
     --color-white: #FFFFFF;
     --color-background: #c2c2c2;
@@ -38,8 +58,8 @@
 }
 
 body {
-    background-color: var(--color-background);
-    color: var(--color-white);
+    background-color: var(--bg-deep);
+    color: var(--text-main);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     width: 100%;
     min-height: 100vh;
@@ -52,6 +72,19 @@ main {
     margin: 0 auto;
     padding: 25px;
     color: var(--color-secondary-4);
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  color: var(--text-dark);
+}
+
+.panel-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  color: var(--text-main);
 }
 
 /* pour enlever les underscores sous les liens cliquables */
