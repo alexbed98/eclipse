@@ -131,7 +131,7 @@ function Home() {
                     ) : (
                         <div className='market-carousel'>
                             <img
-                                src={`/public/cards/${currentSale.id_card}.png`}
+                                src={`/cards/${currentSale.id_card}.png`}
                                 alt={currentSale.card_name}
                                 className='card-img'
                             />
@@ -158,7 +158,7 @@ function Home() {
                     ) : (
                         <div className='market-carousel'>
                             <img
-                                src={`/public/boosters/${latestBooster.id}.png`}
+                                src={`/boosters/${latestBooster.id}.png`}
                                 alt={latestBooster.nom}
                                 className='booster-img'
                             />
