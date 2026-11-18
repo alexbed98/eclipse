@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef  } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import "../css/game.css"
 const API_URL = import.meta.env.VITE_API_URL;
@@ -24,22 +25,21 @@ function Game() {
     const [attacker, setAttacker] = useState(null);
     const [waitingForTarget, setWaitingForTarget] = useState(false);
 
+    const location = useLocation();
+    
+
+    const {playerDeckId, botDifficulty} = location.state || {};
+
     /*
-    // switch case pour faire la sélection du deck du bot.
-    switch(botDeckNumber){ // botDeckNumber est le numéro que je vais recevoir dépendemment de la difficulté sélectionné.
-        case 1:
-            setDifficultyDeckBot() // Ajuster le numéro du deck (le id du deck dans la bd) du bot pour le deck niveau débutant
-            break;
-        case 2:
-            setDifficultyDeckBot() // Ajuster le numéro du deck du bot pour le deck niveau intermédiaire
-            break;
-        case 3:
-            setDifficultyDeckBot() // Ajuster le numéro du deck du bot pour le deck niveau expert
-            break;
-        default:
-            break;
+    const navigate = useNavigate();
+    if(!playerDeckId){
+        navigate('/gamemenu');
+        return null;
     }
     */
+    
+
+    
 
 
 
@@ -311,6 +311,29 @@ function Game() {
     // Ici on récupère les decks avec le fetch, on prend les cartes dans le résultat json et on les ''séparent'' en unités (si une carte à une quantité de 2 par exemple)
     // avec expandDeck, puis on mélange les cartes avec shuffleDeck.
     useEffect(() => {
+        let deckDuBot;
+        let deckJoueur = playerDeckId;
+
+        // switch case pour faire la sélection du deck du bot.
+        switch(botDifficulty){ // botDeckNumber est le numéro que je vais recevoir dépendemment de la difficulté sélectionné.
+            case 0:
+                deckDuBot = 79;
+                setDifficultyDeckBot(79) // Ajuster le numéro du deck (le id du deck dans la bd) du bot pour le deck niveau débutant
+                break;
+            case 1:
+                deckDuBot = 79;
+                setDifficultyDeckBot(79) // Ajuster le numéro du deck du bot pour le deck niveau intermédiaire
+                break;
+            case 2:
+                deckDuBot = 79;
+                setDifficultyDeckBot(79) // Ajuster le numéro du deck du bot pour le deck niveau expert
+                break;
+            default:
+                break;
+        }
+
+        console.log(playerDeckId);
+        console.log(deckJoueur);
 
         if (gameStarted.current) return; // problème avec strict mode de React qui fait 2 render du useEffect, ce qui cause quelque problème...
 
@@ -319,8 +342,8 @@ function Game() {
         const fetchDecks = async () => {
             try {
                 const [botResponse, playerResponse] = await Promise.all([
-                    fetch(`${API_URL}/deck/cartes/${5}`),
-                    fetch(`${API_URL}/deck/cartes/${2}`)
+                    fetch(`${API_URL}/deck/cartes/${deckDuBot}`),
+                    fetch(`${API_URL}/deck/cartes/${deckJoueur}`)
                 ]);
 
                 if (!botResponse.ok || !playerResponse.ok) {

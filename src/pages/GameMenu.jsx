@@ -95,7 +95,7 @@ function GameMenu() {
         try {
             navigate('/game', {
                 state: {
-                    playerDeck: chosenDeck.id,
+                    playerDeckId: chosenDeck.id,
                     botDifficulty: difficulty
                 }
             });
