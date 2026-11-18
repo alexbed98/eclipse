@@ -116,6 +116,11 @@ main {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.card-field {
+    position: relative;
+    display: inline-block;
+}
+
 /* image des cartes dans la main */
 .card-game {
     border-radius: 10px;
@@ -164,3 +169,16 @@ main {
     color: white;
 }
 /* ----------------------------------- */
+
+.game-damageTaken {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 2;
+}
