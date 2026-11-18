@@ -34,7 +34,7 @@ function Header() {
                     {/* onglets visibles si joueur EST connecte */}
                     {player && (
                         <>
-                            <NavLink to="/game">JOUER</NavLink>
+                            <NavLink to="/gamemenu">JOUER</NavLink>
                             <NavLink to="/inventory">INVENTAIRE</NavLink>
                             <NavLink to="/profile">PROFIL</NavLink>
 

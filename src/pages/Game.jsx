@@ -30,13 +30,13 @@ function Game() {
 
     const {playerDeckId, botDifficulty} = location.state || {};
 
-    /*
+    
     const navigate = useNavigate();
     if(!playerDeckId){
         navigate('/gamemenu');
         return null;
     }
-    */
+    
     
 
     
