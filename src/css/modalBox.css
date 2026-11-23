@@ -23,6 +23,15 @@
     color: #333333;
 }
 
+.game-over-box {
+    text-align: center;
+}
+
+.game-over-content {
+    background-color: #1e1836;
+    color: white;
+}
+
 .button-box {
     display: flex;
     justify-content: center;
@@ -57,4 +66,23 @@
 
 .confirm-button:hover {
     background-color: rgb(26, 117, 66);
+}
+
+.restart-button {
+    background-color: #14380d;
+    color: #ffffff;
+}
+
+.restart-button:hover {
+    background-color: #1b4b12;
+}
+
+
+.quit-button {
+    background-color: #750101;
+    color: #ffffff;
+}
+
+.quit-button:hover {
+    background-color: #8b0101;
 }
