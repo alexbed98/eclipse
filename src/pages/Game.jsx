@@ -20,8 +20,8 @@ function Game() {
     const [playerGraveyard, setPlayerGraveyard] = useState([]);
     const [botGraveyard, setBotGraveyard] = useState([]);
     const gameStarted = useRef(false);
-    const [gameOver, setGameOver] = useState(true);
-    const [isWinner, setIsWinner] = useState(true);
+    const [gameOver, setGameOver] = useState(false);
+    const [isWinner, setIsWinner] = useState(false);
     const [earnings, setEarnings] = useState(0);
     const [difficultyDeckBot, setDifficultyDeckBot] = useState(0);
 
@@ -32,21 +32,13 @@ function Game() {
 
     const location = useLocation();
 
-
     const { playerDeckId, botDifficulty } = location.state || {};
-
 
     const navigate = useNavigate();
     if (!playerDeckId) {
         navigate('/gamemenu');
         return null;
     }
-
-
-
-
-
-
 
     // Pour mélanger les cartes du deck des 2 joueurs.
     const shuffleDeck = (deck) => {
@@ -419,7 +411,7 @@ function Game() {
     }
 
     const resetGame = () => {
-
+        window.location.reload();
     }
 
 
