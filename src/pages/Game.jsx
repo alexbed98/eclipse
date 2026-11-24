@@ -150,12 +150,18 @@ function Game() {
         }
     }
 
-    const Attack = (attacker) => {
-        if (attacker.point_action === 0)
-            return;
-        setAttacker(attacker);
+    const Attack = (selectedCard) => {
+    if (selectedCard.point_action === 0)
+        return;
+
+    if (attacker && attacker.id_unique === selectedCard.id_unique) {
+        setAttacker(null);
+        setWaitingForTarget(false);
+    } else {
+        setAttacker(selectedCard);
         setWaitingForTarget(true);
     }
+};
 
     // Fonction pour attaquer une carte adverse
     const SelectTarget = (defender) => {
@@ -263,6 +269,10 @@ function Game() {
         else {
             setNotification(`${attacker.nom_carte} a raté son attaque.`);
         }
+
+        setTimeout(() => {
+            setNotification(null);
+        }, 5000);
     }
 
     const resetMonsterActionPoints = (activePlayer) => {
@@ -450,11 +460,12 @@ function Game() {
 
                     <div className="play-zone"> {/* Zone de jeu du bot */}
                         {botField.map((element, index) => {
+                            const isPlayed = element.point_action === 0;
                             return (
                                 <div key={element.id_unique} className='card-field'>
                                     <img
                                         src={`/cards/${element.id_carte}.png`}
-                                        className="card-game card-shadow card-trans-down playable-card"
+                                        className={`card-game card-shadow card-trans-down playable-card ${isPlayed ? 'played-card' : ''}`}
                                         onClick={() => waitingForTarget && SelectTarget(element)}
                                         alt='card in field'
                                     />
@@ -467,7 +478,10 @@ function Game() {
                 </div>
 
                 <div className="small-panel"> {/* Petit panel du bot (pour deck et cimetiere) */}
-                    <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} /> {/* Deck du bot */}
+                    <div className="deck-wrapper">
+                        <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} alt="Deck bot" />
+                        <span className="deck-count">x{botDeck.length}</span>
+                    </div> {/* Deck du bot */}
                     {botGraveyard.length > 0 ? (
                         <img src={`/cards/${botGraveyard[botGraveyard.length - 1].id_carte}.png`} className="graveyard-zone card-game" alt='graveyard'></img>
                     ) : <img className="graveyard-zone card-game" alt='graveyard' />}{/* Cimetiere du bot */}
@@ -482,11 +496,13 @@ function Game() {
 
                     <div className="play-zone"> {/* Zone de jeu du joueur */}
                         {playerField.map((element, index) => {
+                            const isSelected = attacker?.id_unique === element.id_unique;
+                            const isPlayed = element.point_action === 0;
                             return (
                                 <div key={element.id_unique} className='card-field'>
                                     <img
                                         src={`/cards/${element.id_carte}.png`}
-                                        className={`card-game card-shadow playable-card card-trans-up rarity-${element.id_rarete}`}
+                                        className={`card-game card-shadow playable-card card-trans-up rarity-${element.id_rarete} ${isSelected ? 'selected-card' : ''} ${isPlayed ? 'played-card' : ''}`}
                                         onClick={() => Attack(element)}
                                         alt='card in field'
                                     />
@@ -516,7 +532,10 @@ function Game() {
                     {playerGraveyard.length > 0 ? (
                         <img src={`/cards/${playerGraveyard[playerGraveyard.length - 1].id_carte}.png`} className="graveyard-zone card-game" alt='graveyard'></img>
                     ) : <img className="graveyard-zone card-game" alt='graveyard' />}{/* Cimetiere du joueur */}
-                    <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} /> {/* Deck du joueur */}
+                    <div className="deck-wrapper">
+                        <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} alt="Deck joueur" />
+                        <span className="deck-count">x{playerDeck.length}</span>
+                    </div> {/* Deck du joueur */}
                 </div>
 
                 {gameOver && (

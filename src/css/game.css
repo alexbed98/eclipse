@@ -183,19 +183,64 @@ main {
     z-index: 2;
 }
 
-
 .attack-notification {
     position: fixed;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.85);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: bold;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.95);
+    border: 2px solid #419aff;
+    color: #f8fafc;
+    padding: 12px 28px;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(5, 10, 54, 0.3);
     z-index: 1000;
     pointer-events: none;
     white-space: pre-line;
+    text-align: center;
+}
+
+.deck-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.deck-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    background-color: #0f172a;
+    border: 2px solid #fdfdfd;
+    color: #f0f0ef;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    user-select: none;
+    z-index: 5;
+}
+
+.selected-card {
+    outline: 5px solid #fc0b0b;
+    box-shadow: 0 0 16px rgba(124, 3, 3, 0.8), 0 8px 16px rgba(0, 0, 0, 0.9);
+    transform: translateY(-8px) scale(1.04);
+}
+
+.played-card {
+    filter: grayscale(100%) brightness(0.7);
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.played-card:hover {
+    transform: none;
 }

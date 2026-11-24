@@ -1,15 +1,14 @@
 .notif-banner {
     position: fixed;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 20px;
     padding: 14px 24px;
     border-radius: 8px;
     font-weight: 400;
     font-size: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
     z-index: 2000;
-    animation: fadeIn 0.3s ease-in-out;
+    animation: slideInRight 0.3s ease-in-out;
 }
 
 .notif {
@@ -26,13 +25,13 @@
     color: #ffffff;
 }
 
-@keyframes fadeIn {
+@keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translate(-50%, -10px);
+        transform: translateX(20px);
     }
     to {
         opacity: 1;
-        transform: translate(-50%, 0);
+        transform: translateX(0);
     }
 }
