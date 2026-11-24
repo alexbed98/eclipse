@@ -1,6 +1,8 @@
 .inventory-container {
+  width: 100%;
   max-width: 1280px;
   display: flex;
+  margin: 0 auto;
   flex-direction: column;
   gap: 16px;
 }

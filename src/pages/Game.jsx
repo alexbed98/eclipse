@@ -22,7 +22,6 @@ function Game() {
     const [gameOver, setGameOver] = useState(false);
     const [isWinner, setIsWinner] = useState(false);
     const [earnings, setEarnings] = useState(0);
-    const [difficultyDeckBot, setDifficultyDeckBot] = useState(0);
 
     const [playerActionPoint, setPlayerActionPoint] = useState(1); // Nombre d'action par tour (ex: Jouer une carte de la main coute un point).
     const [botActionPoint, setBotActionPoint] = useState(1);
@@ -65,36 +64,23 @@ function Game() {
     };
 
     const playCard = (card) => {
-        // console.log("Carte sélectionnée :", card);
-        if (activePlayer) {
-            if (playerActionPoint === 1) {
-                setPlayerField(previousField => [...previousField, card]);
-                setPlayerHand(previousHand => previousHand.filter(element => element.id_unique !== card.id_unique))
-                setPlayerActionPoint(0);
-            }
+        if (!activePlayer || gameOver) return;
+        if (playerActionPoint === 1) {
+            setPlayerField(prev => [...prev, card]);
+            setPlayerHand(prev => prev.filter(c => c.id_unique !== card.id_unique));
+            setPlayerActionPoint(0);
         }
-        else {
-            if (botActionPoint === 1) {
-                setBotField(previousField => [...previousField, card]);
-                setBotHand(previousHand => previousHand.filter(element => element.id_unique !== card.id_unique));
-                setBotActionPoint(0);
-            }
-        }
-        //console.log(playerField);
-    }
+    };
 
     const botPlayCard = () => {
-        if (botActionPoint === 0)
-            return;
-
-        if (botHand.length === 0)
-            return;
-
+        if (botActionPoint === 0 || botHand.length === 0) return;
         const selectedCard = Math.floor(Math.random() * botHand.length);
+        const card = botHand[selectedCard];
 
-        playCard(botHand[selectedCard]);
+        setBotField(prev => [...prev, card]);
+        setBotHand(prev => prev.filter(c => c.id_unique !== card.id_unique));
         setBotActionPoint(0);
-    }
+    };
 
     const drawCard = (playerTurn) => {
         if (playerTurn) { // Vérifie qui est l'active player
@@ -151,17 +137,16 @@ function Game() {
     }
 
     const Attack = (selectedCard) => {
-    if (selectedCard.point_action === 0)
-        return;
+        if (!activePlayer || gameOver || selectedCard.point_action === 0) return;
 
-    if (attacker && attacker.id_unique === selectedCard.id_unique) {
-        setAttacker(null);
-        setWaitingForTarget(false);
-    } else {
-        setAttacker(selectedCard);
-        setWaitingForTarget(true);
-    }
-};
+        if (attacker && attacker.id_unique === selectedCard.id_unique) {
+            setAttacker(null);
+            setWaitingForTarget(false);
+        } else {
+            setAttacker(selectedCard);
+            setWaitingForTarget(true);
+        }
+    };
 
     // Fonction pour attaquer une carte adverse
     const SelectTarget = (defender) => {
@@ -275,18 +260,13 @@ function Game() {
         }, 5000);
     }
 
-    const resetMonsterActionPoints = (activePlayer) => {
-        if (activePlayer) {
-            playerField.forEach((element) => {
-                element.point_action = 1;
-            })
+    const resetMonsterActionPoints = (isPlayer) => {
+        if (isPlayer) {
+            setPlayerField(prev => prev.map(c => ({ ...c, point_action: 1 })));
+        } else {
+            setBotField(prev => prev.map(c => ({ ...c, point_action: 1 })));
         }
-        else {
-            botField.forEach((element) => {
-                element.point_action = 1;
-            })
-        }
-    }
+    };
 
     const ShowDamageTaken = (element) => {
         if (element.degat_accumule > 0) {
@@ -347,22 +327,18 @@ function Game() {
         switch (botDifficulty) { // botDifficulty est le numéro que je vais recevoir dépendemment de la difficulté sélectionné.
             case 1:
                 deckDuBot = 7;
-                setDifficultyDeckBot(deckDuBot) // Ajuster le numéro du deck (le id du deck dans la bd) du bot pour le deck niveau débutant
                 setEarnings(25)
                 break;
             case 2:
                 deckDuBot = 8;
-                setDifficultyDeckBot(deckDuBot) // Ajuster le numéro du deck du bot pour le deck niveau intermédiaire
                 setEarnings(50)
                 break;
             case 3:
                 deckDuBot = 9;
-                setDifficultyDeckBot(deckDuBot) // Ajuster le numéro du deck du bot pour le deck niveau difficile
                 setEarnings(100)
                 break;
             default:
                 deckDuBot = 7;
-                setDifficultyDeckBot(deckDuBot)
                 setEarnings(25)
                 break;
         }
@@ -400,16 +376,28 @@ function Game() {
 
     }, []);
 
-    // Actions du bot durant son tour.
+    // Actions du bot durant son tour
     useEffect(() => {
-        if (!activePlayer) {
-            console.log("Le bot commence à jouer...");
-            botPlayCard();
-            botAttack();
-            passTurn();
-        }
+        if (!activePlayer && !gameOver) {
+            const executeBotTurn = async () => {
+                console.log("Le bot commence à jouer...");
 
-    }, [activePlayer, botHand, botActionPoint]);
+                // 1. Pause avant qu'il joue sa carte
+                await new Promise(resolve => setTimeout(resolve, 800));
+                botPlayCard();
+
+                // 2. Pause avant ses attaques
+                await new Promise(resolve => setTimeout(resolve, 800));
+                await botAttack(); // On ATTEND la fin de toutes ses attaques !
+
+                // 3. Pause avant de terminer son tour
+                await new Promise(resolve => setTimeout(resolve, 600));
+                passTurn();
+            };
+
+            executeBotTurn();
+        }
+    }, [activePlayer, gameOver]);
 
     const startGame = (botDeck, playerDeck) => {
 
@@ -490,7 +478,7 @@ function Game() {
 
             <div className="center-line"></div>
 
-            <div className="player-container"> {/* Container du joueur */}
+            <div className={`player-container ${activePlayer ? 'player-turn' : ''}`}> {/* Container du joueur */}
 
                 <div className="large-panel"> {/* Grand panel du joueur (pour main et field) */}
 
@@ -528,7 +516,13 @@ function Game() {
 
                 <div className="small-panel"> {/* Petit panel du joueur (pour deck et cimetiere) */}
                     {/* Bouton pour terminer le tour */}
-                    <button className='button-end-turn' onClick={passTurn}>Terminer le  tour</button>
+                    <button
+                        className='button-end-turn'
+                        onClick={passTurn}
+                        disabled={!activePlayer || gameOver}
+                    >
+                        {activePlayer ? "Terminer le tour" : "Tour adverse..."}
+                    </button>
                     {playerGraveyard.length > 0 ? (
                         <img src={`/cards/${playerGraveyard[playerGraveyard.length - 1].id_carte}.png`} className="graveyard-zone card-game" alt='graveyard'></img>
                     ) : <img className="graveyard-zone card-game" alt='graveyard' />}{/* Cimetiere du joueur */}
