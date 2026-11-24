@@ -30,7 +30,6 @@ function Market() {
 
     const { notification, showNotification } = useNotification();
 
-
     // pour changer le tri (prix, nom)
     const handleSortChange = (e) => {
         setSortBy(e.target.value);

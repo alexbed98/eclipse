@@ -165,8 +165,17 @@ main {
     border: none;
     cursor: pointer;
     border-radius: 8px;
+    border: 1px solid #444444;
     background-color: rgb(83, 16, 5);
     color: white;
+}
+
+.button-end-turn:disabled {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #f1f1f1;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 /* ----------------------------------- */
 
