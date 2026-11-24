@@ -182,3 +182,20 @@ main {
     font-size: 16px;
     z-index: 2;
 }
+
+
+.attack-notification {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000;
+    pointer-events: none;
+    white-space: pre-line;
+}

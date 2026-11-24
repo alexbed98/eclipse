@@ -24,6 +24,7 @@ function Game() {
     const [botActionPoint, setBotActionPoint] = useState(1);
     const [attacker, setAttacker] = useState(null);
     const [waitingForTarget, setWaitingForTarget] = useState(false);
+    const [notification, setNotification] = useState(null);
 
     const location = useLocation();
     
@@ -38,9 +39,6 @@ function Game() {
     }
     
     
-
-    
-
 
 
     // Pour mélanger les cartes du deck des 2 joueurs.
@@ -164,19 +162,30 @@ function Game() {
     const SelectTarget = (defender) => {
         if (!waitingForTarget) return;
 
-        console.log("Attaquant :", attacker);
-        console.log("Cible :", defender);
+        // console.log("Attaquant :", attacker);
+        // console.log("Cible :", defender);
 
-        setBotField(previousField =>
-            previousField.map(element =>
-                element.id_unique === defender.id_unique ? {...element, degat_accumule: element.degat_accumule + attacker.attaque} : element
-            )
-        );
+        let hitOrMiss = Math.floor(Math.random() * 5 + 1); // On génère un nombre aléatoire entre 1 et 5.
 
-        setPlayerField(previousField =>
+        if(hitOrMiss === 1){ // Si le nombre est égale à 1, la créature à manqué sa cible.
+            attackNotification(attacker, defender, 0, 1);
+        }
+        else{
+            let damageDealt = Math.floor(Math.random() * attacker.attaque + 1)
+            console.log("Dommage effectué: " + damageDealt);
+
+            setBotField(previousField =>
+                previousField.map(element =>
+                    element.id_unique === defender.id_unique ? {...element, degat_accumule: element.degat_accumule + damageDealt} : element)
+            );
+
+            attackNotification(attacker, defender, damageDealt, 0);
+        }
+
+        setPlayerField(previousField => // Peu importe si l'attaque a réussie ou si c'est un échec, le point d'action doit être retiré.
             previousField.map(element => element.id_unique === attacker.id_unique ? { ...element, point_action: 0 } : element)
         );
-
+        
         setAttacker(null);
         setWaitingForTarget(false);
     };
@@ -202,14 +211,27 @@ function Game() {
 
             const defender = playerField[cibleBot];
 
-            // Infliger les dégâts
-            setPlayerField(previousField =>
-                previousField.map(element =>
-                    element.id_unique === defender.id_unique ? {...element, degat_accumule: element.degat_accumule + carteBot.attaque} : element
-                )
-            );
+            let hitOrMiss = Math.floor(Math.random() * 5 + 1); 
 
-            setBotField(previousField =>
+            if(hitOrMiss === 1){ 
+                attackNotification(carteBot, defender, 0, 1)
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            else{
+                let damageDealt = Math.floor(Math.random() * carteBot.attaque + 1);
+
+                // Infliger les dégâts
+                setPlayerField(previousField =>
+                    previousField.map(element =>
+                        element.id_unique === defender.id_unique ? {...element, degat_accumule: element.degat_accumule + damageDealt} : element
+                    )
+                );
+
+                attackNotification(carteBot, defender, damageDealt, 0);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+
+            setBotField(previousField => 
                 previousField.map(element =>
                     element.id_unique === carteBot.id_unique ? { ...element, point_action: 0 } : element
                 )
@@ -218,6 +240,15 @@ function Game() {
             await new Promise(resolve => setTimeout(resolve, 1000));
         }
     };
+
+    const attackNotification = (attacker, defender, damage, notificationNumber) => {
+        if(notificationNumber === 0){
+            setNotification(`${attacker.nom_carte} a infligé ${damage} point(s)\n de dégâts à ${defender.nom_carte}!`);
+        }
+        else{
+           setNotification(`${attacker.nom_carte} a raté son attaque.`);
+        }
+    }
 
     const resetMonsterActionPoints = (activePlayer) => {
         if(activePlayer){
@@ -248,16 +279,9 @@ function Game() {
         if (deadCreatures.length === 0)
             return;
 
-        setPlayerField(previousField =>
-            previousField.filter(
-                element => element.degat_accumule < element.defense
-            )
-        );
+        setPlayerField(previousField => previousField.filter(element => element.degat_accumule < element.defense));
 
-        setPlayerGraveyard(previousGraveyard => [
-            ...previousGraveyard,
-            ...deadCreatures
-        ]);
+        setPlayerGraveyard(previousGraveyard => [...previousGraveyard, ...deadCreatures]);
 
     }, [playerField]);
 
@@ -270,23 +294,15 @@ function Game() {
         if (deadCreatures.length === 0)
             return;
 
-        setBotField(previousField =>
-            previousField.filter(
-                element => element.degat_accumule < element.defense
-            )
+        setBotField(previousField => previousField.filter(element => element.degat_accumule < element.defense)
         );
 
-        setBotGraveyard(previousGraveyard => [
-            ...previousGraveyard,
-            ...deadCreatures
-        ]);
+        setBotGraveyard(previousGraveyard => [...previousGraveyard, ...deadCreatures]);
 
     }, [botField]);
 
 
-    // On pourrait utiliser cela lorsque la partie est terminé. Si défaite, pas de récompense (ou récompense moindre)
-    // Si le joueur gagne, donne une récompense. Faire une requête API pour augmenter nombre de pts.
-    // Doit ajouter un modal / notification pour le résultat de la partie et bloquer le reste des actions in-game. Bouton pour retry ou quitter.
+
     const VictoryOrDefeat = () => { 
         if(playerDeck.length === 0 && playerHand.length === 0 && playerField.length === 0){ // ici doit valider playerField pour être sur que le joueur n'a pas de créature
             // console.log("Vous avez perdu :'( ");                                            // sur le field.
@@ -315,7 +331,7 @@ function Game() {
         let deckJoueur = playerDeckId;
 
         // switch case pour faire la sélection du deck du bot.
-        switch(botDifficulty){ // botDeckNumber est le numéro que je vais recevoir dépendemment de la difficulté sélectionné.
+        switch(botDifficulty){ // botDifficulty est le numéro que je vais recevoir dépendemment de la difficulté sélectionné.
             case 0:
                 deckDuBot = 79;
                 setDifficultyDeckBot(79) // Ajuster le numéro du deck (le id du deck dans la bd) du bot pour le deck niveau débutant
@@ -331,9 +347,6 @@ function Game() {
             default:
                 break;
         }
-
-        console.log(playerDeckId);
-        console.log(deckJoueur);
 
         if (gameStarted.current) return; // problème avec strict mode de React qui fait 2 render du useEffect, ce qui cause quelque problème...
 
@@ -368,16 +381,6 @@ function Game() {
 
     }, []);
 
-    /*
-    useEffect(() => {
-        //console.log("Bot Deck :", botDeck);
-        //console.log("Player Deck :", playerDeck);
-        //console.log("Bot Hand :", botHand);
-        //console.log("Player Hand :", playerHand);
-    }, [botDeck, playerDeck, botHand, playerHand]);
-    */
-
-
     // Actions du bot durant son tour.
     useEffect(() => {
         if (!activePlayer) {
@@ -407,7 +410,11 @@ function Game() {
     
 return (
         <div className="game-container"> {/* Container principal du jeu */}
-
+        {notification && (
+            <div className="attack-notification">
+                {notification}
+            </div>
+        )}
             <div className="bot-container"> {/* Container du bot */}
 
                 <div className="large-panel large-panel-bot"> {/* Grand panel du bot (pour main et field) */}
@@ -444,7 +451,9 @@ return (
 
                 <div className="small-panel"> {/* Petit panel du bot (pour deck et cimetiere) */}
                     <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} /> {/* Deck du bot */}
-                    <img className="graveyard-zone card-game" alt='graveyard' /> {/* Cimetiere du bot */}
+                    {botGraveyard.length > 0 ? (
+                            <img src={`/cards/${botGraveyard[botGraveyard.length-1].id_carte}.png`} className="graveyard-zone card-game" alt='graveyard'></img>
+                        ) : <img className="graveyard-zone card-game" alt='graveyard'/> }{/* Cimetiere du bot */}
                 </div>
             </div>
 
@@ -472,7 +481,6 @@ return (
 
                     <div className="hand-zone player-hand-zone"> {/* Zone de main du joueur */}
                         {playerHand.map((element, index) => {
-                            console.log(element.id_rarete);
                             return (
                                 <img 
                                     key={element.id || index}
@@ -488,10 +496,11 @@ return (
                 <div className="small-panel"> {/* Petit panel du joueur (pour deck et cimetiere) */}
                     {/* Bouton pour terminer le tour */}
                     <button className='button-end-turn' onClick={passTurn}>Terminer le  tour</button>
-                    <img className="graveyard-zone card-game" alt='graveyard' /> {/* Cimetiere du joueur */}
+                    {playerGraveyard.length > 0 ? (
+                            <img src={`/cards/${playerGraveyard[playerGraveyard.length-1].id_carte}.png`} className="graveyard-zone card-game" alt='graveyard'></img>
+                        ) : <img className="graveyard-zone card-game" alt='graveyard'/> }{/* Cimetiere du joueur */}
                     <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} /> {/* Deck du joueur */}
                 </div>
-
             </div>
         </div >
     );
