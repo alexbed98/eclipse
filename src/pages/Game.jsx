@@ -2,6 +2,7 @@ import { useState, useEffect, useRef  } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import "../css/game.css"
+import '../css/modalBox.css';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Game() {
@@ -18,6 +19,9 @@ function Game() {
     const [playerGraveyard, setPlayerGraveyard] = useState([]);
     const [botGraveyard, setBotGraveyard] = useState([]);
     const gameStarted = useRef(false);
+    const [gameOver, setGameOver] = useState(true);
+    const [isWinner, setIsWinner] = useState(true);
+    const [earnings, setEarnings] = useState(0);
     const [difficultyDeckBot, setDifficultyDeckBot] = useState(0);
 
     const [playerActionPoint, setPlayerActionPoint] = useState(1); // Nombre d'action par tour (ex: Jouer une carte de la main coute un point).
@@ -335,15 +339,18 @@ function Game() {
             case 0:
                 deckDuBot = 79;
                 setDifficultyDeckBot(79) // Ajuster le numéro du deck (le id du deck dans la bd) du bot pour le deck niveau débutant
+                setEarnings(25)
                 break;
             case 1:
                 deckDuBot = 79;
                 setDifficultyDeckBot(79) // Ajuster le numéro du deck du bot pour le deck niveau intermédiaire
-                break;
+                setEarnings(50)
+		break;
             case 2:
                 deckDuBot = 79;
                 setDifficultyDeckBot(79) // Ajuster le numéro du deck du bot pour le deck niveau expert
-                break;
+                setEarnings(100)
+		break;
             default:
                 break;
         }
@@ -407,6 +414,15 @@ function Game() {
         }
 
     };
+
+    const quitGame = () => {
+        navigate('/gamemenu');
+        return null;
+    }
+
+    const resetGame = () => {
+	window.location.reload();
+    }
     
 return (
         <div className="game-container"> {/* Container principal du jeu */}
@@ -501,6 +517,31 @@ return (
                         ) : <img className="graveyard-zone card-game" alt='graveyard'/> }{/* Cimetiere du joueur */}
                     <img className="deck-zone card-game card-shadow" src={`/cards/backDesign.jpg`} /> {/* Deck du joueur */}
                 </div>
+
+		{gameOver && (
+                    <div className="modal-box game-over-box">
+                        <div className="modal-content game-over-content">
+                            <div>
+                                {isWinner ? <h1>Victoire!</h1> : <h1>Défaite</h1>}
+                                {isWinner && (
+                                    <h3>Vous avez gagné {earnings} pieces.</h3>
+                                )}
+                                {!isWinner && (
+                                    <h3>Vous avez périe au combat...</h3>
+                                )}
+                            </div>
+                            <div className='button-box'>
+                                <button className='restart-button' onClick={resetGame}>
+                                    Rejouer
+                                </button>
+                                <button className='quit-button' onClick={quitGame}>
+                                    Quitter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
             </div>
         </div >
     );
