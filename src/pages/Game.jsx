@@ -35,7 +35,7 @@ function Game() {
     const { playerDeckId, botDifficulty } = location.state || {};
 
     const navigate = useNavigate();
-    if (!playerDeckId) {
+    if (playerDeckId === undefined || playerDeckId === null) {
         navigate('/gamemenu');
         return null;
     }
@@ -240,6 +240,7 @@ function Game() {
         }
     };
 
+    // check si game over
     useEffect(() => {
         if (!gameStarted.current) return;
 
@@ -328,27 +329,31 @@ function Game() {
     // Ici on récupère les decks avec le fetch, on prend les cartes dans le résultat json et on les ''séparent'' en unités (si une carte à une quantité de 2 par exemple)
     // avec expandDeck, puis on mélange les cartes avec shuffleDeck.
     useEffect(() => {
-        let deckDuBot;
         let deckJoueur = playerDeckId;
+        if (deckJoueur === 0) { deckJoueur = 6 }
+        let deckDuBot;
 
         // switch case pour faire la sélection du deck du bot.
         switch (botDifficulty) { // botDifficulty est le numéro que je vais recevoir dépendemment de la difficulté sélectionné.
-            case 0:
-                deckDuBot = 5;
+            case 1:
+                deckDuBot = 7;
                 setDifficultyDeckBot(deckDuBot) // Ajuster le numéro du deck (le id du deck dans la bd) du bot pour le deck niveau débutant
                 setEarnings(25)
                 break;
-            case 1:
-                deckDuBot = 5;
+            case 2:
+                deckDuBot = 8;
                 setDifficultyDeckBot(deckDuBot) // Ajuster le numéro du deck du bot pour le deck niveau intermédiaire
                 setEarnings(50)
                 break;
-            case 2:
-                deckDuBot = 5;
-                setDifficultyDeckBot(deckDuBot) // Ajuster le numéro du deck du bot pour le deck niveau expert
+            case 3:
+                deckDuBot = 9;
+                setDifficultyDeckBot(deckDuBot) // Ajuster le numéro du deck du bot pour le deck niveau difficile
                 setEarnings(100)
                 break;
             default:
+                deckDuBot = 7;
+                setDifficultyDeckBot(deckDuBot)
+                setEarnings(25)
                 break;
         }
 
