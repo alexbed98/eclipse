@@ -36,6 +36,7 @@ function Header() {
                         <>
                             <NavLink to="/gamemenu">JOUER</NavLink>
                             <NavLink to="/inventory">INVENTAIRE</NavLink>
+                            <NavLink to="/decks">DECKS</NavLink>
                             <NavLink to="/profile">PROFIL</NavLink>
 
                             {/* onglets visibles si user est ADMIN */}
